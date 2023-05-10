@@ -1,6 +1,5 @@
 FROM node
 
-
 RUN mkdir -p /app
 
 WORKDIR /app
@@ -8,8 +7,6 @@ WORKDIR /app
 COPY src/package*.json .
 
 RUN npm install
-
-COPY src/ .
 
 ENV PORT=8080
 
