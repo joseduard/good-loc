@@ -1,0 +1,33 @@
+{
+  "name": "back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "________________ development ________________": "",
+    "dev": "node server.js",
+
+    "________________ deployment ________________": "",
+    "db:migrate": "sequelize db:migrate --debug",
+    "db:seed": "sequelize db:seed --debug",
+    "db:undomigrate": "sequelize db:migrate:undo",
+
+    "________________ implementation details ________________": "",
+    "introspect": "sequelize-auto -o \"./models\" -d bdd_atelier -h localhost -u root -p 3306 -x toor -e mysql"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mysql2": "^3.3.3",
+    "sequelize": "^6.31.1"
+  },
+  "devDependencies": {
+    "sequelize-auto": "^0.8.8"
+  }
+}
