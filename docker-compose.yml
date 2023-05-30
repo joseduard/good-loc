@@ -3,7 +3,7 @@ services:
   node:
     container_name: back
     build:
-      context: ./node
+      context: ./back
       dockerfile: Dockerfile
     tty: true
     ports:
