@@ -3,13 +3,13 @@ services:
   node:
     container_name: back
     build:
-      context: ./back
+      context: ./node
       dockerfile: Dockerfile
     tty: true
     ports:
       - "8081:8080"
     volumes:
-      - ./back/src:/app
+      - ./back:/app
   db:
     container_name: mysql_atelier
     build:
