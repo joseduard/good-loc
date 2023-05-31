@@ -63,6 +63,24 @@ CREATE TABLE GM_Skill_Validations (
   FOREIGN KEY (user_id) REFERENCES Users(id)
 );
 
+DROP TABLE IF EXISTS Publishers;
+CREATE TABLE Publishers (
+  id INT PRIMARY KEY,
+  name VARCHAR(255)
+);
+
+DROP TABLE IF EXISTS Categories;
+CREATE TABLE Categories (
+  id INT PRIMARY KEY,
+  name VARCHAR(255)
+);
+
+DROP TABLE IF EXISTS Mechanics_Type;
+CREATE TABLE Mechanics_Type (
+  id INT PRIMARY KEY,
+  name VARCHAR(255)
+);
+
 DROP TABLE IF EXISTS Games;
 CREATE TABLE Games (
   id INT PRIMARY KEY,
@@ -118,23 +136,10 @@ CREATE TABLE Rents (
   FOREIGN KEY (user_id_renter) REFERENCES Users(id)
 );
 
-DROP TABLE IF EXISTS Publishers;
-CREATE TABLE Publishers (
-  id INT PRIMARY KEY,
-  name VARCHAR(255)
-);
 
-DROP TABLE IF EXISTS Categories;
-CREATE TABLE Categories (
-  id INT PRIMARY KEY,
-  name VARCHAR(255)
-);
 
-DROP TABLE IF EXISTS Mechanics_Type;
-CREATE TABLE Mechanics_Type (
-  id INT PRIMARY KEY,
-  name VARCHAR(255)
-);
+
+
 
 DROP TABLE IF EXISTS Availability;
 CREATE TABLE Availability (
