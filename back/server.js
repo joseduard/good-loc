@@ -57,7 +57,7 @@ app.get('/', (req, res) => {
     );
 })*/
 // routes
-const authRoutes = require('./routes/auth.routes.js');
+const authRoutes = require('./routes/authRoutes.js');
 app.use('/api/auth', authRoutes);
 
 // set port, listen for requests

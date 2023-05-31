@@ -18,7 +18,7 @@ exports.signup = (req, res) => {
         });
 };
 
-exports.signin = (req, res) => {
+exports.login = (req, res) => {
     User.findOne({
         where: {
             username: req.body.username
@@ -55,4 +55,17 @@ exports.signin = (req, res) => {
         .catch(err => {
             res.status(500).send({ message: err.message });
         });
+};
+
+
+exports.logout = async (req, res) => {
+    try {
+        const userId = req.body.user.id; 
+        // update user without token
+        await User.update({ token: null }, { where: { id: userId } });
+        res.status(200).json({ message: 'Déconnexion réussie' });
+
+    } catch (error) {
+        res.status(500).json({ message: 'Une erreur est survenue lors de la déconnexion' });
+    }
 };
