@@ -14,7 +14,6 @@ var _Renting_Or_Buying_Games = require("./Renting_Or_Buying_Games");
 var _Rents = require("./Rents");
 var _User_Games = require("./User_Games");
 var _Users = require("./Users");
-var _users = require("./users");
 
 function initModels(sequelize) {
   var Availability = _Availability(sequelize, DataTypes);
@@ -32,12 +31,11 @@ function initModels(sequelize) {
   var Rents = _Rents(sequelize, DataTypes);
   var User_Games = _User_Games(sequelize, DataTypes);
   var Users = _Users(sequelize, DataTypes);
-  var users = _users(sequelize, DataTypes);
 
+  Games.belongsToMany(Users, { as: 'user_id_Users', through: User_Games, foreignKey: "game_id", otherKey: "user_id" });
+  Users.belongsToMany(Games, { as: 'game_id_Games', through: User_Games, foreignKey: "user_id", otherKey: "game_id" });
   Games.belongsTo(Categories, { as: "category", foreignKey: "category_id"});
   Categories.hasMany(Games, { as: "Games", foreignKey: "category_id"});
-  GM_Skill_Validations.belongsTo(GM_Skills, { as: "skill", foreignKey: "skill_id"});
-  GM_Skills.hasMany(GM_Skill_Validations, { as: "GM_Skill_Validations", foreignKey: "skill_id"});
   Evaluation.belongsTo(GameMasters, { as: "game_master", foreignKey: "game_master_id"});
   GameMasters.hasMany(Evaluation, { as: "Evaluations", foreignKey: "game_master_id"});
   GM_Skill_Validations.belongsTo(GameMasters, { as: "gm", foreignKey: "gm_id"});
@@ -97,7 +95,6 @@ function initModels(sequelize) {
     Rents,
     User_Games,
     Users,
-    users,
   };
 }
 module.exports = initModels;

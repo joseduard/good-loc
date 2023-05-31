@@ -1,20 +1,9 @@
 const db = require('../config/db.config.js');
-const User = require('../models/user.model.js');
 
-checkDuplicateUsernameOrEmail = (req, res, next) => {
-    // Username
-    User.findOne({
-        where: {
-            username: req.body.username
-        }
-    }).then(user => {
-        if (user) {
-            res.status(400).send({
-                message: 'Failed! Username is already in use!'
-            });
-            return;
-        }
+const User = require('../models/Users.js')(db.sequelize);
 
+checkDuplicateEmail = (req, res, next) => {
+    console.log(req.body)
         // Email
         User.findOne({
             where: {
@@ -30,11 +19,11 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
 
             next();
         });
-    });
+
 };
 
 const verifySignUp = {
-    checkDuplicateUsernameOrEmail: checkDuplicateUsernameOrEmail
+    checkDuplicateUsernameOrEmail: checkDuplicateEmail
 };
 
 module.exports = verifySignUp;

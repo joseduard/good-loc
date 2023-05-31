@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('../config/db.config.js');
-const User = require('../models/user.model.js');
+const Users = require('../models/Users.js')(db.sequelize);
 
 require('dotenv').config();
 
 exports.signup = (req, res) => {
-    User.create({
+    Users.create({
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, 8)
     })
@@ -19,9 +19,9 @@ exports.signup = (req, res) => {
 };
 
 exports.login = (req, res) => {
-    User.findOne({
+    Users.findOne({
         where: {
-            username: req.body.username
+            email: req.body.email
         }
     })
         .then(user => {
@@ -47,7 +47,7 @@ exports.login = (req, res) => {
 
             res.status(200).send({
                 id: user.id,
-                username: user.username,
+                username: user.name,
                 email: user.email,
                 accessToken: token
             });

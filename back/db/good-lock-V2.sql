@@ -4,7 +4,7 @@ USE good_lock;
 
 DROP TABLE IF EXISTS Users;
 CREATE TABLE Users (
-  id INT PRIMARY KEY,
+  INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255),
   lastname VARCHAR(255),
   email VARCHAR(255),
@@ -17,7 +17,7 @@ CREATE TABLE Users (
 
 DROP TABLE IF EXISTS GameMasters;
 CREATE TABLE GameMasters (
-  id INT PRIMARY KEY,
+  INT PRIMARY KEY AUTO_INCREMENT,
   user_id INT,
   imgs_url VARCHAR(255),
   presentation TEXT,
@@ -31,7 +31,7 @@ CREATE TABLE GameMasters (
 
 DROP TABLE IF EXISTS GM_Skills;
 CREATE TABLE GM_Skills (
-  gm_id INT PRIMARY KEY,
+  gm_INT PRIMARY KEY AUTO_INCREMENT,
   reactivity BOOLEAN,
   communication BOOLEAN,
   creativity BOOLEAN,
@@ -53,7 +53,7 @@ CREATE TABLE GM_Skills (
 
 DROP TABLE IF EXISTS GM_Skill_Validations;
 CREATE TABLE GM_Skill_Validations (
-  id INT PRIMARY KEY,
+  INT PRIMARY KEY AUTO_INCREMENT,
   gm_id INT,
   user_id INT,
   skill_id INT,
@@ -65,25 +65,25 @@ CREATE TABLE GM_Skill_Validations (
 
 DROP TABLE IF EXISTS Publishers;
 CREATE TABLE Publishers (
-  id INT PRIMARY KEY,
+  INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255)
 );
 
 DROP TABLE IF EXISTS Categories;
 CREATE TABLE Categories (
-  id INT PRIMARY KEY,
+  INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255)
 );
 
 DROP TABLE IF EXISTS Mechanics_Type;
 CREATE TABLE Mechanics_Type (
-  id INT PRIMARY KEY,
+  INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255)
 );
 
 DROP TABLE IF EXISTS Games;
 CREATE TABLE Games (
-  id INT PRIMARY KEY,
+  INT PRIMARY KEY AUTO_INCREMENT,
   img VARCHAR(255),
   name VARCHAR(255),
   publisher_id INT,
@@ -108,7 +108,7 @@ CREATE TABLE Games (
 
 DROP TABLE IF EXISTS Renting_Or_Buying_Games;
 CREATE TABLE Renting_Or_Buying_Games (
-  id INT PRIMARY KEY,
+  INT PRIMARY KEY AUTO_INCREMENT,
   game_id INT,
   owner_id INT,
   price_day_renting DECIMAL(8,2),
@@ -122,7 +122,7 @@ CREATE TABLE Renting_Or_Buying_Games (
 
 DROP TABLE IF EXISTS Rents;
 CREATE TABLE Rents (
-  id INT PRIMARY KEY,
+  INT PRIMARY KEY AUTO_INCREMENT,
   user_id_owner INT,
   user_game_id INT,
   user_id_renter INT,
@@ -143,7 +143,7 @@ CREATE TABLE Rents (
 
 DROP TABLE IF EXISTS Availability;
 CREATE TABLE Availability (
-  id INT PRIMARY KEY,
+  INT PRIMARY KEY AUTO_INCREMENT,
   renting_or_buying_game_id INT,
   start_date DATE,
   end_date DATE,
@@ -152,7 +152,7 @@ CREATE TABLE Availability (
 
 DROP TABLE IF EXISTS Rent_Game_Master;
 CREATE TABLE Rent_Game_Master (
-  id INT PRIMARY KEY,
+  INT PRIMARY KEY AUTO_INCREMENT,
   user_id_renter INT,
   GameMaster_id_renter INT,
   date DATE,
@@ -164,7 +164,7 @@ CREATE TABLE Rent_Game_Master (
 
 DROP TABLE IF EXISTS Evaluation;
 CREATE TABLE Evaluation (
-  id INT PRIMARY KEY,
+  INT PRIMARY KEY AUTO_INCREMENT,
   user_id_evaluator INT,
   game_master_id INT,
   renter_id INT,
@@ -178,7 +178,7 @@ CREATE TABLE Evaluation (
 
 DROP TABLE IF EXISTS Message;
 CREATE TABLE Message (
-  id INT PRIMARY KEY,
+  INT PRIMARY KEY AUTO_INCREMENT,
   sender_id INT,
   receiver_id INT,
   message_content TEXT,

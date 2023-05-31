@@ -11,7 +11,7 @@
     "db:seed": "sequelize db:seed --debug",
     "db:undomigrate": "sequelize db:migrate:undo",
     "________________ implementation details ________________": "",
-    "introspect": "sequelize-auto -o \"./models\" -d bdd_atelier -h localhost -u root -p 3306 -x toor -e mysql"
+    "introspect": "sequelize-auto -o \"./models\" -d good_lock -h localhost -u root -p 3306 -x toor -e mysql"
   },
   "keywords": [],
   "author": "",

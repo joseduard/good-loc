@@ -6,13 +6,14 @@ const multer = require('multer');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit')
 const express = require('express');
+const { loadSequelizeModels } = require('./helpers/sequelizeHelpers.js');
+
+
 
 const cors = require('cors');
 const app = express();
-const db = require('./config/db.config.js');
-const User = require('./models/user.model.js');
 
-db.sequelize.sync();
+loadSequelizeModels();
 
 const corsOptions = {
     origin: 'http://localhost:8081'
@@ -28,6 +29,10 @@ app.use(express.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
+app.use((error, req, res, next) => {
+    console.error(error);
+    res.status(500).send('An error occurred');
+});
 
 // simple route
 app.get('/', (req, res) => {
@@ -60,8 +65,14 @@ app.get('/', (req, res) => {
 const authRoutes = require('./routes/authRoutes.js');
 app.use('/api/auth', authRoutes);
 
+// error handling
+
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}.`);
-});
+
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}.`);
+    });
+
+
+

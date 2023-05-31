@@ -1,9 +1,10 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+module.exports = function(sequelize, DataTypes = require("sequelize").DataTypes) {
   return sequelize.define('User_Games', {
     user_id: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
+      primaryKey: true,
       references: {
         model: 'Users',
         key: 'id'
@@ -11,7 +12,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     game_id: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
+      primaryKey: true,
       references: {
         model: 'Games',
         key: 'id'
@@ -23,10 +25,12 @@ module.exports = function(sequelize, DataTypes) {
     timestamps: false,
     indexes: [
       {
-        name: "user_id",
+        name: "PRIMARY",
+        unique: true,
         using: "BTREE",
         fields: [
           { name: "user_id" },
+          { name: "game_id" },
         ]
       },
       {

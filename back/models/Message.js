@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+module.exports = function(sequelize, DataTypes = require("sequelize").DataTypes) {
   return sequelize.define('Message', {
     id: {
       type: DataTypes.INTEGER,
@@ -22,12 +22,12 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id'
       }
     },
-    text: {
-      type: DataTypes.STRING(255),
+    message_content: {
+      type: DataTypes.TEXT,
       allowNull: true
     },
-    date_sent: {
-      type: DataTypes.DATE,
+    sent_date: {
+      type: DataTypes.DATEONLY,
       allowNull: true
     }
   }, {

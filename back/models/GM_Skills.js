@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+module.exports = function(sequelize, DataTypes = require("sequelize").DataTypes) {
   return sequelize.define('GM_Skills', {
     gm_id: {
       type: DataTypes.INTEGER,
@@ -38,7 +38,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       allowNull: true
     },
-    Gams_knowledge: {
+    Games_knowledge: {
       type: DataTypes.BOOLEAN,
       allowNull: true
     },

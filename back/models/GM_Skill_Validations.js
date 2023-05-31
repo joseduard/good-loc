@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+module.exports = function(sequelize, DataTypes = require("sequelize").DataTypes) {
   return sequelize.define('GM_Skill_Validations', {
     id: {
       type: DataTypes.INTEGER,
@@ -24,11 +24,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     skill_id: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'GM_Skills',
-        key: 'gm_id'
-      }
+      allowNull: true
     },
     validation_status: {
       type: DataTypes.BOOLEAN,
@@ -63,13 +59,6 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "user_id" },
-        ]
-      },
-      {
-        name: "skill_id",
-        using: "BTREE",
-        fields: [
-          { name: "skill_id" },
         ]
       },
     ]
