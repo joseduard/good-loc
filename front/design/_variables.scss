@@ -1,4 +1,11 @@
-$color-info: #26a69a;
-$color-success: #66bb6a;
-$color-warning: #ffa000;
-$color-error: #c45855;
+$header-height: 64px;
+$header-anchor: 90px;
+$sidebar-element-height: 48px;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 600px,
+  md: 1030px,
+  lg: 1550px,
+  xl: 2000px - 24px,
+);
