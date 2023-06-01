@@ -17,18 +17,18 @@
     <v-card-subtitle id="subtitle">
       <v-row>
         <v-col sm="12" md="6">
-          <font-awesome-icon icon="quote-right" size="2x" />icon 1
+          <font-awesome-icon :icon="['fab', 'google']" size="2x" />{{ game.playerMin }} to {{ game.playerMax }} joueurs
         </v-col>
         <v-col sm="12" md="6">
-          <font-awesome-icon icon="quote-right" size="2x" />icon 2
+          <font-awesome-icon :icon="['fab', 'google']" size="2x" />{{ game.mechanicName }}
         </v-col>
       </v-row>
       <v-row>
         <v-col sm="12" md="6">
-          <font-awesome-icon icon="quote-right" size="2x" />icon 3
+          <font-awesome-icon :icon="['fab', 'google']" size="2x" />{{ game.playtime }} minutes
         </v-col>
         <v-col sm="12" md="6">
-      <font-awesome-icon icon="quote-right" size="2x" />icon 4
+      <font-awesome-icon :icon="['fab', 'google']" size="2x" />{{ game.complexity }}
         </v-col>
       </v-row>
     </v-card-subtitle>

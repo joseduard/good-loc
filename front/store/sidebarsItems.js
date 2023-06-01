@@ -3,12 +3,12 @@ const state = () => ({
     {
       icon: 'mdi-chart-bubble',
       title: 'Liste des jeux',
-      to: '/inspire',
+      to: '/game-list',
     },
     {
       icon: 'mdi-chart-bubble',
       title: 'Liste de GM',
-      to: '/inspirep',
+      to: '/game-master-list',
     },
     {
       icon: 'mdi-chart-bubble',

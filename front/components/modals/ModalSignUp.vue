@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" persistent width="50em">
+  <v-dialog v-model="showSignUpModal"  persistent width="50em">
     <v-card id="cardModal">
       <v-card-title class="justify-center"> Deja user ? </v-card-title>
       <v-btn>Login</v-btn>
@@ -8,14 +8,16 @@
         <v-card-title class="justify-center"> Inscription</v-card-title>
         <v-row>
           <v-col col="12" sm="6" md="4">
-            <font-awesome-icon icon="quote-right" size="2x" />
+            <font-awesome-icon :icon="['fab', 'google']"/>
           </v-col>
           <v-col col="12" sm="6" md="4">
-            <font-awesome-icon icon="quote-right" size="2x" />
+            <font-awesome-icon :icon="['fab', 'google']"/>
           </v-col>
           <v-col col="12" sm="6" md="4">
-            <font-awesome-icon icon="quote-right" size="2x" />
+            <font-awesome-icon :icon="['fab', 'google']"/>
+            <v-btn @click="setShowSignUpModal(false)"></v-btn>
           </v-col>
+          
         </v-row >
         <div id="rowForm">
         <v-divider></v-divider>
@@ -31,12 +33,33 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+import 'vue-awesome-notifications/dist/styles/style.css';
 export default {
-  props: {},
+  name: 'ModalSignUp',
   data() {
     return {
-      dialog: false,
+      //
     }
+  },
+  computed: {
+    ...mapGetters({
+      getShowSignUpModal: 'authentications/getShowSignUpModal',
+    }),
+    showSignUpModal() {
+      return this.getShowSignUpModal;
+    },
+  },
+  watch: {
+  },
+  mounted() {
+
+  },
+
+  methods: {
+    ...mapActions({ 
+      setShowSignUpModal: 'authentications/setShowSignUpModal',  
+    }),
   },
 }
 </script>

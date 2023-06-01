@@ -1,17 +1,17 @@
 <template>
-    <v-dialog v-model="dialog" persistent width="50em">
+    <v-dialog v-model="showSignInModal" persistent width="50em">
       <v-card id="cardModal">
         <v-card id="cardInscription" class="mx-auto">
           <v-card-title class="justify-center"> Connexion avec : </v-card-title>
           <v-row>
             <v-col col="12" sm="6" md="4">
-              <font-awesome-icon icon="fa-google" />
+              <font-awesome-icon :icon="['fab', 'google']" class="primary--text"/>
             </v-col>
             <v-col col="12" sm="6" md="4">
-              <font-awesome-icon icon="quote-right" size="2x" />
+              <font-awesome-icon :icon="['fab', 'google']"/>
             </v-col>
             <v-col col="12" sm="6" md="4">
-              <font-awesome-icon icon="quote-right" size="2x" />
+              <font-awesome-icon :icon="['fab', 'google']"/>
             </v-col>
           </v-row >
           <div id="rowForm">
@@ -28,12 +28,27 @@
   </template>
   
   <script>
+  import { mapGetters, mapActions } from 'vuex';
   export default {
     props: {},
-    data() {
-      return {
-        dialog: true,
-      }
+    name: 'ModalSignIn',
+  data() {
+    return {
+      //
+    }
+  },
+  computed: {
+    ...mapGetters({
+      getShowSignInModal: 'authentications/getShowSignInModal',
+    }),
+    showSignInModal() {
+      return this.getShowSignInModal;
     },
-  }
+  },
+  methods: {
+    ...mapActions({ 
+      setShowSignInModal: 'authentications/setShowSignInModal',  
+    }),
+  },
+}
   </script>

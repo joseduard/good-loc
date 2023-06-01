@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" persistent width="50em">
+    <v-dialog v-model="showForgotPasswordModal" persistent width="50em">
       <v-card id="cardModal">
         <v-card id="cardInscription" class="mx-auto">
           <v-card-title class="justify-center"> Mot de passe oublié ? NOT a shame</v-card-title>
@@ -13,11 +13,21 @@
   </template>
   
   <script>
+  import { mapGetters, mapActions } from 'vuex';
   export default {
-    data() {
-      return {
-        dialog: true,
-      }
+      computed: {
+    ...mapGetters({
+      getShowForgotPasswordModal: 'authentications/getShowForgotPasswordModal',
+    }),
+    showForgotPasswordModal() {
+      return this.getShowForgotPasswordModal;
     },
-  }
+  },
+  methods: {
+    ...mapActions({ 
+      setShowForgotPasswordModal: 'authentications/setShowForgotPasswordModal',  
+    }),
+  },
+}
+
   </script>

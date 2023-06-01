@@ -10,8 +10,13 @@
 </template>
 <script>
 export default {
+  name: 'CardGameMaster',
   props: {
-    gameMaster: Object,
+    gameMaster:
+    {
+      required:true,
+      type:Object
+    }
   },
 }
 </script>

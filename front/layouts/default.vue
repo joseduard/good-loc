@@ -23,10 +23,10 @@
       <v-app-bar-nav-icon color="primary" @click.stop="drawer = !drawer" />
       <v-toolbar-title> <img class="logo" :src="logo" :alt="item.title" /></v-toolbar-title>
       <v-spacer />
-      <v-btn text color="tertiary" :to="{ name: 'inspire' }">
+      <v-btn text color="tertiary" :to="{ name: 'game-list' }">
         <span>Liste des jeux</span>
       </v-btn>
-      <v-btn text color="tertiary" :to="{ name: 'inspire' }">
+      <v-btn text color="tertiary" :to="{ name: 'game-master-list' }">
         <span class="white--text">Liste de GM</span>
       </v-btn>
       <v-btn text color="tertiary ">
