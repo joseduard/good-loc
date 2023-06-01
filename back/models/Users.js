@@ -43,6 +43,11 @@ module.exports = function (
         type: DataTypes.STRING(255),
         allowNull: true,
       },
+      isLoggedIn: {
+        type: DataTypes.TINYINT(1),
+        allowNull: true,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
