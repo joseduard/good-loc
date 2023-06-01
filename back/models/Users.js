@@ -21,7 +21,8 @@ module.exports = function (
       },
       email: {
         type: DataTypes.STRING(255),
-        allowNull: true,
+        allowNull: false,
+        unique: true,
       },
       password: {
         type: DataTypes.STRING(255),
