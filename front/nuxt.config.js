@@ -23,21 +23,18 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   // axios: {
-    // baseURL:
+  // baseURL:
   //    baseURL:
   // },
   publicRuntimeConfig: {
     axios: {
-      browserBaseURL: process.env.BROWSER_BASE_URL
-    }
+      browserBaseURL: process.env.BROWSER_BASE_URL,
+    },
   },
   privateRuntimeConfig: {},
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '@fortawesome/fontawesome-svg-core/styles.css',
-    // fontawesome icons solid
-    // 'assets/fontawesome/fontawesome.css',
-    // 'assets/fontawesome/webfonts/solid.css',
+    // '@fortawesome/fontawesome-svg-core/styles.css',
     // SCSS file in the project
     '~/design/index.scss',
   ],
@@ -47,31 +44,26 @@ export default {
     '~/plugins/pure.js',
     // '~/plugins/vue-awesome-notifications.js',
     // { src: '~/plugins/axios.js', mode: 'client'}
-    { src: '~/plugins/vue-awesome-notifications.js', mode: 'client'},
-    { src: '~/plugins/v-tippy.js', mode: 'client'}
+    { src: '~/plugins/vue-awesome-notifications.js', mode: 'client' },
+    { src: '~/plugins/v-tippy.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
+  // Use the icons solid like this <font-awesome-icon :icon="['fas', 'lock']"/>
+  // Use the icons brands like this <font-awesome-icon :icon="['fab', 'google']"/>
+  // import icons in pascal case like this: LinkedIn icon is faLinkedin
+  // The format is fa + PascalCase of the component name
   fontawesome: {
-    // import icons here and use it like this
-    // <font-awesome-icon :icon="['fas', 'coffee']" />
-    // list of icons can be found here https://fontawesome.com/icons?d=gallery&p=2&m=free
     icons: {
-      solid: [
-        'faCoffee',
-        'faHome',
-        'faUser',
-        'faUserPlus',
-        'faWifi',
-        'faQuoteRight',
-      ]
+      solid: ['faEnvelope', 'faUserNinja', 'faHome'],
+      brands: ['faGoogle'],
     },
   },
   webfontloader: {
     google: {
-      families: ['Montserrat:200,300,400,500,600,700,800'] // Loads Lato font with weights 400 and 700
-    }
+      families: ['Montserrat:200,300,400,500,600,700,800'], // Loads Lato font with weights 400 and 700
+    },
   },
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
@@ -83,25 +75,23 @@ export default {
     '@nuxtjs/vuetify',
     // https://www.npmjs.com/package/@nuxtjs/fontawesome
     // '@nuxtjs/fontawesome',
-    '@nuxtjs/fontawesome'
+    '@nuxtjs/fontawesome',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
-    '@nuxtjs/axios',
-    'nuxt-webfontloader',
-  ],
+  modules: ['@nuxtjs/axios', 'nuxt-webfontloader'],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: false,
+      dark: true,
       themes: {
         dark: {
-          primary: colors.blue.darken2,
+          primary: '#ee8138',
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
+          tertiary: '#e35f07',
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
@@ -109,9 +99,10 @@ export default {
           good: '#1a1a1a',
         },
         light: {
-          primary: colors.blue.darken2,
+          primary: '#ee8138',
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
+          tertiary: '#e35f07',
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,

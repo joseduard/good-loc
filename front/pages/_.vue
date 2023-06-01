@@ -1,20 +1,23 @@
 <template>
-  <v-container id="nuxt-error" class="error-container" fluid>
-    <h1 class="ne-title">
+  <v-container id="nuxt-error" class="error-container">
+    <h1 class="tertiary--text">
       Page introuvable
     </h1>
-    <img class="img-404" src="../assets/404.png" alt="">
-    <p class="hint">
+    <div class="text-center">
+      <img class="img-404" src="../assets/404.png" alt="">
+    </div>
+    <p class="tertiary--text text-center">
       <i>Oups</i>
     </p>
-    <v-btn text tile to="/" class="ne-link gold-underline">
-      <h3 class="gold-text">
-        Revenir à l'accueil
-      </h3>
-    </v-btn>
+    <div class="text-center">
+      <v-btn text tile to="/" class="ne-link gold-underline text-right">
+        <h3 class="tertiary--text text-right">
+          Revenir à l'accueil
+        </h3>
+      </v-btn>
+    </div>
   </v-container>
 </template>
-
 
 <script>
 export default {

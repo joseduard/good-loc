@@ -2,8 +2,7 @@
 <template>
   <v-row>
     <v-col id="inspire" class="text-center">
-      <img src="/v.png" alt="Vuetify.js" class="mb-5" />
-      <blockquote class="blockquote">
+      <blockquote class="blockquote primary--text">
         &#8220;First, solve the problem. Then, write the code.&#8221;
         <footer>
           <small>
@@ -11,18 +10,15 @@
           </small>
         </footer>
       </blockquote>
-      <font-awesome-icon icon="quote-right" size="2x" />
-      <font-awesome-icon icon="wifi" size="1x" />
-      <!-- <font-awesome-icon :icon="['fas', 'wifi']" /> -->
-      <!-- <font-awesome-icon :icon="['fas', 'coffee']" /> -->
-      <font-awesome-icon icon="quote-right" size="2x" />
+      <font-awesome-icon :icon="['fas', 'envelope']" class="primary--text" />
+      <font-awesome-icon :icon="['fab', 'google']" class="primary--text" />
       <br />
       <v-btn v-tippy="{
         placement: 'top',
         content: 'This is a tooltip',
         theme: 'light',
-      }" @click="test()">
-        <font-awesome-icon icon="quote-right" size="2x" />
+      }" class="primary" @click="test()">
+        <font-awesome-icon :icon="['fas', 'user-ninja']" />
 
       </v-btn>
     </v-col>
