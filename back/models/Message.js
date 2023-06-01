@@ -4,7 +4,8 @@ module.exports = function(sequelize, DataTypes = require("sequelize").DataTypes)
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true,
     },
     sender_id: {
       type: DataTypes.INTEGER,
@@ -22,15 +23,25 @@ module.exports = function(sequelize, DataTypes = require("sequelize").DataTypes)
         key: 'id'
       }
     },
+    object: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
     message_content: {
       type: DataTypes.TEXT,
       allowNull: true
     },
     sent_date: {
-      type: DataTypes.DATEONLY,
-      allowNull: true
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    },
+    read_message: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
     }
-  }, {
+  },{
     sequelize,
     tableName: 'Message',
     timestamps: false,
