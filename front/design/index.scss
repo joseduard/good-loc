@@ -6,3 +6,12 @@
 /* Pages */
 @import "pages/inspire/_inspire";
 @import "pages/error/_error";
+@import "pages/Home/_Home";
+
+/* Components */
+@import "components/HomePres/_HomePres";
+@import "components/CardGame/_CardGame";
+@import "components/CardGameMaster/_CardGameMaster";
+@import "components/modals/ModalSignUp/_ModalSignUp";
+@import "components/modals/ModalSignIn/_ModalSignIn";
+@import "components/modals/ModalForgottenPassword/_ModalForgottenPassword";
