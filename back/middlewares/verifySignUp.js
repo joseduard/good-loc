@@ -3,7 +3,6 @@ const db = require('../config/db.config.js');
 const User = require('../models/Users.js')(db.sequelize);
 
 checkDuplicateEmail = (req, res, next) => {
-    console.log(req.body)
         // Email
         User.findOne({
             where: {

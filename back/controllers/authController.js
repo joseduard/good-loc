@@ -1,21 +1,24 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const db = require('../config/db.config.js');
-const Users = require('../models/Users.js')(db.sequelize);
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const db = require("../config/db.config.js");
+const Users = require("../models/Users.js")(db.sequelize);
 
-require('dotenv').config();
+require("dotenv").config();
 
-exports.signup = (req, res) => {
+
+exports.register = (req, res) => {
   Users.create({
-        email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 8)
+    email: req.body.userEmail,
+    lastname: req.body.userName,
+    name: req.body.userFirstName,
+    password: bcrypt.hashSync(req.body.userPassword, 8),
+  })
+    .then((user) => {
+      res.send({ message: "User was registered successfully!" });
     })
-        .then(user => {
-            res.send({ message: 'User was registered successfully!' });
-        })
-        .catch(err => {
-            res.status(500).send({ message: err.message });
-        });
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
 };
 
 exports.login = (req, res) => {
@@ -68,7 +71,6 @@ exports.login = (req, res) => {
         res.status(500).send({ message: err.message });
       });
   };
-  
 
 
 exports.logout = async (req, res) => {
@@ -87,3 +89,4 @@ exports.logout = async (req, res) => {
 };
   
   
+

@@ -5,8 +5,8 @@ const max = require("../middlewares/limit.js")
 const auth = require("../middlewares/auth.js")
 
 const router = express.Router();
+router.post("/register", authController.register);
 
-router.post('/signup',  authController.signup);
 router.post('/login',max.limiter, authController.login);
 router.put('/logout',auth,authController.logout)
 

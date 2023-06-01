@@ -1,5 +1,13 @@
 # good-lock
 
+## il y'a un code workspace pour le projet pour ceux qui sont sur vscode
+```bash
+ # se positioner sur la racine du projet good_lock
+ #pour l'utiliser au lieu d'utiliser
+ code .
+ #pour ouvrire le projet faite
+ code good-lock.code-workspace
+```
 
 ## Build Docker
 
