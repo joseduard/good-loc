@@ -27,7 +27,7 @@ module.exports = function(sequelize, DataTypes = require("sequelize").DataTypes)
       allowNull: true
     },
     category_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(255),
       allowNull: true,
       references: {
         model: 'Categories',

@@ -70,7 +70,9 @@ const authRoutes = require('./routes/authRoutes.js');
 const messageRoutes = require('./routes/messageRoutes.js');
 const userRoutes = require('./routes/userRoutes.js');
 const uploadRoutes = require('./routes/uploadRoutes.js');
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/user/account/message/', messageRoutes);
