@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes = require("sequelize").DataTypes) {
   return sequelize.define('Publishers', {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(255),
       allowNull: false,
       primaryKey: true
     },

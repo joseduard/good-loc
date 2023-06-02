@@ -15,7 +15,7 @@ module.exports = function(sequelize, DataTypes = require("sequelize").DataTypes)
       allowNull: true
     },
     publisher_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(255),
       allowNull: true,
       references: {
         model: 'Publishers',
@@ -35,7 +35,7 @@ module.exports = function(sequelize, DataTypes = require("sequelize").DataTypes)
       }
     },
     mechanics_type_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(255),
       allowNull: true,
       references: {
         model: 'Mechanics_Type',

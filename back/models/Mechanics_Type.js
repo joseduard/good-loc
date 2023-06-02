@@ -2,8 +2,8 @@ const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes = require("sequelize").DataTypes) {
   return sequelize.define('Mechanics_Type', {
     id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      type: DataTypes.STRING(255),
+      allowNull: true,
       primaryKey: true
     },
     name: {
