@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueTippy, { TippyComponent } from 'vue-tippy'
 import 'tippy.js/themes/light.css'
 
-
 // Vue.use(VueTippy)
 // or
 Vue.use(VueTippy, {
@@ -12,14 +11,11 @@ Vue.use(VueTippy, {
   popperOptions: {
     modifiers: {
       hide: {
-        enabled: false
+        enabled: false,
       },
-
-
-    }
-  }
+    },
+  },
 })
-
 
 // eslint-disable-next-line vue/multi-word-component-names
 Vue.component('Tippy', TippyComponent)

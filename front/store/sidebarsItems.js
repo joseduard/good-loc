@@ -1,42 +1,58 @@
 const state = () => ({
   sidebarUnauthenticatedUser: [
     {
-      icon: 'mdi-chart-bubble',
+      faIconType: 'fas',
+      faIcon: 'faHome',
       title: 'Liste des jeux',
+      class: 'primary--text',
       to: '/game-list',
     },
     {
-      icon: 'mdi-chart-bubble',
-      title: 'Liste de GM',
+      faIconType: 'fas',
+      faIcon: 'faHome',
+      title: 'Liste de GM',   
+      class: 'primary--text',
       to: '/game-master-list',
     },
     {
-      icon: 'mdi-chart-bubble',
+      faIconType: 'fas',
+      faIcon: 'faHome',
       title: 'A propos',
       to: '/inspirep',
+      class: 'primary--text',
     },
   ],
   sidebarUser: [
     {
-      icon: 'mdi-chart-bubble',
+      faIconType: 'fas',
+      faIcon: 'user',
       title: 'Mes informations',
-      to: '/',
+      to: '/users/id',
+      class: 'primary--text',
     },
     {
-      icon: 'mdi-chart-bubble',
+      faIconType: 'fas',
+      faIcon: 'lightbulb',
       title: 'Inspire1',
+      class: 'primary--text',
     },
     {
-      icon: 'mdi-chart-bubble',
+      faIconType: 'fas',
+      faIcon: 'lightbulb',
       title: 'Inspire2',
+      class: 'primary--text',
     },
     {
-      icon: 'mdi-chart-bubble',
+      faIconType: 'fas',
+      faIcon: 'lightbulb',
       title: 'Inspire3',
+      class: 'primary--text',
     },
     {
-      icon: 'mdi-chart-bubble',
+      faIconType: 'fas',
+      faIcon: 'horse-head',
       title: 'A propos',
+      class: 'primary--text',
     },
   ],
 })

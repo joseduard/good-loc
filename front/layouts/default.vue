@@ -1,7 +1,13 @@
 <template>
   <v-app dark>
     <!-- Sidebar -->
-    <v-navigation-drawer v-model="drawer" :mini-variant="miniVariant" :clipped="clipped" fixed app>
+    <v-navigation-drawer
+      v-model="drawer"
+      :mini-variant="miniVariant"
+      :clipped="clipped"
+      fixed
+      app
+    >
       <!-- Sidebar List -->
       <v-list>
         <v-list-item :to="item.to" router exact>
@@ -11,7 +17,9 @@
           </v-list-item-action>
           <!-- eslint-enable vue/first-attribute-linebreak -->
           <v-list-item-content>
-            <v-list-item-title class="text-uppercase tertiary--text">{{ item.title }}</v-list-item-title>
+            <v-list-item-title class="text-uppercase tertiary--text">{{
+              item.title
+            }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -21,7 +29,9 @@
     <!-- Header -->
     <v-app-bar id="header" :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon color="primary" @click.stop="drawer = !drawer" />
-      <v-toolbar-title> <img class="logo" :src="logo" :alt="item.title" /></v-toolbar-title>
+      <v-toolbar-title>
+        <img class="logo" :src="logo" :alt="item.title"
+      /></v-toolbar-title>
       <v-spacer />
       <v-btn text color="tertiary" :to="{ name: 'game-list' }">
         <span>Liste des jeux</span>
@@ -42,15 +52,16 @@
     <!-- footer -->
     <v-footer :absolute="!fixed" app>
       <v-spacer />
-      <span class="tertiary--text d-flex text-center align-center"> &copy; {{ title }} {{ new Date().getFullYear()
-      }}</span>
+      <span class="tertiary--text d-flex text-center align-center">
+        &copy; {{ title }} {{ new Date().getFullYear() }}</span
+      >
       <v-spacer />
     </v-footer>
   </v-app>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from 'vuex'
 import UnauthenticatedUserSidebar from '~/components/sidebars/UnauthenticatedUserSidebar.vue'
 import UserSidebar from '~/components/sidebars/UserSidebar.vue'
 export default {
@@ -62,7 +73,7 @@ export default {
   data() {
     return {
       // to fix when the back-end is ready
-      isUser: false,
+      isUser: true,
       logo: require('~/assets/logo.png'),
       clipped: false,
       drawer: false,
@@ -80,16 +91,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-    }),
+    ...mapGetters({}),
   },
   mounted() {
     // this.$vuetify.theme.dark = true
   },
   methods: {
-    ...mapActions({
-    }),
+    ...mapActions({}),
   },
-
 }
 </script>

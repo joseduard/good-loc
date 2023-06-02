@@ -34,7 +34,6 @@ export default {
   privateRuntimeConfig: {},
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    // '@fortawesome/fontawesome-svg-core/styles.css',
     // SCSS file in the project
     '~/design/index.scss',
   ],
@@ -56,7 +55,15 @@ export default {
   // The format is fa + PascalCase of the component name
   fontawesome: {
     icons: {
-      solid: ['faEnvelope', 'faUserNinja', 'faHome'],
+      solid: [
+        'faEnvelope',
+        'faUserNinja',
+        'faHome',
+        'faUser',
+        'faDice',
+        'faHorseHead',
+        'faLightbulb',
+      ],
       brands: ['faGoogle'],
     },
   },
@@ -92,6 +99,7 @@ export default {
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
           tertiary: '#e35f07',
+          quaternary: '#963f06',
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
@@ -112,7 +120,15 @@ export default {
       },
     },
   },
-
+  // Router configuration pour test user/id => user/_id => user/123
+  // router: {
+  //   extendRoutes(routes, resolve) {
+  //     routes.push({
+  //       path: '/user/123',
+  //       component: resolve(__dirname, 'pages/user/_id.vue'),
+  //     })
+  //   },
+  // },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 }

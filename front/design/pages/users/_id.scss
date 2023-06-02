@@ -1,0 +1,25 @@
+#user-id {
+  .container-img {
+    background-color: $color-primary;
+    height: 220px;
+    width: 220px;
+    display: flex;
+    border-radius: 60px 0px 60px 0px;
+    align-items: center;
+  }
+  .avatar-img {
+    width: 200px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: block;
+  }
+  .text-wrap {
+    word-wrap: break-word;
+  }
+  .card-actions {
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+  }
+}

@@ -1,0 +1,247 @@
+<template>
+  <v-container id="user-id">
+    <v-row>
+      <v-col cols="12" md="4" lg="3">
+        <div class="container-img">
+          <v-img class="avatar-img" :src="user.avatar" height="200px"> </v-img>
+        </div>
+      </v-col>
+      <v-col cols="12" md="8" lg="9">
+        <v-card>
+          <v-card-text>
+            <v-card-title class="white--text">
+              <font-awesome-icon
+                :icon="['fas', 'user']"
+                class="primary--text"
+              />
+              <span class="primary--text ml-2"
+                >{{ user.firstName }} {{ user.lastName }}</span
+              >
+            </v-card-title>
+            <v-list-item>
+              <v-list-item-content class="pb-0">
+                <v-list-item-title class="text-uppercase"
+                  >Email</v-list-item-title
+                >
+                <v-text-field
+                  v-model="user.email"
+                  dense
+                  placeholder="Votre email"
+                  type="text"
+                  clearable
+                  :rules="[rules.required, rules.email]"
+                  :hint="checkFormatMail ? '' : messageEmailFormat"
+                />
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-content class="pb-0 pt-0">
+                <v-list-item-title class="text-uppercase"
+                  >Ville</v-list-item-title
+                >
+                <v-text-field
+                  v-model="user.city"
+                  dense
+                  placeholder="Votre email"
+                  type="text"
+                  clearable
+                  :rules="[rules.required]"
+                />
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-content class="pb-0 pt-0">
+                <v-list-item-title class="text-uppercase"
+                  >Pseudo</v-list-item-title
+                >
+                <v-text-field
+                  v-model="user.pseudo"
+                  dense
+                  placeholder="Votre Pseudo"
+                  type="text"
+                  clearable
+                  :rules="[rules.required]"
+                />
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-content class="pb-0 pt-0">
+                <v-list-item-title class="text-uppercase"
+                  >Description</v-list-item-title
+                >
+                <v-textarea
+                  v-model="user.description"
+                  dense
+                  placeholder="Description de votre profil"
+                  clearable
+                  :rules="[rules.required]"
+                  :counter="50"
+                  rows="1"
+                  max-height="200"
+                />
+              </v-list-item-content>
+            </v-list-item>
+          </v-card-text>
+          <v-card-actions class="card-actions">
+            <v-row justify="center">
+              <v-btn color="tertiary" text @click="cancel()"> Cancel</v-btn>
+              <v-btn color="primary" @click="save()">Sauvegarder</v-btn>
+            </v-row>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" md="12">
+        <v-list>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title class="text-uppercase tertiary--text"
+                >Mes Jeux</v-list-item-title
+              >
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-btn fab dark color="primary" @click="addGame()">
+                <v-icon
+                  v-tippy="{
+                    placement: 'top',
+                    content: 'Ajouter un jeu à ma liste',
+                    theme: 'light',
+                  }"
+                  >mdi-plus</v-icon
+                >
+              </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+          <v-row dense>
+            <v-col
+              v-for="(game, index) in user.games.slice(0, 5)"
+              :key="index"
+              cols="2"
+            >
+              <v-card class="ma-2">
+                <v-img :src="game.img" height="120px">
+                  <v-card-title class="white--text">
+                    <font-awesome-icon :icon="['fas', 'dice']" />
+                    <span class="ml-2 fw-700">{{ game.name }}</span>
+                  </v-card-title>
+                </v-img>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-list>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+import { mapGetters, mapActions } from 'vuex'
+export default {
+  name: 'User',
+  data() {
+    return {
+      rules: {
+        required: (value) => !!value || this.messageRequired,
+        email: (value) => {
+          const pattern =
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          this.checkFormatMail = pattern.test(value)
+          return pattern.test(value) || this.message
+        },
+      },
+      checkFormatMail: false,
+      messageEmailFormat: 'Format email incorrect',
+      messageRequired: 'Champ obligatoire',
+      user: {
+        id: 1,
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john@gmail.com',
+        city: 'New York',
+        pseudo: 'JohnDoe777',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla',
+        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
+        games: [
+          {
+            id: 1,
+            name: 'Game 1',
+            description:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque.',
+            img: 'https://images.unsplash.com/photo-1519563073830-57146c547640?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80',
+          },
+          {
+            id: 2,
+            name: 'Game 2',
+            description:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque.',
+            img: 'https://images.unsplash.com/photo-1606167668584-78701c57f13d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+          },
+          {
+            id: 3,
+            name: 'Game 3',
+            description:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque.',
+            img: 'https://images.unsplash.com/photo-1611996575749-79a3a250f948?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGdhbWVzfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60',
+          },
+          {
+            id: 4,
+            name: 'Game 2',
+            description:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque.',
+            img: 'https://images.unsplash.com/photo-1606167668584-78701c57f13d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+          },
+          {
+            id: 5,
+            name: 'Game 2',
+            description:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque.',
+            img: 'https://images.unsplash.com/photo-1606167668584-78701c57f13d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+          },
+          {
+            id: 6,
+            name: 'Game 2',
+            description:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque.',
+            img: 'https://images.unsplash.com/photo-1606167668584-78701c57f13d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+          },
+        ],
+      },
+    }
+  },
+  computed: {
+    ...mapGetters({}),
+  },
+  watch: {},
+  created() {
+    this.originalUser = JSON.parse(JSON.stringify(this.user)) // Copia profunda del objeto user
+  },
+  mounted() {},
+  methods: {
+    ...mapActions({}),
+    // Methods for check mail existing
+    checkMailExisting(email) {
+      this.checkMail = false
+      if (this.checkFormatMail) {
+        this.getCheckMail(email)
+          .then((response) => {
+            if (response.data.isExisting === true) {
+              this.$awn.warning(this.$t('auth.checkmail.mail_error'), {})
+              this.checkMail = true
+            } else {
+              this.checkMail = false
+            }
+          })
+          .catch((error) => {
+            this.checkMail = false
+            this.$debugLog(error)
+          })
+      }
+    },
+    cancel() {
+      this.user = JSON.parse(JSON.stringify(this.originalUser))
+    },
+  },
+}
+</script>

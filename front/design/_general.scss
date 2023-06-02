@@ -5,7 +5,6 @@
 
 html {
   overflow: auto !important;
-
   .v-application {
     background-color: $color-background-light;
     font-family: "Montserrat";
@@ -78,11 +77,26 @@ body {
 .wb-break-all {
   word-break: break-all;
 }
-
-// V-Tippy
+.fw-500 {
+  font-weight: 500;
+}
+.fw-600 {
+  font-weight: 600;
+}
+.fw-700 {
+  font-weight: 700;
+}
+.fw-800 {
+  font-weight: 800;
+}
+// V-Tippy css dont work
 .tippy-tooltip.light-theme {
   font-family: "Montserrat";
-  // color: $color-primary,
+  background-color: $color-primary;
+}
+.tippy-box[data-theme~="tomato"] {
+  background-color: tomato;
+  color: yellow;
 }
 // BreadCrumb
 // #breadcrumbs-container {
