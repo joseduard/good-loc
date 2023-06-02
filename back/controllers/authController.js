@@ -7,10 +7,10 @@ require("dotenv").config();
 
 exports.register = (req, res) => {
   Users.create({
-    email: req.body.userEmail,
-    lastname: req.body.userName,
-    name: req.body.userFirstName,
-    password: bcrypt.hashSync(req.body.userPassword, 8),
+    email: req.body.email,
+    lastname: req.body.name,
+    firstname: req.body.firstname,
+    password: bcrypt.hashSync(req.body.password, 8),
     pseudo : req.body.pseudo,
   })
     .then((user) => {
@@ -61,7 +61,8 @@ exports.login = (req, res) => {
 
           res.status(200).send({
             id: user.id,
-            username: user.name,
+            firstname: user.firstname,
+            lastname: user.lastname,
             email: user.email,
             token: token,
           });

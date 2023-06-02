@@ -64,7 +64,9 @@ app.get('/', (req, res) => {
 // routes
 const authRoutes = require('./routes/authRoutes.js');
 const messageRoutes = require('./routes/messageRoutes.js');
+const userRoutes = require('./routes/userRoutes.js');
 app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
 app.use('/api/user/account/message/', messageRoutes);
 
 // error handling

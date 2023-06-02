@@ -91,7 +91,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"userEmail\": \"yaci@yaci.fr\",\n\"userName\": \"yac1\",\n\"userFirstName\": \"kh\",\n\"userPassword\": \"test25\"\n}",
+					"raw": "{\n\"email\": \"yaci@yaci.fr\",\n\"pseudo\": \"yaci@yaci.fr\",\n\"firstname\": \"yac1\",\n\"lastname\": \"kh\",\n\"password\": \"teSt25$dhhd\"\n,\n\"pseudo\": \"FuckingUnicorn\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"

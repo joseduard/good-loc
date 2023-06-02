@@ -16,7 +16,7 @@ module.exports = function (
         allowNull: false,
         unique: true,
       },
-      name: {
+      firstname: {
         type: DataTypes.STRING(255),
         allowNull: true,
       },
