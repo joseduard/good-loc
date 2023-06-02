@@ -11,6 +11,7 @@ exports.register = (req, res) => {
     lastname: req.body.userName,
     name: req.body.userFirstName,
     password: bcrypt.hashSync(req.body.userPassword, 8),
+    pseudo : req.body.pseudo,
   })
     .then((user) => {
       res.send({ message: "User was registered successfully!" });

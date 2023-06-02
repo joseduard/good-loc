@@ -11,6 +11,11 @@ module.exports = function (
         primaryKey: true,
         autoIncrement: true,
       },
+      pseudo: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        unique: true,
+      },
       name: {
         type: DataTypes.STRING(255),
         allowNull: true,
