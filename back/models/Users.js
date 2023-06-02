@@ -43,7 +43,9 @@ module.exports = function (
       },
       img: {
         type: DataTypes.STRING(255),
-        allowNull: true,
+        allowNull: false,
+        defaultValue: `${process.env.back_url}/uploads/avatar02062202.png`,
+
       },
       description: {
         type: DataTypes.STRING(255),

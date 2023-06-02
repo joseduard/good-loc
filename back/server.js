@@ -4,6 +4,7 @@
 const helmet = require('helmet');
 const multer = require('multer');
 const morgan = require('morgan');
+const path = require('path')
 const rateLimit = require('express-rate-limit')
 const express = require('express');
 const { loadSequelizeModels } = require('./helpers/sequelizeHelpers.js');
@@ -61,13 +62,19 @@ app.get('/', (req, res) => {
 
     );
 })*/
+// Static management of the image resource
+// Midleware that allows to load files that are in the images directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 // routes
 const authRoutes = require('./routes/authRoutes.js');
 const messageRoutes = require('./routes/messageRoutes.js');
 const userRoutes = require('./routes/userRoutes.js');
+const uploadRoutes = require('./routes/uploadRoutes.js');
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/user/account/message/', messageRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // error handling
 

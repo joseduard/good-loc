@@ -1,13 +1,12 @@
 
 const db = require("../config/db.config.js");
-const Users= require("../models/Users.js")(db.sequelize);
+const Users = require("../models/Users.js")(db.sequelize);
 
 require("dotenv").config();
 
 
 exports.getUserProfil = (req, res) => {
     userId = req.params.id;
-    console.log(userId);
   Users.findOne({
     where: {
       id: userId
@@ -19,15 +18,14 @@ exports.getUserProfil = (req, res) => {
       }
       res.status(200).send({
         id: user.id,
-        userName: user.lastname,
-        userFirstname: user.firstname,
-        userCity: user.city,
-        userRole: user.role,
-        userPseudo: user.pseudo,
-        userEmail: user.email,
-        userIsLogged: user.isLoggedIn,
-        userImg: user.img,
-        userDescription: user.description,
+        lastname: user.lastname,
+        firstname: user.firstname,
+        city: user.city,
+        role: user.role,
+        pseudo: user.pseudo,
+        email: user.email,
+        img: user.img,
+        description: user.description,
         });
     })
     .catch((err) => {
@@ -35,3 +33,33 @@ exports.getUserProfil = (req, res) => {
     });
 };
 
+exports.updateUserInformation = (req, res) => {
+  const userId = req.body.id;
+  
+  Users.findOne({
+    where: {
+      id: userId
+    }
+  })
+    .then((user) => {
+      if (!user) {
+        return res.status(405).send({ message: "User not found" });
+      }
+      
+      user.lastname = req.body.lastname || user.lastname;
+      user.firstname = req.body.firstname || user.firstname;
+      user.city = req.body.city || user.city;
+      user.email = req.body.email || user.email;
+      user.pseudo = req.body.pseudo || user.pseudo;
+      user.role = req.body.role || user.role;
+      user.description = req.body.description || user.description;
+      user.img = req.body.img || user.img;
+      return user.save();
+    })
+    .then(() => {
+      res.send({ message: "User was updated successfully!" });
+    })
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+};
