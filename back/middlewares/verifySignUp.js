@@ -5,7 +5,7 @@ checkDuplicateEmailAndPseudo = (req, res, next) => {
     // Email
     User.findOne({
         where: {
-            email: req.body.userEmail
+            email: req.body.email
         }
     }).then(userWithEmail => {
         if (userWithEmail) {
