@@ -4,6 +4,7 @@ module.exports = function(sequelize, DataTypes = require("sequelize").DataTypes)
     id: {
       type: DataTypes.STRING(255),
       allowNull: false,
+      primaryKey: true,
     },
     name: {
       type: DataTypes.STRING(255),

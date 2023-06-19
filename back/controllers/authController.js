@@ -5,13 +5,19 @@ const Users = require("../models/Users.js")(db.sequelize);
 
 require("dotenv").config();
 
+// write a jsdoc for this controller method
+/**
+ *
+ * @param {*} req test
+ * @param {*} res
+ */
 exports.register = (req, res) => {
   Users.create({
     email: req.body.email,
-    lastname: req.body.name,
+    lastname: req.body.lastname,
     firstname: req.body.firstname,
     password: bcrypt.hashSync(req.body.password, 8),
-    pseudo : req.body.pseudo,
+    pseudo: req.body.pseudo,
   })
     .then((user) => {
       res.send({ message: "User was registered successfully!" });

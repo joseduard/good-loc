@@ -9,6 +9,10 @@
       "path": "front"
     },
     {
+      "name": "Scripts",
+      "path": "scripts"
+    },
+    {
       "name": "config",
       "path": "."
     }
@@ -26,8 +30,7 @@
       "**/.next": true,
       "**/dist": true,
       "back": true,
-      "front": true,
-      "scripts": true
+      "front": true
     },
     "references.preferredLocation": "view",
     "git.mergeEditor": true,
