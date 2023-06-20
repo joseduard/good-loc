@@ -3,8 +3,9 @@ const rentingGamesController = require("../controllers/rentingGamesController.js
 const auth = require("../middlewares/auth.js");
 const router = express.Router();
 
-router.post("/rentingGames/add", rentingGamesController.addRentingGame);
-router.get("/rentingGames/:id", rentingGamesController.getRentingGamesByUser);
+router.post("/rentingGames/add",auth, rentingGamesController.addRentingGame);
+router.get("/rentingGames/:id",auth, rentingGamesController.getRentingGamesByUser);
+
 router.get("/rentingGames/game/:id", rentingGamesController.getRentingGameById);
 router.get("/bestRentingGames/:id", rentingGamesController.getBestGameRenting);   
 router.get('/rentingGames', rentingGamesController.listGames); 

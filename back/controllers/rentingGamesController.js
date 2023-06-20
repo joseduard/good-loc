@@ -204,5 +204,3 @@ exports.getBestGameRenting = async (req, res) => {
     res.status(500).json({ error: "Une erreur s'est produite lors de la récupération du jeu." });
   }
 };
-
-

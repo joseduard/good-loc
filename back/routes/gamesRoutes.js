@@ -3,8 +3,8 @@ const gamesController = require("../controllers/gamesController.js");
 const auth = require("../middlewares/auth.js");
 const router = express.Router();
 
-router.get("/games",gamesController.getAllGames);
-router.get("/gamesByName", gamesController.getGamesByName);
-router.get("/game/:id", gamesController.getGameById);
+router.get("/games",auth, gamesController.getAllGames);
+router.get("/gamesByName",auth, gamesController.getGamesByName);
+router.get("/game/:id",auth, gamesController.getGameById);
 
 module.exports = router;
