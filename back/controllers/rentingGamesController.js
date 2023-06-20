@@ -169,27 +169,18 @@ exports.getRentingGameById = async (req, res) => {
     res.status(500).json({ message: "Une erreur s'est produite lors de la récupération du jeu." });
   }
 };
-/*
+
 exports.getBestGameRenting = async (req, res) => {
   try {
-    const gameId = req.params.id;
-    // Trouver le prix de location minimum pour le jeu spécifié
-    const minPrice = await RentingGames.min('price_day_renting', {
+    const gameId = req.body.game_id;
+    console.log(gameId)
+    // Récupérer toutes les rentingGames pour le jeu spécifié
+    const rentingGames = await RentingGames.findAll({
       where: {
         game_id: gameId
-      }
-    });
-console.log(minPrice)
-    if (!minPrice) {
-      return res.status(404).json({ error: 'Aucune location trouvée pour ce jeu' });
-    }
-
-    // Récupérer le jeu en location avec le prix de location le plus bas
-    const rentingGame = await RentingGames.findOne({
-      where: {
-        game_id: gameId,
-        price_day_renting: minPrice
       },
+      order: [['price_day_renting', 'ASC']],
+      limit: 1,
       include: [
         {
           model: Games,
@@ -203,10 +194,15 @@ console.log(minPrice)
       ],
     });
 
-    res.json(rentingGame);
+    if (rentingGames.length === 0) {
+      return res.status(404).json({ error: 'Aucune location trouvée pour ce jeu' });
+    }
+
+    res.json(rentingGames);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Une erreur s'est produite lors de la récupération du jeu." });
   }
 };
-*/
+
+
