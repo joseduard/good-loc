@@ -3,6 +3,9 @@ const RentingGames = require("../models/Renting_Or_Buying_Games.js")(db.sequeliz
 const Games = require("../models/Games.js")(db.sequelize);
 const Users = require("../models/Users.js")(db.sequelize);
 const Categories = require("../models/Categories.js")(db.sequelize);
+const { sequelize, Op } = require('sequelize');
+
+
 require("dotenv").config();
 
 /**
@@ -90,6 +93,7 @@ exports.getRentingGamesByUser = async (req, res) => {
     return res.status(500).json({ error: 'Erreur lors de la récupération des locations de l\'utilisateur' });
   }
 };
+
 exports.listGames = async (req, res) => {
   try {
     const city = req.query.city;
@@ -142,3 +146,67 @@ exports.listGames = async (req, res) => {
     res.status(500).json({ message: "Une erreur s'est produite lors de la récupération des jeux." });
   }
 };
+
+exports.getRentingGameById = async (req, res) => {
+  try {
+    const rentingGame = await RentingGames.findOne({
+      where: { id: req.params.id },
+      include: [
+        {
+          model: Games,
+          attributes: ['id', 'img', 'name', 'publisher_id', 'description', 'category_id', 'mechanics_type_id', 'price', 'year_published', 'min_players', 'max_players', 'playtime', 'age_min', 'average_learning_complexity', 'average_strategy_complexity', 'average_note', 'average_price_buy', 'average_price_location', 'upc'],
+        },
+        {
+          model: Users,
+          as: 'User',
+          attributes: ['id', 'firstname', 'lastname', 'email', 'city', 'pseudo'],
+        },
+      ],
+    });
+    res.json(rentingGame);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Une erreur s'est produite lors de la récupération du jeu." });
+  }
+};
+/*
+exports.getBestGameRenting = async (req, res) => {
+  try {
+    const gameId = req.params.id;
+    // Trouver le prix de location minimum pour le jeu spécifié
+    const minPrice = await RentingGames.min('price_day_renting', {
+      where: {
+        game_id: gameId
+      }
+    });
+console.log(minPrice)
+    if (!minPrice) {
+      return res.status(404).json({ error: 'Aucune location trouvée pour ce jeu' });
+    }
+
+    // Récupérer le jeu en location avec le prix de location le plus bas
+    const rentingGame = await RentingGames.findOne({
+      where: {
+        game_id: gameId,
+        price_day_renting: minPrice
+      },
+      include: [
+        {
+          model: Games,
+          attributes: ['id', 'img', 'name', 'publisher_id', 'description', 'category_id', 'mechanics_type_id', 'price', 'year_published', 'min_players', 'max_players', 'playtime', 'age_min', 'average_learning_complexity', 'average_strategy_complexity', 'average_note', 'average_price_buy', 'average_price_location', 'upc'],
+        },
+        {
+          model: Users,
+          as: 'User',
+          attributes: ['id', 'firstname', 'lastname', 'email', 'city', 'pseudo'],
+        },
+      ],
+    });
+
+    res.json(rentingGame);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Une erreur s'est produite lors de la récupération du jeu." });
+  }
+};
+*/

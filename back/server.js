@@ -47,6 +47,7 @@ const userRoutes = require("./routes/userRoutes.js");
 const uploadRoutes = require("./routes/uploadRoutes.js");
 const gamesRoutes = require("./routes/gamesRoutes.js");
 const rentingGamesRoutes = require("./routes/rentingGamesRoutes.js");
+const rentingRoutes = require("./routes/rentsRoutes.js");
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -56,6 +57,7 @@ app.use("/api/user/account/message/", messageRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/", gamesRoutes);
 app.use("/api/", rentingGamesRoutes);
+app.use("/api/", rentingRoutes);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

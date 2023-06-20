@@ -4,7 +4,8 @@ module.exports = function(sequelize, DataTypes = require("sequelize").DataTypes)
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     user_id_owner: {
       type: DataTypes.INTEGER,
