@@ -28,9 +28,10 @@ const actions = {
       .get('/games')
       .then((response) => {
         commit('SET_GAMES_LIST', response)
+        return Promise.resolve(response)
       })
       .catch((error) => {
-        this.$debugLog(error)
+        return Promise.reject(error)
       })
   },
 }

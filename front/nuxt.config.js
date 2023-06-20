@@ -61,6 +61,7 @@ export default {
         'faDice',
         'faHorseHead',
         'faLightbulb',
+        'faMessage',
       ],
       brands: ['faGoogle'],
     },
@@ -122,7 +123,7 @@ export default {
         dark: {
           primary: '#ee8138',
           accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
+          secondary: '#000000',
           tertiary: '#e35f07',
           quaternary: '#963f06',
           info: colors.teal.lighten1,

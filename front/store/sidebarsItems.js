@@ -44,9 +44,10 @@ const state = () => ({
     },
     {
       faIconType: 'fas',
-      faIcon: 'lightbulb',
-      title: 'Inspire3',
+      faIcon: 'message',
+      title: 'Mes messages',
       class: 'primary--text',
+      to: '/users/message',
     },
     {
       faIconType: 'fas',
