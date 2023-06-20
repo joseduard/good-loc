@@ -1,15 +1,18 @@
 const Sequelize = require("sequelize");
-module.exports = function (
-  sequelize,
-  DataTypes = require("sequelize").DataTypes
-) {
-  return sequelize.define(
+const db = require("../config/db.config.js");
+const Users = require("../models/Users.js")(db.sequelize);
+const Games = require("../models/Games.js")(db.sequelize);
+
+module.exports = function (sequelize, DataTypes = Sequelize.DataTypes) {
+  const RentingOrBuyingGames = sequelize.define(
     "Renting_Or_Buying_Games",
     {
+      // Définition des attributs de RentingOrBuyingGames
       id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
       },
       game_id: {
         type: DataTypes.STRING(255),
@@ -72,4 +75,10 @@ module.exports = function (
       ],
     }
   );
+
+  RentingOrBuyingGames.belongsTo(Users, { foreignKey: "owner_id" }); 
+  RentingOrBuyingGames.belongsTo(Games, { foreignKey: "game_id" });
+
+
+  return RentingOrBuyingGames;
 };

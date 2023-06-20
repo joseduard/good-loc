@@ -8,3 +8,4 @@ scripts/js/*.json
 scripts/bash/download-data-from-bga/save/
 scripts/bash/download-data-from-bga/tmp/bga-sitemap-xml/*.xml
 
+scripts/js/*.json

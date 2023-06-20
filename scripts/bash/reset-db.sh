@@ -59,5 +59,3 @@ docker exec $DOCKER_CONTAINER_NAME rm /tmp.sql
 
 echo -e "${GREEN}Database seeded successfully!${NC}"
 
-
-echo "Database setup and migration complete."
