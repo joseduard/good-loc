@@ -20,8 +20,6 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
-
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
   // axios: {
   // baseURL:
   //    baseURL:
@@ -42,7 +40,7 @@ export default {
   plugins: [
     '~/plugins/pure.js',
     // '~/plugins/vue-awesome-notifications.js',
-    // { src: '~/plugins/axios.js', mode: 'client'}
+    // { src: '~/plugins/axios.js', mode: 'client'},
     { src: '~/plugins/vue-awesome-notifications.js', mode: 'client' },
     { src: '~/plugins/v-tippy.js', mode: 'client' },
   ],
@@ -86,7 +84,34 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/axios', 'nuxt-webfontloader'],
+  modules: ['@nuxtjs/auth-next', '@nuxtjs/axios', 'nuxt-webfontloader'],
+  // Axios module configuration: https://go.nuxtjs.dev/config-axios
+
+  auth: {
+    redirect: {
+      login: '/',
+    },
+    strategies: {
+      local: {
+        token: {
+          property: 'token',
+          global: true,
+          // required: true,
+          // type: 'Bearer'
+        },
+        user: {
+          property: false,
+          autoFetch: false,
+        },
+        endpoints: {
+          login: { url: 'api/auth/login', method: 'post' },
+          logout: { url: 'api/auth/logout', method: 'put' },
+          // user: { url: 'api/user', method: 'get' }
+          user: false,
+        },
+      },
+    },
+  },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -130,5 +155,7 @@ export default {
   //   },
   // },
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: ['defu'],
+  },
 }

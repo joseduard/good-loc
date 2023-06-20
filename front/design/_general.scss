@@ -7,7 +7,7 @@ html {
   overflow: auto !important;
   .v-application {
     background-color: $color-background-light;
-    font-family: "Montserrat";
+    font-family: 'Montserrat';
     font-style: normal;
     color: $color-primary;
   }
@@ -16,7 +16,7 @@ html {
 // Awesome Notification font definition
 #awn-toast-container,
 #awn-popup-wrapper {
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
 }
 
 body {
@@ -91,10 +91,10 @@ body {
 }
 // V-Tippy css dont work
 .tippy-tooltip.light-theme {
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
   background-color: $color-primary;
 }
-.tippy-box[data-theme~="tomato"] {
+.tippy-box[data-theme~='tomato'] {
   background-color: tomato;
   color: yellow;
 }

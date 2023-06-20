@@ -1,4 +1,3 @@
-
 /* eslint-disable */
 
 // Encryption module
@@ -74,6 +73,6 @@ export default ({ app }, inject) => {
     if (!str) return ''
     str = str.toString()
     if (str.length <= limit) return str
-      return str.substr(0, limit) + '...'
+    return str.substr(0, limit) + '...'
   })
 }

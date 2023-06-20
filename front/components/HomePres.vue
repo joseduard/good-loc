@@ -1,8 +1,7 @@
-<template >
-  <div >
+<template>
+  <div>
     <v-row id="firstRow">
-      <v-col 
-      v-for="(pres, index) in presentation" :key="index" col="4">
+      <v-col v-for="(pres, index) in presentation" :key="index" col="4">
         <v-container id="cube">
           <v-img
             class="imgFirstRow"
@@ -10,7 +9,7 @@
           ></v-img>
           <h3 class="titlePres">{{ pres.title }}</h3>
           <p>{{ pres.text }}</p>
-          <v-btn color="primary">{{ pres.textBtn }}</v-btn>
+          <v-btn :to="pres.to" color="primary">{{ pres.textBtn }}</v-btn>
         </v-container>
       </v-col>
     </v-row>
@@ -19,25 +18,29 @@
 <script>
 export default {
   name: 'HomePres',
-    data() {
-        return {
-            presentation: [{
-                title: "Trouvez un jeu ou un Game Master",
-                text: "Excepteur tempor magna dolor tempor.",
-                textBtn: "Trouver un jeu"
-            },
-            {
-                title: "Trouvez un jeu ou un Game Master",
-                text: "Excepteur tempor magna dolor tempor.",
-                textBtn: "Trouver un jeu"
-            },
-            {
-                title: "Trouvez un jeu ou un Game Master",
-                text: "Excepteur tempor magna dolor tempor.",
-                textBtn: "Trouver un jeu"
-            }]
-        }
-    },
+  data() {
+    return {
+      presentation: [
+        {
+          title: 'Trouvez un jeu',
+          text: 'Excepteur tempor magna dolor tempor.',
+          textBtn: 'Trouver un jeu',
+          to: '/game-list',
+        },
+        {
+          title: 'Trouvez un Game Master',
+          text: 'Excepteur tempor magna dolor tempor.',
+          textBtn: 'Trouver un GM',
+          to: '/game-master-list',
+        },
+        {
+          title: 'Trouvez un jeu ou un Game Master',
+          text: 'Excepteur tempor magna dolor tempor.',
+          textBtn: 'Trouver un jeu',
+          to: '/game-list',
+        },
+      ],
+    }
+  },
 }
 </script>
-

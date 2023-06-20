@@ -12,11 +12,10 @@
 export default {
   name: 'CardGameMaster',
   props: {
-    gameMaster:
-    {
-      required:true,
-      type:Object
-    }
+    gameMaster: {
+      required: true,
+      type: Object,
+    },
   },
 }
 </script>

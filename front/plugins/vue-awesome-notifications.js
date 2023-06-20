@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueAWN from 'vue-awesome-notifications'
 import 'vue-awesome-notifications/dist/styles/style.css'
 
-
 const options = {
   icons: {
     prefix: '<i class="fa-solid fa-',
@@ -21,6 +20,5 @@ const options = {
     confirmCancel: 'Annuler',
   },
 }
-
 
 Vue.use(VueAWN, options)

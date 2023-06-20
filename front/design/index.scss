@@ -1,20 +1,20 @@
 /* Custom Imports */
-@import "variables";
-@import "colors";
-@import "general";
+@import 'variables';
+@import 'colors';
+@import 'general';
 
 /* Pages */
-@import "pages/inspire/_inspire";
-@import "pages/error/_error";
-@import "pages/users/_id";
-@import "pages/index/_index";
-@import "pages/game-list/_index";
-@import "pages/game-list/_id";
+@import 'pages/inspire/_inspire';
+@import 'pages/error/_error';
+@import 'pages/users/_id';
+@import 'pages/index/_index';
+@import 'pages/game-list/_index';
+@import 'pages/game-list/_id';
 
 /* Components */
-@import "components/HomePres/_HomePres";
-@import "components/CardGame/_CardGame";
-@import "components/CardGameMaster/_CardGameMaster";
-@import "components/modals/ModalSignUp/_ModalSignUp";
-@import "components/modals/ModalSignIn/_ModalSignIn";
-@import "components/modals/ModalForgottenPassword/_ModalForgottenPassword";
+@import 'components/HomePres/_HomePres';
+@import 'components/CardGame/_CardGame';
+@import 'components/CardGameMaster/_CardGameMaster';
+@import 'components/modals/ModalSignUp/_ModalSignUp';
+@import 'components/modals/ModalSignIn/_ModalSignIn';
+@import 'components/modals/ModalForgottenPassword/_ModalForgottenPassword';

@@ -13,21 +13,24 @@
       <font-awesome-icon :icon="['fas', 'envelope']" class="primary--text" />
       <font-awesome-icon :icon="['fab', 'google']" class="primary--text" />
       <br />
-      <v-btn v-tippy="{
-        placement: 'top',
-        content: 'This is a tooltip',
-        theme: 'light',
-      }" class="primary" @click="test()">
+      <v-btn
+        v-tippy="{
+          placement: 'top',
+          content: 'This is a tooltip',
+          theme: 'light',
+        }"
+        class="primary"
+        @click="test()"
+      >
         <font-awesome-icon :icon="['fas', 'user-ninja']" />
-
       </v-btn>
     </v-col>
   </v-row>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import 'vue-awesome-notifications/dist/styles/style.css';
+import { mapGetters, mapActions } from 'vuex'
+import 'vue-awesome-notifications/dist/styles/style.css'
 export default {
   name: 'InspirePage',
   data() {
@@ -40,14 +43,12 @@ export default {
       getGamesList: 'games/getGamesList',
     }),
     listGames() {
-      return this.getGamesList;
+      return this.getGamesList
     },
   },
-  watch: {
-
-  },
+  watch: {},
   mounted() {
-    this.loadDatas();
+    this.loadDatas()
   },
 
   methods: {
@@ -61,12 +62,12 @@ export default {
     loadDatas() {
       this.setGamesList()
         .then((response) => {
-          this.$debugLog('Games list loaded');
+          this.$debugLog('Games list loaded')
         })
         .catch((error) => {
           this.$debugLog(error, 'error')
         })
-    }
+    },
   },
 }
 </script>

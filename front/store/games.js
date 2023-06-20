@@ -10,7 +10,7 @@ const getters = {
 const mutations = {
   SET_GAMES_LIST(state, games) {
     state.games = games
-  }
+  },
 }
 // const actions = {
 //   async fetchGames({ commit }) {
@@ -24,7 +24,8 @@ const mutations = {
 // }
 const actions = {
   setGamesList({ commit }) {
-    this.$axios.get('/games')
+    this.$axios
+      .get('/games')
       .then((response) => {
         commit('SET_GAMES_LIST', response)
       })
@@ -33,7 +34,6 @@ const actions = {
       })
   },
 }
-
 
 export default {
   state,

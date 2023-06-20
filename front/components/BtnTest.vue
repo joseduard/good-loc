@@ -5,5 +5,4 @@
 export default {
   name: 'BtnTest',
 }
-
 </script>

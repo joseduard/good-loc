@@ -1,5 +1,8 @@
 <template>
   <v-app dark>
+    <ModalSignUp />
+    <ModalSignIn />
+    <ModalForgottenPassword />
     <!-- Sidebar -->
     <v-navigation-drawer
       v-model="drawer"
@@ -23,8 +26,8 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <UnauthenticatedUserSidebar v-if="!isUser" />
-      <UserSidebar v-if="isUser" />
+      <UnauthenticatedUserSidebar v-if="!$auth.loggedIn" />
+      <UserSidebar v-if="$auth.loggedIn" />
     </v-navigation-drawer>
     <!-- Header -->
     <v-app-bar id="header" :clipped-left="clipped" fixed app>
@@ -40,7 +43,15 @@
         <span class="white--text">Liste de GM</span>
       </v-btn>
       <v-btn text color="tertiary ">
-        <span>Se connecter</span>
+        <span v-if="!$auth.loggedIn" @click="setShowSingInModal"
+          >Se connecter</span
+        >
+        <font-awesome-icon
+          v-if="$auth.loggedIn"
+          :icon="['fas', 'user']"
+          to="user"
+        />
+        <span @click="setShowSingInModal">Bouton Dev</span>
       </v-btn>
     </v-app-bar>
     <!-- main content -->
@@ -62,6 +73,9 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import ModalForgottenPassword from '../components/modals/ModalForgottenPassword.vue'
+import ModalSignUp from '~/components/modals/ModalSignUp.vue'
+import ModalSignIn from '~/components/modals/ModalSignIn.vue'
 import UnauthenticatedUserSidebar from '~/components/sidebars/UnauthenticatedUserSidebar.vue'
 import UserSidebar from '~/components/sidebars/UserSidebar.vue'
 export default {
@@ -69,6 +83,9 @@ export default {
   components: {
     UnauthenticatedUserSidebar,
     UserSidebar,
+    ModalSignIn,
+    ModalSignUp,
+    ModalForgottenPassword,
   },
   data() {
     return {
@@ -97,7 +114,9 @@ export default {
     // this.$vuetify.theme.dark = true
   },
   methods: {
-    ...mapActions({}),
+    ...mapActions({
+      setShowSingInModal: 'authentications/setShowSignInModal',
+    }),
   },
 }
 </script>

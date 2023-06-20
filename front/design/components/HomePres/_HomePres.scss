@@ -1,5 +1,5 @@
 #firstRow {
-    #cube {
+  #cube {
     width: 200px;
     height: 200px;
     border: 1px solid black;
@@ -7,15 +7,15 @@
     text-align: center;
     border-radius: 4% 4% 0 0 !important;
     text-align: center;
-        .imgFirstRow {
-            height:50px !important;
-            width:50px !important;
-            position: absolute;
-            left: 5rem;
-            top: -20px;
-        }
-        .titlePres {
-            margin-top: 20px;
-        }
-}
+    .imgFirstRow {
+      height: 50px !important;
+      width: 50px !important;
+      position: absolute;
+      left: 5rem;
+      top: -20px;
+    }
+    .titlePres {
+      margin-top: 20px;
+    }
+  }
 }

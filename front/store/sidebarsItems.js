@@ -10,7 +10,7 @@ const state = () => ({
     {
       faIconType: 'fas',
       faIcon: 'faHome',
-      title: 'Liste de GM',   
+      title: 'Liste de GM',
       class: 'primary--text',
       to: '/game-master-list',
     },

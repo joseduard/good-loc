@@ -2,21 +2,16 @@
   <v-container id="nuxt-error">
     <v-img src="../assets/404.png" max-width="500" alt="Erreur500" />
 
-    <h1 class="ne-title">
-      Contacter l'administrateur
-    </h1>
-    <img src="../assets/404.png" alt="">
+    <h1 class="ne-title">Contacter l'administrateur</h1>
+    <img src="../assets/404.png" alt="" />
     <p class="hint">
       <i>Semble case</i>
     </p>
     <v-btn text tile to="/">
-      <h3>
-        revenir à l'accueil
-      </h3>
+      <h3>revenir à l'accueil</h3>
     </v-btn>
   </v-container>
 </template>
-
 
 <script>
 export default {
@@ -25,17 +20,17 @@ export default {
   props: {
     error: {
       type: Object,
-      default: () => { },
+      default: () => {},
     },
   },
   head() {
     return {
-      title: 'Oops une erreur s\'est produite',
+      title: "Oops une erreur s'est produite",
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: 'Oops une erreur s\'est produite',
+          content: "Oops une erreur s'est produite",
         },
       ],
     }
