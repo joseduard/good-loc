@@ -2,10 +2,10 @@ name: Continuous integration
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 jobs:
   run-FrontEnd-Tests:
     runs-on: ubuntu-latest
@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: "14"
+          node-version: "18"
       - run: yarn
       - run: npx jest
   run-BackEnd-Tests:
@@ -24,12 +24,12 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./front
+        working-directory: ./back
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: "14"
+          node-version: "18"
       - run: yarn
       - run: npx jest
   deploy:
@@ -39,5 +39,5 @@ jobs:
     steps:
       - uses: distributhor/workflow-webhook@v1
         env:
-          webhook_url: http://137.74.196.230:8082/
+          webhook_url: http://137.74.196.230:7320/deploy
           webhook_secret: 9MCYb@WJwL2G-Dz
