@@ -5,7 +5,17 @@
       :dialog-modal="dialogModal"
       :game="game"
     />
+    <v-text-field
+      v-model="search"
+      class="search-input"
+      light
+      outlined
+      placeholder="rehcherche jeux"
+    ></v-text-field>
     <v-row>
+      <div v-if="games.length === 0">
+        <p>Aucun jeu ne correspond à votre recherche</p>
+      </div>
       <v-col v-for="gameAtm in games" :key="gameAtm.id" cols="12" md="2" lg="3">
         <div
           @click="
@@ -34,76 +44,28 @@ export default {
   data() {
     return {
       dialogModal: false,
-      games: [
-        {
-          name: 'Jeu de rôle 1',
-          id: 1,
-          description: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-        {
-          name: 'Jeu de rôle 2',
-          id: 2,
-          text: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-        {
-          name: 'Jeu de rôle',
-          id: 3,
-          text: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-        {
-          name: 'Jeu de rôle',
-          text: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-        {
-          name: 'Jeu de rôle',
-          text: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-        {
-          name: 'Jeu de rôle',
-          text: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-        {
-          name: 'Jeu de rôle',
-          text: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-        {
-          name: 'Jeu de rôle',
-          text: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-        {
-          name: 'Jeu de rôle',
-          text: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-        {
-          name: 'Jeu de rôle',
-          text: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-      ],
+      games: [],
+      search: '',
     }
   },
-  created() {
-    this.games = this.$axios.get('/api//games-list');
+  mounted() {
+    this.fetchGames().then(() => {
+      this.games = this.getGamesList
+    })
   },
 
   computed: {
     ...mapGetters({
       getShowSignUpModal: 'authentications/getShowSignUpModal',
+      getShowSignInModal: 'authentications/getShowSignInModal',
+      getGamesList: 'games/getGamesList',
     }),
   },
   methods: {
     ...mapActions({
       setShowSignUpModal: 'authentications/setShowSignUpModal',
       setShowSingInModal: 'authentications/setShowSignInModal',
+      fetchGames: 'games/fetchGames',
     }),
   },
 }

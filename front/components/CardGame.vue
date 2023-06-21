@@ -1,11 +1,7 @@
 <template>
   <v-container>
-    <v-card  id="card" max-width="255" height="250">
-      <v-img
-        src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-        cover
-        height="100"
-      ></v-img>
+    <v-card id="card" max-width="255">
+      <v-img :src="game.img" cover></v-img>
 
       <v-card-title id="title">
         {{ game.name }}
@@ -14,9 +10,9 @@
         <v-row>
           <v-col sm="12" md="6">
             <font-awesome-icon :icon="['fab', 'google']" size="2x" />{{
-              game.playerMin
+              game.min_players
             }}
-            to {{ game.playerMax }} joueurs
+            to {{ game.max_players }} joueurs
           </v-col>
           <v-col sm="12" md="6">
             <font-awesome-icon :icon="['fab', 'google']" size="2x" />{{
@@ -32,9 +28,9 @@
             minutes
           </v-col>
           <v-col sm="12" md="6">
-            <font-awesome-icon :icon="['fab', 'google']" size="2x" />{{
+            <!-- <font-awesome-icon :icon="['fab', 'google']" size="2x" />{{
               game.complexity
-            }}
+            }} -->
           </v-col>
         </v-row>
       </v-card-subtitle>

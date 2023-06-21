@@ -7,12 +7,6 @@
       occaecat mollit et cillum nisi tempor culpa. Magna non in nisi excepteur
       culpa. Qui esse aliqua nisi laborum quis ea officia deserunt consectetur.
     </p>
-    <v-text-field
-      class="search-input"
-      light
-      outlined
-      placeholder="rehcherche jeux"
-    ></v-text-field>
     <listGames />
   </div>
 </template>

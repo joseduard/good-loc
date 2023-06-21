@@ -2,6 +2,7 @@ const state = () => ({
   showSignUpModal: false,
   showSignInModal: false,
   showForgotPasswordModal: false,
+  authUser: null,
 })
 const getters = {
   getShowSignUpModal(state) {
@@ -12,6 +13,9 @@ const getters = {
   },
   getShowForgotPasswordModal(state) {
     return state.showForgotPasswordModal
+  },
+  getAuthUser(state) {
+    return state.authUser
   },
 }
 const mutations = {
@@ -24,6 +28,9 @@ const mutations = {
   SET_SHOW_FORGOT_PASSWORD(state, payload) {
     state.showForgotPasswordModal = payload
   },
+  SET_AUTH_USER(state, payload) {
+    state.authUser = payload
+  },
 }
 const actions = {
   setShowSignUpModal({ commit }, payload) {
@@ -34,6 +41,9 @@ const actions = {
   },
   setShowForgotPasswordModal({ commit }, payload) {
     commit('SET_SHOW_FORGOT_PASSWORD', payload)
+  },
+  setAuthUser({ commit }, payload) {
+    commit('SET_AUTH_USER', payload)
   },
 }
 export default {

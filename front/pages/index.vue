@@ -60,31 +60,31 @@ export default {
       dialogSignUp: false,
       dialogForgottenPassword: false,
       games: [
-        {
-          name: 'Jeu de rôle',
-          text: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-        {
-          name: 'Jeu de rôle',
-          text: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-        {
-          name: 'Jeu de rôle',
-          text: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-        {
-          name: 'Jeu de rôle',
-          text: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-        {
-          name: 'Jeu de rôle',
-          text: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
+        // {
+        //   name: 'Jeu de rôle',
+        //   text: 'Excepteur tempor magna dolor tempor.',
+        //   textBtn: 'Trouver un jeu',
+        // },
+        // {
+        //   name: 'Jeu de rôle',
+        //   text: 'Excepteur tempor magna dolor tempor.',
+        //   textBtn: 'Trouver un jeu',
+        // },
+        // {
+        //   name: 'Jeu de rôle',
+        //   text: 'Excepteur tempor magna dolor tempor.',
+        //   textBtn: 'Trouver un jeu',
+        // },
+        // {
+        //   name: 'Jeu de rôle',
+        //   text: 'Excepteur tempor magna dolor tempor.',
+        //   textBtn: 'Trouver un jeu',
+        // },
+        // {
+        //   name: 'Jeu de rôle',
+        //   text: 'Excepteur tempor magna dolor tempor.',
+        //   textBtn: 'Trouver un jeu',
+        // },
       ],
       gameMasters: [
         {
@@ -116,9 +116,13 @@ export default {
     }
   },
   created() {
-    this.games = this.$axios.get('/api/games-home');
-    this.gameMasters = this.$axios.get('/api/game-masters');
+    this.fetchGames()
+    this.games = this.getGamesList
+
+    // this.games = this.$axios.get('/api/games');
+    // this.gameMasters = this.$axios.get('/api/game-masters');
   },
+  mounted() {},
   computed: {
     ...mapGetters({
       getGamesList: 'games/getGamesList',
@@ -132,9 +136,10 @@ export default {
       setShowSignUpModal: 'authentications/setShowSignUpModal',
       setShowForgotPasswordModal: 'authentications/setShowForgotPasswordModal',
       setShowSignInModal: 'authentications/setShowSignInModal',
+      fetchGames: 'games/fetchGames',
     }),
-    filterGameMasters(e){
-      this.gameMasters = this.$axios.get(`/api/games-home/`);
+    filterGameMasters(e) {
+      this.gameMasters = this.$axios.get(`/api/games-home/`)
     },
   },
 }

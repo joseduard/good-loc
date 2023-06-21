@@ -1,10 +1,7 @@
 <template>
   <v-dialog id="all" v-model="dialog" persistent width="50em">
     <v-card id="card">
-      <v-img
-        src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-        cover
-      ></v-img>
+      <v-img :src="game.img" cover></v-img>
 
       <v-card-title id="title">
         {{ game.name }}

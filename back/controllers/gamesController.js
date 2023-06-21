@@ -13,7 +13,7 @@ exports.getAllGames = async (req, res) => {
 };
 
 exports.getGamesByName = async (req, res) => {
-  const gameName = req.body.name;
+  const gameName = req.params.name;
 
   try {
     const games = await Games.findAll({

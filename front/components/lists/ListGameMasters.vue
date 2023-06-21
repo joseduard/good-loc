@@ -109,9 +109,9 @@ export default {
       ],
     }
   },
-  created() {
-    this.gameMasters = this.$axios.get('/api/game-masters-list');
-  },
+  // created() {
+  //   this.gameMasters = this.$axios.get('/api/game-masters-list');
+  // },
   computed: {
     ...mapGetters({
       getShowSignUpModal: 'authentications/getShowSignUpModal',

@@ -27,27 +27,32 @@
         <div id="rowForm">
           <v-divider></v-divider>
           <form @submit.prevent="sendRegister">
-            <v-text-field v-model="name" label="Nom" required></v-text-field>
+            <v-text-field
+              v-model="name"
+              label="Nom"
+              :rules="[rules.required]"
+            ></v-text-field>
             <v-text-field
               v-model="firstname"
-              required
               label="Prenom"
+              type="text"
+              :rules="[rules.required]"
             ></v-text-field>
             <v-text-field
               v-model="email"
-              required
+              :rules="[rules.required]"
               type="email"
               label="Email"
             ></v-text-field>
             <v-text-field
               v-model="password"
               type="password"
-              required
+              :rules="[rules.required]"
               label="Password"
             ></v-text-field>
             <v-text-field
               v-model="pseudo"
-              required
+              :rules="[rules.required]"
               label="Pseudo"
             ></v-text-field>
             <v-btn type="submit">Inscription</v-btn>
@@ -71,10 +76,9 @@ export default {
       firstname: '',
       password: '',
       pseudo: '',
-      namerules: [
-        (v) => !!v || 'Required.',
-        (v) => v.length <= 10 || 'Name must be less than 10 characters',
-      ],
+      rules: {
+        required: (value) => !!value || 'Ce champ est requis',
+      },
     }
   },
   computed: {

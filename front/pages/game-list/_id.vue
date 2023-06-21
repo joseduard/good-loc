@@ -102,6 +102,7 @@
 <script>
 export default {
   name: 'Game',
+  middleware: 'auth',
   data() {
     return {
       game: {},

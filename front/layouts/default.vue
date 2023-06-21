@@ -42,16 +42,21 @@
       <v-btn text color="tertiary" :to="{ name: 'game-master-list' }">
         <span class="white--text">Liste de GM</span>
       </v-btn>
-      <v-btn text color="tertiary ">
-        <span v-if="!$auth.loggedIn" @click="setShowSingInModal"
-          >Se connecter</span
-        >
-        <font-awesome-icon
-          v-if="$auth.loggedIn"
-          :icon="['fas', 'user']"
-          to="user"
-        />
-        <span @click="setShowSingInModal">Bouton Dev</span>
+      <v-btn v-if="!$auth.loggedIn" text color="tertiary ">
+        <span @click="setShowSingUpModal">Se connecter</span>
+      </v-btn>
+      <v-btn v-if="$auth.loggedIn" text color="tertiary" :to="'/users/id'">
+        <font-awesome-icon :icon="['fas', 'user']" />
+      </v-btn>
+      <v-btn
+        v-if="$auth.loggedIn"
+        text
+        color="tertiary"
+        to="/"
+        @click="logout()"
+      >
+        <span>Logout</span>
+        <!-- <span @click="setShowSingUpModal">Bouton Dev</span> -->
       </v-btn>
     </v-app-bar>
     <!-- main content -->
@@ -116,7 +121,18 @@ export default {
   methods: {
     ...mapActions({
       setShowSingInModal: 'authentications/setShowSignInModal',
+      setShowSingUpModal: 'authentications/setShowSignUpModal',
     }),
+    async logout() {
+      try {
+        const user = this.$auth.$storage.getUniversal('user')
+        const userId = user.id
+        console.log(userId)
+        await this.$auth.logout({ data: { userId } })
+        this.$auth.$storage.removeUniversal('user')
+        this.setShowSignInModal(false)
+      } catch (err) {}
+    },
   },
 }
 </script>

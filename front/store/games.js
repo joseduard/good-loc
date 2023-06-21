@@ -12,20 +12,18 @@ const mutations = {
     state.games = games
   },
 }
-// const actions = {
-//   async fetchGames({ commit }) {
-//     try {
-//       const response = await this.$axios.get('/games')
-//       commit('SET_GAMES_LIST', response.data)
-//     } catch (error) {
-//       console.log(error)
-//     }
-//   }
-// }
 const actions = {
+  async fetchGames({ commit }) {
+    try {
+      const response = await this.$axios.get('api/games')
+      commit('SET_GAMES_LIST', response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  },
   setGamesList({ commit }) {
     this.$axios
-      .get('/games')
+      .get('api/rentingGames/filter/bla')
       .then((response) => {
         commit('SET_GAMES_LIST', response)
         return Promise.resolve(response)

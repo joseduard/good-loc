@@ -4,14 +4,13 @@
 @import 'general';
 
 /* Pages */
-@import "pages/inspire/_inspire";
-@import "pages/error/_error";
-@import "pages/users/_id";
-@import "pages/index/_index";
-@import "pages/game-list/_index";
-@import "pages/game-list/_id";
-@import "pages/messages/_index";
-
+@import 'pages/inspire/_inspire';
+@import 'pages/error/_error';
+@import 'pages/users/_id';
+@import 'pages/index/_index';
+@import 'pages/game-list/_index';
+@import 'pages/game-list/_id';
+@import 'pages/messages/_index';
 
 /* Components */
 @import 'components/HomePres/_HomePres';
