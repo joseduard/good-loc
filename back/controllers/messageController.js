@@ -1,17 +1,16 @@
-
 const db = require("../config/db.config.js");
 const Message = require("../models/Message.js")(db.sequelize);
-const Users= require("../models/Users.js")(db.sequelize);
+const Users = require("../models/Users.js")(db.sequelize);
 
 require("dotenv").config();
 
 exports.CreateMessage = (req, res) => {
-    const receiverPseudo = req.body.receiver_pseudo;
+  const receiverPseudo = req.body.receiver_pseudo;
 
   Users.findOne({
     where: {
-      pseudo: receiverPseudo
-    }
+      pseudo: receiverPseudo.toLowerCase(),
+    },
   })
     .then((user) => {
       if (!user) {
@@ -35,9 +34,8 @@ exports.CreateMessage = (req, res) => {
     });
 };
 
-
 exports.getAllUserMessages = (req, res) => {
-  const userId = req.params.userId; 
+  const userId = req.params.userId;
   Message.findAll({
     where: { receiver_id: userId },
   })
@@ -50,7 +48,7 @@ exports.getAllUserMessages = (req, res) => {
 };
 
 exports.findOneMessage = (req, res) => {
-  const messageId = req.params.messageId; 
+  const messageId = req.params.messageId;
   Message.findOne({
     where: { id: messageId },
   })
@@ -62,7 +60,6 @@ exports.findOneMessage = (req, res) => {
     });
 };
 
-
 exports.deleteMessage = (req, res) => {
   const messageId = req.query.messageId;
   const userId = req.query.userId;
@@ -72,11 +69,14 @@ exports.deleteMessage = (req, res) => {
   })
     .then((message) => {
       if (!message) {
-        return res.status(404).send({ message: 'Message not found or unauthorized' });
+        return res
+          .status(404)
+          .send({ message: "Message not found or unauthorized" });
       }
-      message.destroy()
+      message
+        .destroy()
         .then(() => {
-          res.send({ message: 'Message deleted successfully' });
+          res.send({ message: "Message deleted successfully" });
         })
         .catch((err) => {
           res.status(500).send({ message: err.message });
