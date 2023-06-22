@@ -6,19 +6,20 @@
       </v-col>
     </v-row>
     <v-card
-      v-for="message in messagesList"
-      :key="message.id"
+      v-for="(message,index) in messagesList"
+      :key="index"
       class="card-msg white px-4"
     >
       <v-row class="mb-6 d-flex align-center">
         <v-col cols="12" md="1" lg="1">
           <v-avatar :size="40">
-            <img :src="message.avatar" alt="Avatar" />
+            <img :src="$store.state.messages.img[index]" alt="Avatar" />
           </v-avatar>
+          
         </v-col>
         <v-col cols="12" md="9" lg="9">
-          <v-card-title class="quaternary--text">{{
-            message.pseudo
+          <v-card-title v-if="$store.state.messages.pseudo[index]" class="quaternary--text">De {{
+            $store.state.messages.pseudo[index]
           }}</v-card-title>
           <v-card-subtitle class="quaternary--text">{{
             message.object
@@ -163,10 +164,10 @@ export default {
       return this.getAuthUser
     },
     currentUserId() {
-      return this.userAuth.id
+      return this.$auth.$storage.getUniversal('user').id
     },
     messagesList() {
-      return this.getMessagesList.data
+      return {...this.$store.state.messages.messagesList}
     },
   },
   mounted() {
@@ -181,10 +182,10 @@ export default {
     }),
     deleteMsg(id) {
       this.messageToDelete.messageId = id
-      this.messageToDelete.userId = this.userAuth.id
+      this.messageToDelete.userId = this.$auth.$storage.getUniversal('user').id
       this.deleteMessage(this.messageToDelete)
         .then(() => {
-          this.setMessagesList(this.userAuth.id)
+          this.setMessagesList(this.$auth.$storage.getUniversal('user').id)
           this.$awn.success('Message supprimé')
         })
         .catch((error) => {
@@ -195,7 +196,7 @@ export default {
     sendMessage() {
       this.$refs.valid_form_message.validate()
       if (this.validFormMessage && this.newMessage) {
-        this.newMessage.sender_id = this.userAuth.id
+        this.newMessage.sender_id = this.$auth.$storage.getUniversal('user').id
         this.postMessageCreate(this.newMessage)
           .then((response) => {
             this.$debugLog(response)

@@ -67,6 +67,11 @@ export default {
         priceBuying: 0,
         cautionPrice: 0,
       }).then((response) => {
+        this.$awn.success('game added')
+        this.$parent.$data.user.rentingGames.push(response)
+        this.setShowAddGameModal(false)
+      }, (error) => {
+        this.$awn.alert(error.response.data.error)
         this.setShowAddGameModal(false)
       })
     }

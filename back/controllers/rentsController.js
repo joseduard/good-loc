@@ -15,8 +15,8 @@ exports.createRent = async (req, res) => {
 
     const rentalGame = await RentalGames.findOne({
       where: {
-        id: game_id,
-        owner_id: owner_id
+        game_id: game_id,
+        owner_id: owner_id,
       }
     });
 
@@ -85,17 +85,17 @@ exports.getRentsByUserId = async (req, res) => {
   try {
     const rents = await Rent.findAll({
       where: {
-            user_id_owner: req.body.user_id,
-            status: ["reserved", "rented", "closed"]
+        user_id_owner: req.params.id,
+        status: ["reserved", "rented", "closed"],
       },
       limit,
       offset,
     });
-      if (rents.length === 0) {
-            return res.status(404).json({ message: "Aucune location en cours" });
-       }
+    if (rents.length === 0) {
+      return res.status(404).json({ message: "Aucune location en cours" });
+    }
 
-    const gameIds = rents.map(rent => rent.user_game_id);
+    const gameIds = rents.map((rent) => rent.user_game_id);
 
     const rentingGames = await RentalGames.findAll({
       where: {
@@ -104,16 +104,23 @@ exports.getRentsByUserId = async (req, res) => {
       attributes: ["game_id"],
     });
 
-    const associatedGames = rentingGames.map(game => game.game_id);
+    const associatedGames = rentingGames.map((game) => game.game_id);
 
     const games = await Games.findAll({
       where: {
         id: associatedGames,
       },
-      attributes: ["id", "name", "img", "min_players", "max_players", "age_min"],
+      attributes: [
+        "id",
+        "name",
+        "img",
+        "min_players",
+        "max_players",
+        "age_min",
+      ],
     });
 
-    const userIds = rents.map(rent => rent.user_id_renter);
+    const userIds = rents.map((rent) => rent.user_id_renter);
 
     const associatedUsers = await User.findAll({
       where: {
@@ -122,13 +129,17 @@ exports.getRentsByUserId = async (req, res) => {
       attributes: ["id", "pseudo", "email"],
     });
 
-    const transformedRents = rents.map(rent => {
-      const associatedGame = games.map(game => {
-      return {
-        game
-      };
-          });
-      const associatedUser = associatedUsers.find(user => user.id === rent.user_id_renter);
+    const transformedRents = rents.map((rent) => {
+      const associatedGame = games
+        .filter((game) => game.id == rent.user_game_id)
+        .map((game) => {
+          return {
+            game,
+          };
+        });
+      const associatedUser = associatedUsers.find(
+        (user) => user.id === rent.user_id_renter
+      );
       return {
         id: rent.id,
         user_id_owner: rent.user_id_owner,
@@ -139,14 +150,16 @@ exports.getRentsByUserId = async (req, res) => {
         late_penalties: rent.late_penalties,
         status: rent.status,
         associatedGame,
-        associatedUser
+        associatedUser,
       };
     });
 
     res.status(200).json({ rents: transformedRents });
   } catch (error) {
-    console.error('Erreur lors de la récupération des locations:', error);
-    res.status(500).json({ error: 'Erreur lors de la récupération des locations' });
+    console.error("Erreur lors de la récupération des locations:", error);
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération des locations" });
   }
 };
 

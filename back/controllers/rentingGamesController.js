@@ -172,7 +172,7 @@ exports.getRentingGameById = async (req, res) => {
 
 exports.getBestGameRenting = async (req, res) => {
   try {
-    const gameId = req.body.game_id;
+    const gameId = req.params.id;
     console.log(gameId)
     // Récupérer toutes les rentingGames pour le jeu spécifié
     const rentingGames = await RentingGames.findAll({
@@ -180,7 +180,6 @@ exports.getBestGameRenting = async (req, res) => {
         game_id: gameId
       },
       order: [['price_day_renting', 'ASC']],
-      limit: 1,
       include: [
         {
           model: Games,
