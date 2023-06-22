@@ -14,8 +14,9 @@
       class="search-input"
       placeholder="rehcherche jeux"
     ></v-text-field>
-    <v-row>
-      <v-col v-for="(game, index) in games" :key="index" sm="6" md="2">
+
+    <v-row class="gamePres">
+      <v-col v-for="(game, index) in games" :key="index" sm="6" md="3">
         <CardGame :game="game" />
       </v-col>
       <v-col sm="6" md="2" class="d-flex justify-center align-center">
@@ -44,33 +45,7 @@ export default {
       dialogSignIn: false,
       dialogSignUp: false,
       dialogForgottenPassword: false,
-      games: [
-        // {
-        //   name: 'Jeu de rôle',
-        //   text: 'Excepteur tempor magna dolor tempor.',
-        //   textBtn: 'Trouver un jeu',
-        // },
-        // {
-        //   name: 'Jeu de rôle',
-        //   text: 'Excepteur tempor magna dolor tempor.',
-        //   textBtn: 'Trouver un jeu',
-        // },
-        // {
-        //   name: 'Jeu de rôle',
-        //   text: 'Excepteur tempor magna dolor tempor.',
-        //   textBtn: 'Trouver un jeu',
-        // },
-        // {
-        //   name: 'Jeu de rôle',
-        //   text: 'Excepteur tempor magna dolor tempor.',
-        //   textBtn: 'Trouver un jeu',
-        // },
-        // {
-        //   name: 'Jeu de rôle',
-        //   text: 'Excepteur tempor magna dolor tempor.',
-        //   textBtn: 'Trouver un jeu',
-        // },
-      ],
+      games: [],
       gameMasters: [
         {
           name: 'Game Master',
@@ -103,10 +78,11 @@ export default {
   created() {// this.gameMasters = this.$axios.get('/api/game-masters');
   },
   mounted() {
-    this.$axios.get(`/api/rentingGames/?page=1&pageSize=4`).then((res) => {
+    this.$axios.get(`/api/rentingGames?page=$`).then((res) => {
       this.datas = res.data
       this.datas.map((game) => {
-      this.games.push(game.Game)
+        game.Game.pseudo = game.User.pseudo;
+        this.games.push(game.Game)
       return game
     })
     })

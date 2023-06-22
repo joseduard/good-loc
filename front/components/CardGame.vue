@@ -1,41 +1,41 @@
 <template>
-  <v-container>
-    <v-card id="card" max-width="255">
-      <v-img :src="game.img" cover></v-img>
+    <v-container class="container-gamecard">
+        <v-card  id="card" >
 
-      <v-card-title id="title">
-        {{ game.name }}
-      </v-card-title>
-      <v-card-subtitle id="subtitle">
-        <v-row>
-          <v-col sm="12" md="6">
-            <font-awesome-icon :icon="['fab', 'google']" size="2x" />{{
-              game.min_players
-            }}
-            to {{ game.max_players }} players
-          </v-col>
-          <v-col sm="12" md="6">
-            <font-awesome-icon :icon="['fab', 'google']" size="2x" />{{
-              game.price_Day_Renting
-            }} € / day
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col sm="12" md="6">
-            <font-awesome-icon :icon="['fab', 'google']" size="2x" />{{
-              game.playtime
-            }}
-            minutes
-          </v-col>
-          <v-col sm="12" md="6">
-            <!-- <font-awesome-icon :icon="['fab', 'google']" size="2x" />{{
-              game.complexity
-            }} -->
-          </v-col>
-        </v-row>
-      </v-card-subtitle>
-    </v-card>
-  </v-container>
+          <v-img :src="game.img" height="100px" cover></v-img>
+
+          <v-card-title id="title">
+            {{ game.name }}
+          </v-card-title>
+
+          <v-card-subtitle id="subtitle">
+              <v-row>
+                <span class ="pseudo" v-if="game.pseudo !== ''">By : {{ game.pseudo }} </span>
+                <span v-else> By : Adolf Mussolini </span>
+              </v-row>
+              <v-row>
+                <img class="icon" src="../assets/images/007.png"/>
+                <span v-if="game.min_players !== ''">Players : {{ game.min_players }} to {{ game.max_players }}</span>
+                <span v-else> Players : 1 to 10 </span>
+              </v-row>
+              <v-row>
+                <img class="icon" src="../assets/images/004.png"/>
+                <span v-if="game.average_note !== '' || game.average_note !== 0.00">Note : {{ game.average_note }} /5</span>
+                <span v-else> Note : 3/5 </span>
+              </v-row>
+              <v-row>
+                <img class="icon" src="../assets/images/002.png"/>
+                <span v-if="game.category_id !== ''">Category: {{ game.category_id}}</span>
+                <span v-else> Category : Dinosaurs </span>
+              </v-row>   
+              <v-row>
+                <img class="icon" src="../assets/images/019.png"/>
+                <span v-if="game.mechanics_type_id !== ''"> Mechanic : {{ game.mechanics_type_id}}</span>
+                <span v-else> Mechanics : Dice </span>
+              </v-row>
+          </v-card-subtitle>
+        </v-card>
+    </v-container>
 </template>
 <script>
 export default {

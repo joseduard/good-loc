@@ -63,7 +63,6 @@ export default {
         game.Game.owner_id = game.User.id
         game.Game.pseudo = game.User.pseudo
         game.Game.rental_id = game.id
-      console.log(game.Game.price_Day_Renting)
       this.games.push(game.Game)
       return game
     })
