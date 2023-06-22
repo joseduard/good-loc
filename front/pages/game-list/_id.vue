@@ -1,5 +1,10 @@
 <template>
   <div id="all">
+    <ModalGameList
+      v-if="dialogModal"
+      :dialog-modal="dialogModal"
+      :game="gameModal"
+    />
     <v-row id="imgGame">
       <v-img
         :src="game.img"
@@ -83,8 +88,10 @@
     <v-row>
       <v-col sm="12" md="6">
         <v-row>
-          <v-col v-for="(presta, index) in prestaGM" :key="index" sm="4" md="3">
-            {{ presta.name }}
+          <v-col v-for="(presta, index) in gameRents" :key="index" sm="4" md="3">
+            <a @click="sendGameClean(presta)">
+            Loué par : {{ presta.User.pseudo }}
+            {{ presta.price_day_renting }}</a>
           </v-col>
         </v-row>
       </v-col>
@@ -96,28 +103,38 @@
   </div>
 </template>
 <script>
+import ModalGameList from '~/components/modals/ModalGameList.vue'
 export default {
   name: 'Game',
   middleware: 'auth',
+  components: {
+    ModalGameList,
+  },
   data() {
     return {
       game: {},
-      prestaGM: [
-        { name: 'test' },
-        { name: 'test2' },
-        { name: 'test2' },
-        { name: 'test2' },
-        { name: 'test2' },
-        { name: 'test2' },
-        { name: 'test2' },
-        { name: 'test2' },
-      ],
+      gameRents: {},
+      dialogModal: false,
+      gameModal: {},
     }
   },
   mounted(){
       this.$axios.$get(`api/game/${this.$route.params.id}`).then((res) => {
           this.game = res
       })
+      this.$axios.$get(`api/bestRentingGames/${this.$route.params.id}`).then((res) => {
+          this.gameRents = res
+      })
     },
+  methods: {
+    sendGameClean(game) {
+      this.dialogModal = true
+        game.Game.price_Day_Renting =game.price_day_renting
+        game.Game.owner_id = game.User.id
+        game.Game.rental_id = game.id
+        this.gameModal = game.Game
+    },
+  }
+
 }
 </script>

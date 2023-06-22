@@ -12,12 +12,12 @@
             <font-awesome-icon :icon="['fab', 'google']" size="2x" />{{
               game.min_players
             }}
-            to {{ game.max_players }} joueurs
+            to {{ game.max_players }} players
           </v-col>
           <v-col sm="12" md="6">
             <font-awesome-icon :icon="['fab', 'google']" size="2x" />{{
-              game.mechanicName
-            }}
+              game.price_Day_Renting
+            }} € / day
           </v-col>
         </v-row>
         <v-row>

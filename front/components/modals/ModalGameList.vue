@@ -2,7 +2,6 @@
   <v-dialog id="all" v-model="dialog" persistent width="50em">
     <v-card id="card">
       <v-img :src="game.img" cover></v-img>
-
       <v-card-title id="title">
         {{ game.name }}
       </v-card-title>
@@ -36,7 +35,7 @@
             <!-- TODO: change to router-link -->
           </v-col>
           <v-col sm="12" md="6">
-            <v-btn :to="`/game-list/${game.id}`">Rent</v-btn>
+            <v-btn @click="createRent">Rent</v-btn>
             <!-- TODO: change to router-link -->
           </v-col>
         </v-row>
@@ -75,6 +74,29 @@ export default {
     closeModal() {
       this.$parent.dialogModal = false
     },
+    createRent() {
+      this.$axios.post('api/rent/create', {
+        game_id: this.game.id,
+        owner_id:  this.game.owner_id,
+        beginning_date: new Date().toISOString().slice(0, 10),
+        renter_id: this.$auth.$storage.getUniversal('user').id,
+        rental_game_id: this.game.rental_id,
+        status: "reserved",
+        price: this.game.price_Day_Renting,
+      }).then(() => {
+        this.$awn.success("Location created !")
+        const pseudo =  this.game.pseudo
+        this.$axios.post('api/user/account/message/create', {
+          receiver_pseudo:pseudo,
+          sender_id:this.$auth.$storage.getUniversal('user').id,
+          object:"Message de location",
+          message_content:"Bonjour, vous vener de louer un jeu, veuillez contacter le propriétaire pour fixer un rendez-vous"
+        })
+        this.$router.push({path: "users/message"})
+      }).catch((err) => {
+        this.$awn.alert(err.response.data)
+      })
+    }
   },
 }
 </script>

@@ -95,7 +95,6 @@ export default {
   },
   watch: {},
   mounted() {},
-
   methods: {
     ...mapActions({
       setShowSignUpModal: 'authentications/setShowSignUpModal',

@@ -16,7 +16,7 @@
       <div v-if="games.length === 0">
         <p>Aucun jeu ne correspond à votre recherche</p>
       </div>
-      <v-col v-for="gameAtm in games" :key="gameAtm.id" cols="12" md="2" lg="3">
+      <v-col v-for="(gameAtm,index) in games" :key="index" cols="12" md="2" lg="3">
         <div
           @click="
             !$auth.loggedIn
@@ -59,6 +59,11 @@ export default {
     this.$axios.get(`/api/rentingGames/?page=1&pageSize=4`).then((res) => {
       const datas = res.data
       datas.map((game) => {
+        game.Game.price_Day_Renting =game.price_Day_Renting
+        game.Game.owner_id = game.User.id
+        game.Game.pseudo = game.User.pseudo
+        game.Game.rental_id = game.id
+      console.log(game.Game.price_Day_Renting)
       this.games.push(game.Game)
       return game
     })

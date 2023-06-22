@@ -6,6 +6,11 @@
         <div class="container-img">
           <v-img class="avatar-img" :src="user.img" height="200px"> </v-img>
         </div>
+        <ModalUserAddGame
+          v-if="dialogModal"
+          :dialog-modal="dialogModal"
+          :game="game"
+        />
       </v-col>
       <v-col cols="12" md="8" lg="9">
         <v-card>
@@ -169,6 +174,7 @@ export default {
       messageEmailFormat: 'Format email incorrect',
       messageRequired: 'Champ obligatoire',
       user: {},
+      dialogModal: false,
     }
   },
   computed: {
