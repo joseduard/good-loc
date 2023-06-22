@@ -6,7 +6,7 @@
       </v-col>
     </v-row>
     <v-card
-      v-for="message in visibleMessages"
+      v-for="message in messagesList"
       :key="message.id"
       class="card-msg white px-4"
     >
@@ -20,14 +20,17 @@
           <v-card-title class="quaternary--text">{{
             message.pseudo
           }}</v-card-title>
+          <v-card-subtitle class="quaternary--text">{{
+            message.object
+          }}</v-card-subtitle>
           <v-card-text class="secondary--text">{{
-            message.message
+            message.message_content
           }}</v-card-text>
         </v-col>
         <v-col cols="12" md="2" lg="2">
           <v-card-actions>
-            <v-btn text color="tertiary" @click="deleteMessage(message.id)"
-              >Supprimmer</v-btn
+            <v-btn text color="tertiary" @click="deleteMsg(message.id)"
+              >Supprimer</v-btn
             >
           </v-card-actions>
         </v-col>
@@ -61,8 +64,10 @@
           ></v-text-field>
           <v-textarea
             v-model="newMessage.message_content"
+            :rules="[rules.required]"
             label="Message"
             clearable
+            class="input-required"
           ></v-textarea>
           <v-row>
             <v-col class="d-flex justify-center" cols="12" md="12" lg="12">
@@ -80,6 +85,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 export default {
+  name: 'MessagesPage',
   data() {
     return {
       messages: [
@@ -88,14 +94,16 @@ export default {
           pseudo: 'User1',
           avatar:
             'https://cdn.pixabay.com/photo/2016/09/01/08/24/smiley-1635449_1280.png',
-          message: 'Hola, ¿cómo estás?',
+          message:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
         },
         {
           id: 2,
           pseudo: 'User2',
           avatar:
             'https://cdn.pixabay.com/photo/2016/03/31/21/40/angry-1296580_1280.png',
-          message: '¡Todo bien! ¿Y tú?',
+          message:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
         },
         {
           id: 3,
@@ -103,21 +111,23 @@ export default {
           avatar:
             'https://cdn.pixabay.com/photo/2021/04/20/07/59/woman-6193184_1280.jpg',
           message:
-            '¡Todo bien! ahora vamos a probar con un mensaje un poco más largo ya que queremos saber como se comporta la card cuando el mensaje es muy largo.',
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
         },
         {
           id: 4,
           pseudo: 'User4',
           avatar:
             'https://cdn.pixabay.com/photo/2016/03/31/20/11/avatar-1295575_1280.png',
-          message: '¡Todo bien! ¿Y tú?',
+          message:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
         },
         {
           id: 5,
           pseudo: 'User5',
           avatar:
             'https://cdn.pixabay.com/photo/2016/03/31/21/40/angry-1296580_1280.png',
-          message: '¡Todo bien! ¿Y tú?',
+          message:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
         },
       ],
       rules: {
@@ -132,50 +142,63 @@ export default {
         message_content: null,
       },
       userId: null,
+      messageToDelete:{
+      messageId: null,
+      userId: null,
+    }
     }
   },
   computed: {
     ...mapGetters({
       getMessagesList: 'messages/getMessagesList',
+      getAuthUser: 'authentications/getAuthUser',
+      getUserInfo: 'user/getUserInfo',
     }),
     visibleMessages() {
       const startIndex = (this.currentPage - 1) * 4
       const endIndex = startIndex + 4
       return this.messages.slice(startIndex, endIndex)
     },
+    userAuth() {
+      return this.getAuthUser
+    },
+    currentUserId() {
+      return this.userAuth.id
+    },
+    messagesList() {
+      return this.getMessagesList.data
+    },
   },
   mounted() {
-    this.userId = this.$route.params.id
-    this.setMessagesList(this.userId)
+  this.setMessagesList(this.currentUserId);
   },
   methods: {
     ...mapActions({
       setMessagesList: 'messages/setMessagesList',
       postMessageCreate: 'messages/postMessageCreate',
+      deleteMessage: 'messages/deleteMessage',
+      fetchUserById: 'user/fetchUserById',
     }),
-    deleteMessage(id) {
-      this.messages = this.messages.filter((message) => message.id !== id)
+    deleteMsg(id) {
+      this.messageToDelete.messageId = id
+      this.messageToDelete.userId = this.userAuth.id
+      this.deleteMessage(this.messageToDelete)
+        .then(() => {
+          this.setMessagesList(this.userAuth.id)
+          this.$awn.success('Message supprimé')
+        })
+        .catch((error) => {
+          this.$awn.alert("Erreur lors de la suppression du message")
+          this.$debugLog(error)
+        })
     },
-    // sendMessage() {
-    //   // Aquí puedes implementar la lógica para enviar el mensaje
-    //   // Agrega el nuevo mensaje al arreglo 'messages'
-    //   this.messages.push({
-    //     id: this.messages.length + 1,
-    //     pseudo: this.newMessage.pseudo,
-    //     avatar: 'url-avatar-nuevo',
-    //     message: this.newMessage.message,
-    //   })
-    //   // Restablece los campos del formulario
-    //   this.newMessage.pseudo = ''
-    //   this.newMessage.subject = ''
-    //   this.newMessage.message = ''
-    // },
     sendMessage() {
       this.$refs.valid_form_message.validate()
       if (this.validFormMessage && this.newMessage) {
-        this.newMessage.sender_id = 4
+        this.newMessage.sender_id = this.userAuth.id
         this.postMessageCreate(this.newMessage)
-          .then(() => {
+          .then((response) => {
+            this.$debugLog(response)
             this.$refs.valid_form_message.reset()
             this.$refs.valid_form_message.resetValidation()
             this.$awn.success('Message envoyé')
@@ -186,6 +209,7 @@ export default {
           })
       }
     },
+
   },
 }
 </script>

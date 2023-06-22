@@ -23,7 +23,7 @@ const mutations = {
 const actions = {
   // get message by id
   setMessageById({ commit }, messageId) {
-    this.$axios
+    return this.$axios
       .get(`/user/account/message/${messageId}`)
       .then((response) => {
         commit('SET_MESSAGE', response)
@@ -35,8 +35,8 @@ const actions = {
   },
   // get all messages
   setMessagesList({ commit }, userId) {
-    this.$axios
-      .get(`/user/account/message/list/${userId}`)
+    return this.$axios
+      .get(`api/user/account/message/list/${userId}`)
       .then((response) => {
         commit('SET_MESSAGES_LIST', response)
         return Promise.resolve(response)
@@ -47,8 +47,8 @@ const actions = {
   },
 
   postMessageCreate({ commit }, message) {
-    this.$axios
-      .post('/user/account/message/create', message)
+    return this.$axios
+      .post('api/user/account/message/create', message)
       .then((response) => {
         return Promise.resolve(response)
       })
@@ -56,9 +56,9 @@ const actions = {
         return Promise.reject(error)
       })
   },
-  deleteMessage({ commit }, messageId) {
-    this.$axios
-      .delete(`/user/account/message`, messageId)
+  deleteMessage({ commit }, messageToDelete) {
+    return this.$axios
+    .delete(`api/user/account/message?` + `messageId=` + messageToDelete.messageId + `&` + `userId=`+ messageToDelete.userId)
       .then((response) => {
         return Promise.resolve(response)
       })

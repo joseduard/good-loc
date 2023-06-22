@@ -1,6 +1,6 @@
 <template>
   <v-container id="nuxt-error" class="error-container">
-    <h1 class="tertiary--text">Page introuvable</h1>
+    <h1 class="fw-400 tertiary--text">Page introuvable</h1>
     <div class="text-center">
       <img class="img-404" src="../assets/404.png" alt="" />
     </div>
@@ -9,7 +9,7 @@
     </p>
     <div class="text-center">
       <v-btn text tile to="/" class="ne-link gold-underline text-right">
-        <h3 class="tertiary--text text-right">Revenir à l'accueil</h3>
+        <h3 class=" fw-400 tertiary--text text-right">Revenir à l'accueil</h3>
       </v-btn>
     </div>
   </v-container>

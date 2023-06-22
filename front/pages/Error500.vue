@@ -1,15 +1,31 @@
 <template>
-  <v-container id="nuxt-error">
-    <v-img src="../assets/404.png" max-width="500" alt="Erreur500" />
-
-    <h1 class="ne-title">Contacter l'administrateur</h1>
-    <img src="../assets/404.png" alt="" />
-    <p class="hint">
-      <i>Semble case</i>
-    </p>
-    <v-btn text tile to="/">
-      <h3>revenir à l'accueil</h3>
-    </v-btn>
+  <v-container id="nuxt-error" fluid>
+    <v-row>
+      <v-col cols="12" md="12" lg="12">
+        <h1 class="fw-400 primary--text">Contacter l'administrateur</h1>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col class="d-flex justify-center" cols="12" md="12" lg="12">
+        <img class="img-error" src="../assets/404.png" alt="" />
+      </v-col>
+    </v-row>
+    <!-- <v-row>
+      <v-col  class="d-flex justify-center"  cols="12" md="12" lg="12">
+        <p class="hint">
+          <i class="fw-400 primary--text">Semble case</i>
+        </p>
+      </v-col>
+    </v-row> -->
+    <v-row>
+      <v-col  class="d-flex justify-center"  cols="12" md="12" lg="12">
+        <p class="hint">
+          <v-btn text tile to="/">
+            <h3 class="fw-400 primary--text">revenir à l'accueil</h3>
+          </v-btn>
+        </p>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

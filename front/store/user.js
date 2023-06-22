@@ -1,6 +1,7 @@
 const state = () => ({
   user: [],
   showAddGameModal: false,
+  userInfo: null
 })
 const getters = {
   getUser(state) {
@@ -9,6 +10,9 @@ const getters = {
   getShowAddGameModal(state) {
     return state.showAddGameModal
   },
+  getUserInfo(state) {
+    return state.userInfo
+  }
 }
 
 const mutations = {
@@ -18,6 +22,9 @@ const mutations = {
   SET_SHOW_ADD_GAME(state, payload) {
     state.showAddGameModal = payload
   },
+  SET_USER_INFO(state, user) {
+    state.userInfo = user
+  }
 }
 
 const actions = {
@@ -25,6 +32,17 @@ const actions = {
   setShowAddGameModal({ commit }, payload) {
     commit('SET_SHOW_ADD_GAME', payload)
   },
+  fetchUserById({ commit }, userId) {
+    return this.$axios
+      .get(`/user/account/${userId}`)
+      .then((response) => {
+        commit('SET_USER_INFO', response)
+        return Promise.resolve(response)
+      })
+      .catch((error) => {
+        return Promise.reject(error)
+      })
+  }
 }
 
 export default {
