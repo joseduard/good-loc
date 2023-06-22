@@ -39,8 +39,9 @@ const state = () => ({
     {
       faIconType: 'fas',
       faIcon: 'lightbulb',
-      title: 'Inspire2',
+      title: 'locations',
       class: 'primary--text',
+      to: '/users/locations',
     },
     {
       faIconType: 'fas',

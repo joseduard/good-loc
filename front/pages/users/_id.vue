@@ -30,6 +30,7 @@
                   placeholder="Votre email"
                   type="text"
                   clearable
+                  required
                   :rules="[rules.required, rules.email]"
                   :hint="checkFormatMail ? '' : messageEmailFormat"
                 />
@@ -46,6 +47,7 @@
                   placeholder="Votre email"
                   type="text"
                   clearable
+                  required
                   :rules="[rules.required]"
                 />
               </v-list-item-content>
@@ -61,6 +63,7 @@
                   placeholder="Votre Pseudo"
                   type="text"
                   clearable
+                  required
                   :rules="[rules.required]"
                 />
               </v-list-item-content>
@@ -75,6 +78,7 @@
                   dense
                   placeholder="Description de votre profil"
                   clearable
+                  required
                   :rules="[rules.required]"
                   :counter="50"
                   rows="1"
@@ -191,6 +195,16 @@ export default {
     ...mapActions({
       setShowAddGameModal: 'user/setShowAddGameModal',
     }),
+    save() {
+      this.$axios
+        .$put('/api/user/account/user-information', this.user)
+        .then((response) => {
+          this.$awn.success('user updated')
+        })
+        .catch(() => {
+          this.$alert('Something went wrong')
+        })
+    },
     // Methods for check mail existing
     checkMailExisting(email) {
       this.checkMail = false

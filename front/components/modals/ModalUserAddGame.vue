@@ -5,13 +5,12 @@
         <v-card-title>Add game</v-card-title>
         <v-card-subtitle>
           <v-col md="6" sm="12"> </v-col>
-          <v-text-field v-model="search" >
+          <v-text-field v-model="search" @change="getGamesByName">
           </v-text-field>
           <!-- v-text field parceque je n'arrive pas faire marcher avec l'autocomplete-->
           
           <v-autocomplete
-          @change="getGamesByName"
-            v-model="search"
+            v-model="game"
             label="Autocomplete"
             :items="games"
             return-object
@@ -21,7 +20,7 @@
           {{ game.name }}
           <v-text-field v-model="pricePerDay" label="price per day">
           </v-text-field>
-          <v-btn>Ajouter</v-btn>
+          <v-btn @click="addGameRent">Ajouter</v-btn>
         </v-card-subtitle>
       </v-card>
     </v-dialog>
@@ -37,6 +36,7 @@ export default {
       games: [],
       game: [],
       pricePerDay: 0,
+      cautionPrice: 0,
     }
   },
   mounted() {},
@@ -53,11 +53,23 @@ export default {
       setShowAddGameModal: 'user/setShowAddGameModal',
     }),
     getGamesByName() {
-      console.log('prout')
       this.$axios.$get('/api/gamesByName/' + this.search).then((response) => {
         this.games = response
       })
     },
+    addGameRent(){
+      this.$axios.$post('/api/rentingGames/add', {
+        id: this.game.id,
+        ownerId:this.$auth.$storage.getUniversal('user').id,
+        priceDayRenting: this.pricePerDay,
+        discountMoreDayRenting: 0,
+        discountWeekRenting: 0,
+        priceBuying: 0,
+        cautionPrice: 0,
+      }).then((response) => {
+        this.setShowAddGameModal(false)
+      })
+    }
   },
 }
 </script>

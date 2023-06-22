@@ -2,7 +2,7 @@
   <div id="all">
     <v-row id="imgGame">
       <v-img
-        src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+        :src="game.img"
         height="100"
         width="100"
       ></v-img>
@@ -68,11 +68,7 @@
         <h5>Description :</h5>
         <p>{{ game.name }}</p>
         <p>
-          Dolor ad ex mollit eu et. Irure laborum magna non id. Sint culpa ex
-          cillum duis reprehenderit reprehenderit minim excepteur irure dolor
-          minim ad. Fugiat quis sint et laboris dolor ut deserunt. Incididunt
-          fugiat velit elit sunt dolore nisi non id do. Culpa excepteur duis
-          Lorem esse.
+        {{ game.description }}
         </p>
       </v-col>
       <v-col sm="12" md="6">
@@ -118,5 +114,10 @@ export default {
       ],
     }
   },
+  mounted(){
+      this.$axios.$get(`api/game/${this.$route.params.id}`).then((res) => {
+          this.game = res
+      })
+    },
 }
 </script>

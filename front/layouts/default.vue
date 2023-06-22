@@ -45,7 +45,7 @@
       <v-btn v-if="!$auth.loggedIn" text color="tertiary ">
         <span @click="setShowSingUpModal">Se connecter</span>
       </v-btn>
-      <v-btn v-if="$auth.loggedIn" text color="tertiary" :to="'/users/id'">
+      <v-btn v-if="$auth.loggedIn" text color="tertiary" :to="'/users/'+$auth.$storage.getUniversal('user').id">
         <font-awesome-icon :icon="['fas', 'user']" />
       </v-btn>
       <v-btn

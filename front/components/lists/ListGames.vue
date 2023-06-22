@@ -48,18 +48,21 @@ export default {
       search: '',
     }
   },
-  mounted() {
-    this.fetchGames().then(() => {
-      this.games = this.getGamesList
-    })
-  },
-
   computed: {
     ...mapGetters({
       getShowSignUpModal: 'authentications/getShowSignUpModal',
       getShowSignInModal: 'authentications/getShowSignInModal',
       getGamesList: 'games/getGamesList',
     }),
+  },
+  mounted() {
+    this.$axios.get(`/api/rentingGames/?page=1&pageSize=4`).then((res) => {
+      const datas = res.data
+      datas.map((game) => {
+      this.games.push(game.Game)
+      return game
+    })
+  })
   },
   methods: {
     ...mapActions({
