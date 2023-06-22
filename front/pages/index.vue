@@ -1,15 +1,15 @@
 <template>
   <v-container id="home">
-    <h1>Trouvez un jeu ou un Game Master</h1>
-    <p>
-      Excepteur tempor magna dolor tempor et duis cupidatat commodo aute. Id
-      nulla pariatur dolor sint esse occaecat culpa dolor ullamco commodo anim
-      non consectetur. Sint sit et irure nisi mollit minim cillum magna laborum.
-      Ut labore nulla irure veniam labore quis cupidatat enim. Deserunt anim
-      cupidatat tempor sunt culpa. Enim do irure excepteur fugiat dolor
-      adipisicing in Lorem irure. Aliqua pariatur reprehenderit pariatur enim.
-    </p>
+    <div class="intro">
+      <h1>Find Game & Game Master of your Dreams </h1>
+      <p>GOOD LOC is the solution to all your gaming desires.</p>
+      <p>Need to test a game? Rent it in just 2 clicks! If you like it, buy it! 
+        <span>Having a game night with friends and don't know how to entertain them? Rent your GameMaster</span>
+      </p>
+    </div>
+    
     <HomePres />
+    
     <v-text-field
       class="search-input"
       placeholder="rehcherche jeux"
@@ -26,33 +26,18 @@
       class="search-input"
       placeholder="rehcherche Game Master"
     ></v-text-field>
-    <v-row>
-      <v-col
-        v-for="(gameMaster, index) in gameMasters"
-        :key="index"
-        cols="12"
-        sm="6"
-        md="2"
-      >
-        <CardGameMaster :game-master="gameMaster" />
-      </v-col>
-      <v-col cols="12" sm="6" md="2" class="d-flex justify-center align-center">
-        <v-btn to="game-master-list">GameMaster</v-btn>
-      </v-col>
-    </v-row>
+    
   </v-container>
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import HomePres from '~/components/HomePres.vue'
 import CardGame from '~/components/CardGame.vue'
-import CardGameMaster from '~/components/CardGameMaster.vue'
 export default {
   name: 'Home',
   components: {
     HomePres,
     CardGame,
-    CardGameMaster,
   },
   data() {
     return {
