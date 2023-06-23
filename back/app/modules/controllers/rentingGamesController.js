@@ -98,6 +98,11 @@ export const getRentingGamesByUser = async (req, res) => {
       where: {
         owner_id: userId,
       },
+      include: [
+        {
+            model: Games,
+            attributes: ["id", "name", "img"],
+        }],
       limit,
       offset,
     });
@@ -122,6 +127,7 @@ export const getRentingGamesByUser = async (req, res) => {
 /** récupère une listes de jeux disponible a la location. */
 export const listGames = async (req, res) => {
   try {
+    //TODO : ajouter une condition pour exclure les jeux reservé et loué par l'utilisateur
     const city = req.query.city;
     const categoryName = req.query.category;
 

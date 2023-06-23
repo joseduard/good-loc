@@ -111,50 +111,27 @@ export const getRentsByUserId = async (req, res) => {
       return res.status(404).json({ message: "Aucune location en cours" });
     }
 
-    const gameIds = rents.map((rent) => rent.user_game_id);
+    const transformedRents =  await Promise.all(rents.map( async (rent) => {
+      const rentingGame = await RentalGames.findOne({
+        where: {
+          id: rent.user_game_id,
+        },
+        attributes: ["game_id"],
+        include: [
+          {
+            model: Games,
+            attributes: ["id", "name", "img", "min_players", "max_players", "age_min"],
+          },
+        ],
+      });
+      const associatedGame = rentingGame.Game;
 
-    const rentingGames = await RentalGames.findAll({
-      where: {
-        id: gameIds,
-      },
-      attributes: ["game_id"],
-    });
-
-    const associatedGames = rentingGames.map((game) => game.game_id);
-
-    const games = await Games.findAll({
-      where: {
-        id: associatedGames,
-      },
-      attributes: [
-        "id",
-        "name",
-        "img",
-        "min_players",
-        "max_players",
-        "age_min",
-      ],
-    });
-
-    const userIds = rents.map((rent) => rent.user_id_renter);
-
-    const associatedUsers = await User.findAll({
-      where: {
-        id: userIds,
-      },
-      attributes: ["id", "pseudo", "email"],
-    });
-
-    const transformedRents = rents.map((rent) => {
-      const associatedGame = games
-        .filter((game) => game.id === rent.user_game_id)
-        .map((game) => {
-          return {
-            game,
-          };
-        });
-      const associatedUser = associatedUsers.find(
-        (user) => user.id === rent.user_id_renter
+      const associatedUser = await User.findOne({
+        where: {
+            id: rent.user_id_renter,
+        },
+        attributes: ["id", "pseudo", "email", "img"],
+          }
       );
       return {
         id: rent.id,
@@ -168,7 +145,7 @@ export const getRentsByUserId = async (req, res) => {
         associatedGame,
         associatedUser,
       };
-    });
+    }));
 
     res.status(200).json({ rents: transformedRents });
   } catch (error) {

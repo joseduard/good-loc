@@ -20,7 +20,6 @@ router.get("/rentingGames/:id", isValidJwt, getRentingGamesByUser);
 router.get("/rentingGames/game/:id", getRentingGameById);
 router.get("/bestRentingGames/:id", getBestGameRenting);
 router.get("/rentingGames", listGames);
-router.get("/rentingGames/filter/city", listGames); // Filtrer par city
-router.get("/rentingGames/filter/category", listGames); // Filtrer par category
+
 
 export default router;
