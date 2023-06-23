@@ -1,6 +1,5 @@
-const request = require("supertest");
-const app = require("../../../app.js"); // this is your express app
-
+import app from "../../../app/app.js"; // this is your express app
+import request from "supertest";
 describe("GET /", () => {
   it("responds with a json message", function () {
     return request(app)

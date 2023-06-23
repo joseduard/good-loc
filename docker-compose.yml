@@ -17,6 +17,7 @@ services:
       context: ./
       dockerfile: mysql/Dockerfile
     environment:
+      - MYSQL_ALLOW_LOCAL_INFILE=1
       - MYSQL_DATABASE=bdd_atelier
       - MYSQL_ROOT_PASSWORD=toor
     ports:
@@ -31,6 +32,8 @@ services:
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=mariadb
+      - UPLOAD_LIMIT=500M
+      - POST_MAX_SIZE=500M
     depends_on:
       - db
     ports:

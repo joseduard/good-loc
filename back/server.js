@@ -1,11 +1,12 @@
-// server.js
-const app = require("./app.js"); // Import the app setup from app.js
-const { loadSequelizeModels } = require("./helpers/sequelizeHelpers.js");
+import { loadSequelizeModels } from "./app/utils/helpers/sequelizeHelpers.js";
+import { config } from "./app/config/app.config.js";
+import app from "./app/app.js";
+async function startServer() {
+  await loadSequelizeModels();
 
-loadSequelizeModels();
+  app.listen(config.port, () => {
+    console.log(`Server is running on port ${config.port}.`);
+  });
+}
 
-const PORT = process.env.PORT || 8080;
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
+await startServer();

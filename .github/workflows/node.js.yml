@@ -18,9 +18,8 @@ jobs:
         with:
           node-version: "18"
       - run: yarn
-      - run: npx jest
+      - run: yarn test:unit
   run-BackEnd-Tests:
-    needs: run-FrontEnd-Tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -31,7 +30,7 @@ jobs:
         with:
           node-version: "18"
       - run: yarn
-      - run: npx jest
+      - run: yarn test
   deploy:
     needs: [run-FrontEnd-Tests, run-BackEnd-Tests]
     if: ${{ success() }}
