@@ -10,7 +10,8 @@
       class="search-input"
       light
       outlined
-      placeholder="rehcherche jeux"
+      placeholder="Ville"
+      @input="searchGamesByNames"
     ></v-text-field>
     <v-row>
       <div v-if="games.length === 0">
@@ -29,6 +30,8 @@
         </div>
       </v-col>
     </v-row>
+    <v-btn @click="next">Next</v-btn>
+    <v-btn @click="prev">prev</v-btn>
   </div>
 </template>
 <script>
@@ -46,6 +49,8 @@ export default {
       dialogModal: false,
       games: [],
       search: '',
+      page:1,
+      maxPage:false,
     }
   },
   computed: {
@@ -74,6 +79,48 @@ export default {
       setShowSingInModal: 'authentications/setShowSignInModal',
       fetchGames: 'games/fetchGames',
     }),
-  },
+    searchGamesByNames(){
+      this.games=[]
+      this.$axios.get(`/api/rentingGames?city=${this.search}`).then((res) => {
+        const datas = res.data
+        datas.map((game) => {
+          game.Game.price_Day_Renting =game.price_Day_Renting
+          game.Game.owner_id = game.User.id
+          game.Game.pseudo = game.User.pseudo
+          game.Game.rental_id = game.id
+        this.games.push(game.Game)
+        return game
+      })
+    })
+    },
+    next(){
+      this.page++
+      this.$axios.get(`/api/rentingGames/?page=${this.page}&pageSize=4`).then((res) => {
+        const datas = res.data
+        datas.map((game) => {
+          game.Game.price_Day_Renting =game.price_Day_Renting
+          game.Game.owner_id = game.User.id
+          game.Game.pseudo = game.User.pseudo
+          game.Game.rental_id = game.id
+        this.games.push(game.Game)
+        return game
+      })
+    })
+    },
+    prev(){
+      this.page++
+      this.$axios.get(`/api/rentingGames/?page=${this.page}&pageSize=4`).then((res) => {
+        const datas = res.data
+        datas.map((game) => {
+          game.Game.price_Day_Renting =game.price_Day_Renting
+          game.Game.owner_id = game.User.id
+          game.Game.pseudo = game.User.pseudo
+          game.Game.rental_id = game.id
+        this.games.push(game.Game)
+        return game
+      })
+    })
+    },
+    }
 }
 </script>

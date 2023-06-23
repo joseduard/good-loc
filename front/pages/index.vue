@@ -1,6 +1,7 @@
 <template>
   <v-container id="home">
     <div class="intro">
+      {{ $store.state.auth.loggedIn }}
       <h1>Find Game & Game Master of your Dreams </h1>
       <p>GOOD LOC is the solution to all your gaming desires.</p>
       <p>Need to test a game? Rent it in just 2 clicks! If you like it, buy it! 

@@ -44,9 +44,9 @@
             <v-card-subtitle>
                 <div v-for="(game,index) in waitingreservations.rents" :key="index">
                     <v-col v-if="game.status ==='reserved'" @click="validateReservation(game.id, 'rented')">
-                        {{ game.associatedGame[0].game.name }}
+                        {{ game.status }}
                         <!-- <v-img :src="game.associatedGame[0].game.img" alt="game.associatedGame[0].game.name" @click="validateReservation(game.id, 'rented')"/> -->
-                        {{ game.associatedGame[0].game.img }}
+                        {{ game.img }}
                     </v-col>
                 </div>
             </v-card-subtitle>
@@ -56,11 +56,11 @@
                 <h1>Close reservations</h1>
             </v-card-title>
             <v-card-subtitle>
-                <div v-for="(game,index) in waitingreservations.rents" :key="index">
+                <div v-for="(game,index) in waitingclose.rents" :key="index">
                     <v-col v-if="game.status ==='rented'"  @click="validateReservation(game.id,'closed')">
-                        {{ game.associatedGame[0].game.name }}
+                        {{ game.status }}
                         <!-- <v-img :src="game.associatedGame[0].game.img" alt="game.associatedGame[0].game.name" @click="validateReservation(game.id)"/> -->
-                        {{ game.associatedGame[0].game.img }}
+                        {{ game.img }}
                         {{ page }}
                     </v-col>
                 </div>
@@ -76,6 +76,7 @@ export default {
         return {
             games: {},
             waitingreservations: {},
+            waitingclose: {},
             page:1,
         }
     },
@@ -92,8 +93,11 @@ export default {
             //     this.games.push(game.Game)
             //     return game
             })
-        this.$axios.get(`api/user/account/rent/${this.$auth.$storage.getUniversal('user').id}?page=${this.page}&pageSize=10`).then((res) => {
+        this.$axios.get(`api/user/account/rent/${this.$auth.$storage.getUniversal('user').id}/reserved?pageSize=5&page=${this.page}`).then((res) => {
             this.waitingreservations = res.data
+        })
+        this.$axios.get(`api/user/account/rent/${this.$auth.$storage.getUniversal('user').id}/rented?pageSize=5&page=${this.page}`).then((res) => {
+            this.waitingclose = res.data
         })
     },
     methods: {

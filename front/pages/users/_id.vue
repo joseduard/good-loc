@@ -21,7 +21,7 @@
                 class="primary--text"
               />
               <span class="primary--text ml-2"
-                >{{ user.firstName }} {{ user.lastName }}</span
+                >{{ user.firstname }} {{ user.lastname }}</span
               >
             </v-card-title>
             <v-list-item>
@@ -128,9 +128,9 @@
               </v-btn>
             </v-list-item-action>
           </v-list-item>
-          <v-row v-if="user.rentingGames" dense>
+          <v-row v-if="rentingGames" dense>
             <v-col
-              v-for="(game, index) in user.rentingGames.slice(0, 5)"
+              v-for="(game, index) in rentingGames"
               :key="index"
               cols="2"
             >
@@ -138,11 +138,13 @@
                 <v-img :src="game.img" height="120px">
                   <v-card-title class="white--text">
                     <font-awesome-icon :icon="['fas', 'dice']" />
-                    <span class="ml-2 fw-700">{{ game.name }}</span>
+                    <span class="ml-2 fw-700">{{ game.game_id }}</span>
                   </v-card-title>
                 </v-img>
               </v-card>
             </v-col>
+            <v-btn @click="next()">Next</v-btn>
+            <v-btn @click="prev()">Prev</v-btn>
           </v-row>
         </v-list>
       </v-col>
@@ -175,6 +177,9 @@ export default {
       messageRequired: 'Champ obligatoire',
       user: {},
       dialogModal: false,
+      rentingGames: [],
+      page:1,
+      maxPages:false
     }
   },
   computed: {
@@ -186,8 +191,12 @@ export default {
   watch: {},
   created() {
     this.user = this.$auth.$storage.getUniversal('user')
-    this.$axios.$get('/api/user/' + this.user.id).then((response) => {
+    this.$axios.$get('/api/user/'+this.user.id).then((response) => {
       this.user = response
+    })
+    this.$axios.$get('api/rentingGames/'+this.user.id+'?page=1&pageSize=5').then((response) => {
+      this.rentingGames = response.rentingGames
+      this.maxPages = response.totalPages
     })
     // this.originalUser = JSON.parse(JSON.stringify(this.user)) // Copia profunda del objeto user
   },
@@ -233,6 +242,26 @@ export default {
     cancel() {
       this.user = JSON.parse(JSON.stringify(this.originalUser))
     },
+    next(){
+      this.page++
+      if(this.page > this.maxPages){
+        this.page--
+        this.$awn.warning('no more page')
+      }else{
+      this.$axios.$get(`api/rentingGames/${this.user.id}?page=${this.page}&pageSize=5`).then((response) => {
+      this.rentingGames = response.rentingGames
+      })}
+    },
+    prev(){
+      this.page--
+      if(this.page<1){
+        this.page++
+        this.$awn.warning('no more page')
+      }else{
+      this.$axios.$get(`api/rentingGames/${this.user.id}?page=${this.page}&pageSize=5`).then((response) => {
+      this.rentingGames = response.rentingGames
+      })}
+    }
   },
 }
 </script>

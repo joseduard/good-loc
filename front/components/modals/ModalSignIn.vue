@@ -72,17 +72,18 @@ export default {
         const password = this.password
         await this.$auth.loginWith('local', { data: { email, password } }).then(
           (response) => {
-            this.$auth.setUser(response.data)
-            this.$auth.$storage.setUniversal('user', response.data)
-            this.setAuthUser(response.data)
+            const user=response.data.data
+            this.$auth.setUser(user)
+            this.$auth.$storage.setUniversal('user', user)
+            this.$auth.$storage.setUniversal('loggedIn', true)
+            this.setAuthUser(user)
             this.setShowSignInModal(false)
             this.$awn.success('Vous êtes connecté !')
           },
           (error) => {
-            this.$awn.alert(error.response.data.message)
+            this.$awn.alert(error)
           }
         )
-        // this.$auth.setUserToken(response.data.token, 'local', { rememberMe: true })
       } catch (err) {}
     },
     async logout() {
