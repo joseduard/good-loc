@@ -4,13 +4,18 @@
     <v-row>
       <v-col cols="12" md="4" lg="3">
         <div class="container-img">
-          <v-img class="avatar-img" :src="user.img" height="200px"> </v-img>
+          <v-img class="avatar-img" :src="user.img" height="200px"> </v-img>          
         </div>
         <ModalUserAddGame
           v-if="dialogModal"
           :dialog-modal="dialogModal"
           :game="game"
         />
+        <div class="br-5px orange" align="center">
+          <p>Ajouter image</p>
+        <v-file-input v-model="file">Add avatar</v-file-input>
+      <v-btn @click="uploadAvatar">upload</v-btn>
+    </div>
       </v-col>
       <v-col cols="12" md="8" lg="9">
         <v-card>
@@ -134,14 +139,15 @@
               :key="index"
               cols="2"
             >
-              <v-card class="ma-2">
-                <v-img :src="game.img" height="120px">
+            <CardGame :game="game.Game"></CardGame>
+              <!-- <v-card class="ma-2">
                   <v-card-title class="white--text">
-                    <font-awesome-icon :icon="['fas', 'dice']" />
-                    <span class="ml-2 fw-700">{{ game.game_id }}</span>
+                    <v-img :src="game.Game.img" height="120px"></v-img>
                   </v-card-title>
-                </v-img>
-              </v-card>
+                  <v-card-subtitle>
+                    <span class="ml-2 fw-700 white--text" >{{ game.Game.name }}</span>
+                  </v-card-subtitle>
+              </v-card> -->
             </v-col>
             <v-btn @click="next()">Next</v-btn>
             <v-btn @click="prev()">Prev</v-btn>
@@ -154,11 +160,13 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import CardGame from '~/components/CardGame.vue'
 import ModalUserAddGame from '~/components/modals/ModalUserAddGame.vue'
 export default {
   name: 'User',
   components: {
     ModalUserAddGame,
+    CardGame,
   },
   middleware: 'auth',
   data() {
@@ -179,7 +187,8 @@ export default {
       dialogModal: false,
       rentingGames: [],
       page:1,
-      maxPages:false
+      maxPages:false,
+      file: null,
     }
   },
   computed: {
@@ -261,7 +270,21 @@ export default {
       this.$axios.$get(`api/rentingGames/${this.user.id}?page=${this.page}&pageSize=5`).then((response) => {
       this.rentingGames = response.rentingGames
       })}
-    }
-  },
+    },
+    uploadAvatar(){
+      const formData = new FormData();
+      formData.append("upload", this.file);
+      console.log(formData)
+    this.$axios.post('/api/upload/',  formData,{
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }}).then((response) => {
+      this.user.img = response.data.url
+      console.log(response)
+      this.$awn.success('avatar updated')
+    })
+  }
+  }
+
 }
 </script>
