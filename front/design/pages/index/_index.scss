@@ -11,10 +11,26 @@
   color: black;
   .search-input {
     width: 150px;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
   }
 }
+.allGames{
+  margin-top:50px;
+}
+.filter{
+  color:black !important;
+}
+filter .v-select__slot,
+.filter .v-select__selection,
+.filter .v-select__selection--comma {
+  color: black !important;
+}
 
+.filter .v-select__selection,
+.filter .v-input--is-focused:not(.v-input--is-disabled) .v-input__control::after,
+.filter .v-input--is-focused:not(.v-input--is-disabled) .v-input__control--select::after {
+  border-color: orange !important;
+}
 .gamePres{
   max-width: 100%;
   flex-direction: row;
