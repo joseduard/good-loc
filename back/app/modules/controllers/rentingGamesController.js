@@ -5,6 +5,7 @@ import UsersImport from "../../database/models/Users.js";
 import CategoriesImport from "../../database/models/Categories.js";
 import MechanicsTypeImport from "../../database/models/Mechanics_Type.js";
 import PublishersImport from "../../database/models/Publishers.js";
+import {Op} from "sequelize";
 
 const RentingGames = RentingGamesImport(db.sequelize);
 const Games = GamesImport(db.sequelize);
@@ -128,6 +129,13 @@ export const getRentingGamesByUser = async (req, res) => {
 export const listGames = async (req, res) => {
   try {
     //TODO : ajouter une condition pour exclure les jeux reservé et loué par l'utilisateur
+
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.pageSize, 10) || 10;
+
+
+    const offset = (page - 1) * limit;
+
     const city = req.query.city;
     const categoryName = req.query.category;
 
@@ -136,7 +144,8 @@ export const listGames = async (req, res) => {
 
     // Filtrer par ville
     if (city) {
-      whereCondition["$User.city$"] = city;
+      whereCondition["$User.city$"] =        { [Op.like]: `%${city}%` };
+      ;
     }
 
     // Récupérer l'ID de la catégorie en fonction du nom
@@ -177,7 +186,7 @@ export const listGames = async (req, res) => {
       where: whereCondition ?? null,
     });
 
-    const games = await RentingGames.findAll({
+    const {rows, count} = await RentingGames.findAndCountAll({
       include: [
         {
           model: Users,
@@ -194,14 +203,16 @@ export const listGames = async (req, res) => {
             "isLoggedIn",
             "pseudo",
           ],
-          where: city ? { city: city } : null,
+          where: city ? { city: { [Op.like]: `%${city}%` } } : null,
         },
         ...includeCondition,
       ],
       attributes: ["id", "price_Day_Renting"],
       order: [["price_day_renting", "ASC"]],
+      limit: limit,
+      offset: offset,
     });
-
+    const games = rows
     for (const rentedGame of games) {
       rentedGame.Game.category = Categories.findOne({
         where: { id: rentedGame.Game.category_id },
@@ -214,7 +225,8 @@ export const listGames = async (req, res) => {
       });
     }
 
-    res.json(games);
+
+    res.json({ totalItems: limit,currentPage :page,totalPages:count, games:games    });
   } catch (error) {
     console.error(error);
     res.status(500).json({
