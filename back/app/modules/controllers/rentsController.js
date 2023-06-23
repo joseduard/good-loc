@@ -101,7 +101,7 @@ export const getRentsByUserId = async (req, res) => {
   try {
     const rents = await Rent.findAll({
       where: {
-        user_id_owner: req.params.id,
+        user_id_owner: req.params.idRentOwner,
         status: status,
       },
       limit,
