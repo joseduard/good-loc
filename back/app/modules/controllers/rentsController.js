@@ -99,14 +99,15 @@ export const getRentsByUserId = async (req, res) => {
   const offset = (parseInt(page) - 1) * limit;
 
   try {
-    const rents = await Rent.findAll({
+    const { rows ,count} = await Rent.findAndCountAll({
       where: {
         user_id_owner: req.params.idRentOwner,
-        status: status,
+        status: status ?? null,
       },
       limit,
       offset,
     });
+    const rents = rows
     if (rents.length === 0) {
       return res.status(404).json({ message: "Aucune location en cours" });
     }
@@ -127,10 +128,10 @@ export const getRentsByUserId = async (req, res) => {
       const associatedGame = rentingGame.Game;
 
       const associatedUser = await User.findOne({
-        where: {
-            id: rent.user_id_renter,
-        },
-        attributes: ["id", "pseudo", "email", "img"],
+            where: {
+              id: rent.user_id_renter,
+            },
+            attributes: ["id", "pseudo", "email", "img"],
           }
       );
       return {
@@ -147,11 +148,19 @@ export const getRentsByUserId = async (req, res) => {
       };
     }));
 
-    res.status(200).json({ rents: transformedRents });
+
+    const totalPages = Math.ceil(count / limit);
+
+    res.status(200).json({
+      totalItems: count,
+      currentPage: page,
+      totalPages: totalPages,
+      rents: transformedRents,
+    })
   } catch (error) {
     console.error("Erreur lors de la récupération des locations:", error);
     res
-      .status(500)
-      .json({ error: "Erreur lors de la récupération des locations" });
+        .status(500)
+        .json({ error: "Erreur lors de la récupération des locations" });
   }
 };
