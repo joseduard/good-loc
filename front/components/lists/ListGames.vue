@@ -24,7 +24,7 @@
         </div>
       </v-col>
     </v-row>
-    <v-pagination
+    <v-pagination v-if="games.length !== 0"
         v-model="page"
         :length="maxPage"
         :total-visible="4"
@@ -32,7 +32,7 @@
         next-icon="mdi-menu-right"
         :lenght="maxPage"
         @input="updatePage"
-    ></v-pagination> -->
+    ></v-pagination> 
   </div>
 </template>
 <script>
