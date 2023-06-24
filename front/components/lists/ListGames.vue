@@ -13,6 +13,7 @@
       placeholder="Ville"
       @input="searchGamesByNames"
     ></v-text-field>
+    totalPages: {{maxPage}}
     <v-row>
       <div v-if="games.length === 0">
         <p>Aucun jeu ne correspond à votre recherche</p>
@@ -64,6 +65,7 @@ export default {
     this.$axios.get(`/api/rentingGames?page=1&pageSize=4`).then((res) => {
       const datas = res.data
       console.log(datas);
+      this.maxPage=datas.totalPages
       datas.games.map((game) => {
         game.Game.price_Day_Renting =game.price_Day_Renting
         game.Game.owner_id = game.User.id
@@ -97,8 +99,9 @@ export default {
     next(){
       this.page++
       this.$axios.get(`/api/rentingGames/?page=${this.page}&pageSize=4`).then((res) => {
+        this.games=[]
         const datas = res.data
-        datas.map((game) => {
+        datas.games.map((game) => {
           game.Game.price_Day_Renting =game.price_Day_Renting
           game.Game.owner_id = game.User.id
           game.Game.pseudo = game.User.pseudo
@@ -109,10 +112,11 @@ export default {
     })
     },
     prev(){
-      this.page++
+      this.page--
       this.$axios.get(`/api/rentingGames/?page=${this.page}&pageSize=4`).then((res) => {
         const datas = res.data
-        datas.map((game) => {
+        this.games=[]
+        datas.games.map((game) => {
           game.Game.price_Day_Renting =game.price_Day_Renting
           game.Game.owner_id = game.User.id
           game.Game.pseudo = game.User.pseudo
