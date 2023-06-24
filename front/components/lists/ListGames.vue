@@ -64,7 +64,7 @@ export default {
     this.$axios.get(`/api/rentingGames?page=1&pageSize=4`).then((res) => {
       const datas = res.data
       console.log(datas);
-      datas.map((game) => {
+      datas.games.map((game) => {
         game.Game.price_Day_Renting =game.price_Day_Renting
         game.Game.owner_id = game.User.id
         game.Game.pseudo = game.User.pseudo
