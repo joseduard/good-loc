@@ -35,70 +35,81 @@
                 </v-col>
             </v-row>
         </v-card> -->
-    <v-card class="br-5px white">
-      <v-card-title class="orange--text">
-        <h1>My reservations</h1></v-card-title
+    <v-card class=" card br-5px white">
+      <v-card-title class="justify-center orange--text" >
+        <h1 >My reservations</h1></v-card-title
       >
       <v-row>
         <v-col sm="12" md="6">
-          <v-card class="br-5px white">
-            <v-card-title class="orange--text">
+          <v-card class="card br-5px white">
+            <v-card-title  class="justify-center orange--text">
               <h1>Validate</h1>
             </v-card-title>
-            <p v-if="!waitingreservations.rents" class="orange--text">Rien à valider</p>
-            <v-card-subtitle align="center" v-if="waitingreservations.rents">
-              <div>
-                <v-row>
-                  <v-col
-                    v-for="(game, index) in waitingreservations.rents"
-                    :key="index"
-                    class="black--text"
-                    md="12"
-                    lg="6"
-                    @click="validateReservation(game.id, 'closed')"
-                  >
-                    <card-game :game="game.associatedGame" />
-
-                    <!-- {{ game.associatedGame.name }}
-                        <v-img :src="game.associatedGame.img" height="50" width="70" alt="game.associatedGame[0].game.name" /> -->
-                  </v-col>
-                </v-row>
+            <v-card-subtitle align="center">
+              <div
+                v-for="(game, index) in waitingreservations.rents"
+                :key="index"
+              >
+                <v-col
+                  v-if="game.status === 'reserved'"
+                 
+                  class="black--text"
+                >
+                  <card-game :game="game.associatedGame" />
+                  <v-btn  @click="validateReservation(game.id, 'rented')">validate</v-btn>
+                </v-col>
               </div>
-              <v-btn @click="nextReserved">next</v-btn>
-              <v-btn>
-                {{ pageReserved }}
-              </v-btn>
-              <v-btn @click="prevReserved">prev</v-btn>
+              <!-- <v-btn @click="nextReserved">next</v-btn>
+                <v-btn>
+                    {{ pageReserved }}
+                </v-btn>
+                <v-btn @click="prevReserved">prev</v-btn> -->
+              <v-pagination
+                v-if="games.length !== 0"
+                v-model="pageReserved"
+                :length="maxPageReserved"
+                :total-visible="4"
+                prev-icon="mdi-menu-left"
+                next-icon="mdi-menu-right"
+                @input="updatePageReserved"
+              ></v-pagination>
             </v-card-subtitle>
           </v-card>
         </v-col>
         <v-col sm="12" md="6">
-          <v-card class="br-5px white">
-            <v-card-title class="orange--text">
+          <v-card class="card br-5px white">
+            <v-card-title class="justify-center orange--text">
               <h1>Close</h1>
             </v-card-title>
-            <div>
+            <v-card-subtitle align="center">
               <v-row>
                 <v-col
                   v-for="(game, index) in waitingclose.rents"
                   :key="index"
-                  class="black--text"
-                  @click="validateReservation(game.id, 'closed')"
-                  md="12"
+                  md="6"
                   lg="6"
-                >
-                  <card-game :game="game.associatedGame" />
-
+                ><div v-if="game.status === 'rented'">
+                  <card-game
+                    :game="game.associatedGame"
+                    
+                  />
+                  <v-btn @click="validateReservation(game.id, 'closed')"
+>Close</v-btn>
+</div>
                   <!-- {{ game.associatedGame.name }}
                         <v-img :src="game.associatedGame.img" height="50" width="70" alt="game.associatedGame[0].game.name" /> -->
                 </v-col>
               </v-row>
-            </div>
-            <v-btn @click="nextClosed">next</v-btn>
-            <v-btn>
-              {{ pageClosed }}
-            </v-btn>
-            <v-btn @click="prevClosed">prev</v-btn>
+              <v-pagination
+                v-if="games.length !== 0"
+                v-model="pageClosed"
+                :length="maxPageClosed"
+                :total-visible="4"
+                prev-icon="mdi-menu-left"
+                next-icon="mdi-menu-right"
+                @input="updatePageClosed"
+              ></v-pagination>
+            </v-card-subtitle>
           </v-card>
         </v-col>
       </v-row>
@@ -106,7 +117,7 @@
   </div>
 </template>
 <script>
-import CardGame from '../../../components/CardGame.vue'
+import CardGame from '~/components/CardGame.vue'
 export default {
   components: {
     CardGame,
@@ -118,6 +129,8 @@ export default {
       waitingclose: {},
       pageReserved: 1,
       pageClosed: 1,
+      maxPageClosed: null,
+      maxPageReserved: null,
     }
   },
   mounted() {
@@ -130,13 +143,6 @@ export default {
       .then((res) => {
         // console.log(res.data)
         this.games = res.data.rentingGames
-        // this.games.map((game) => {
-        //     this.$axios.$get(
-        //         `api/games/${game.game_id}`)}).then((res) => {
-        //         game.Game=res.data})
-        //     console.log(game.Game.price_Day_Renting)
-        //     this.games.push(game.Game)
-        //     return game
       })
     this.$axios
       .get(
@@ -145,6 +151,7 @@ export default {
         }/reserved?pageSize=5&page=${this.pageReserved}`
       )
       .then((res) => {
+        this.maxPageReserved = res.data.totalPages
         this.waitingreservations = res.data
       })
     this.$axios
@@ -154,6 +161,7 @@ export default {
         }/rented?pageSize=10&page=${this.pageClosed}`
       )
       .then((res) => {
+        this.maxPageClosed = res.data.totalPages
         this.waitingclose = res.data
       })
   },
@@ -181,83 +189,51 @@ export default {
               }
               return rent
             })
-
             this.$awn.success('status updated : ' + status)
           }
         })
     },
-    nextReserved() {
-      this.pageReserved++
-      this.$axios
-        .get(
-          `api/user/account/rent/${
-            this.$auth.$storage.getUniversal('user').id
-          }/reserved?pageSize=5&page=${this.pageReserved}`
-        )
-        .then(
-          (res) => {
-            this.waitingreservations = res.data
-          },
-          () => {
-            this.pageReserved--
-            this.$awn.alert('no more pages')
-          }
-        )
+    updatePageReserved() {
+      if (this.pageReserved > this.maxPageReserved) {
+        this.$awn.warning('no more page')
+      } else {
+        this.$axios
+          .$get(`api/rentingGames/${this.user.id}?page=${this.page}&pageSize=5`)
+          .then((response) => {
+            this.rentingGames = response.rentingGames
+          })
+      }
     },
-    prevReserved() {
-      this.pageReserved--
-      this.$axios
-        .get(
-          `api/user/account/rent/${
-            this.$auth.$storage.getUniversal('user').id
-          }/reserved?pageSize=5&page=${this.pageReserved}`
-        )
-        .then(
-          (res) => {
-            this.waitingreservations = res.data
-          },
-          () => {
-            this.pageReserved++
-            this.$awn.alert('no more pages')
-          }
-        )
+    updatePageClosed() {
+      if (this.pageClosed > this.maxPageClosed) {
+        this.$awn.warning('no more page')
+      } else {
+        this.$axios
+          .$get(
+            `api/rentingGames/${this.user.id}?page=${this.pageClosed}&pageSize=5`
+          )
+          .then((response) => {
+            this.rentingGames = response.rentingGames
+          })
+      }
     },
-    nextClosed() {
-      this.pageClosed++
-      this.$axios
-        .get(
-          `api/user/account/rent/${
-            this.$auth.$storage.getUniversal('user').id
-          }/rented?pageSize=5&page=${this.pageClosed}`
-        )
-        .then(
-          (res) => {
-            this.waitingclose = res.data
-          },
-          () => {
-            this.pageClosed--
-            this.$awn.alert('no more pages')
-          }
-        )
-    },
-    prevClosed() {
-      this.pageClosed--
-      this.$axios
-        .get(
-          `api/user/account/rent/${
-            this.$auth.$storage.getUniversal('user').id
-          }/rented?pageSize=5&page=${this.pageClosed}`
-        )
-        .then(
-          (res) => {
-            this.waitingclose = res.data
-          },
-          () => {
-            this.pageClosed++
-            this.$awn.alert('no more pages')
-          }
-        )
+    getGame(reponse) {
+      reponse.Game.map((game) => {
+        this.$axios.$get(`api/game/${game.game_id}`).then((res) => {
+          game.Game = res.data
+        })
+        console.log(game.Game.price_Day_Renting)
+        this.games.push(game.Game)
+        return game
+      })
+      return reponse
     },
   },
 }
 </script>
+<style lang="scss" scoped>
+.card
+{
+    box-shadow: rgba(209, 107, 5, 0.691) 0px 4px 12px !important;
+}
+</style>

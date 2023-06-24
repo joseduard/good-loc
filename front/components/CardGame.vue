@@ -7,9 +7,9 @@
           <v-card-title id="title">
             {{ game.name }}
           </v-card-title>
-          <v-card-subtitle v-if="game.pseudo" id="subtitle">
+          <v-card-subtitle  id="subtitle">
               <v-row>
-                <span class ="pseudo" v-if="game.pseudo !== null">By : {{ game.pseudo }} </span>
+                <span class ="pseudo" v-if="game.pseudo">By : {{ game.pseudo }} </span>
                 <span v-else> By : Adolf Mussolini </span>
               </v-row>
               <v-row>

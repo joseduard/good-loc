@@ -18,7 +18,7 @@
     </div>
       </v-col>
       <v-col cols="12" md="8" lg="9">
-        <v-card>
+        <v-card >
           <v-card-text>
             <v-card-title class="white--text">
               <font-awesome-icon
@@ -108,7 +108,7 @@
     </v-row>
     <v-row>
       <v-col cols="12" md="12">
-        <v-list>
+        <v-list  class=" card br-5px white">
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title class="text-uppercase tertiary--text"
@@ -149,10 +149,18 @@
                   </v-card-subtitle>
               </v-card> -->
             </v-col>
-            <v-btn @click="next()">Next</v-btn>
-            <v-btn @click="prev()">Prev</v-btn>
           </v-row>
+          <v-pagination 
+        v-model="page"
+        :length="maxPages"
+        :total-visible="4"
+        prev-icon="mdi-menu-left"
+        next-icon="mdi-menu-right"
+        @input="handlePage"
+    ></v-pagination> 
+
         </v-list>
+
       </v-col>
     </v-row>
   </v-container>
@@ -204,7 +212,14 @@ export default {
       this.user = response
     })
     this.$axios.$get('api/rentingGames/'+this.user.id+'?page=1&pageSize=5').then((response) => {
+      this.maxPages = response.totalPages
       this.rentingGames = response.rentingGames
+      this.rentingGames.map((game) => {
+        this.$axios.get('/api/game/'+game.Game.id).then((response) => {
+          game.Game = response.data
+        })
+        return game
+      })
       this.maxPages = response.totalPages
     })
     // this.originalUser = JSON.parse(JSON.stringify(this.user)) // Copia profunda del objeto user
@@ -251,20 +266,8 @@ export default {
     cancel() {
       this.user = JSON.parse(JSON.stringify(this.originalUser))
     },
-    next(){
-      this.page++
+    handlePage(){
       if(this.page > this.maxPages){
-        this.page--
-        this.$awn.warning('no more page')
-      }else{
-      this.$axios.$get(`api/rentingGames/${this.user.id}?page=${this.page}&pageSize=5`).then((response) => {
-      this.rentingGames = response.rentingGames
-      })}
-    },
-    prev(){
-      this.page--
-      if(this.page<1){
-        this.page++
         this.$awn.warning('no more page')
       }else{
       this.$axios.$get(`api/rentingGames/${this.user.id}?page=${this.page}&pageSize=5`).then((response) => {
