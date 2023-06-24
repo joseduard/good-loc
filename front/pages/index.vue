@@ -9,9 +9,8 @@
     </div>
     
     <HomePres />
-    <FilterBar @filters-change="handleFiltersChange" />
-    
-    <v-row class="gamePres" v-if="games.length > 0">
+    <ListGames/>
+    <!-- <v-row class="gamePres" v-if="games.length > 0">
       <v-col v-for="(game, index) in games" :key="index" sm="6" md="3">
         <CardGame :game="game" />
       </v-col>
@@ -31,26 +30,25 @@
         prev-icon="mdi-menu-left"
         next-icon="mdi-menu-right"
         @input="updatePage"
-    ></v-pagination>
+    ></v-pagination> -->
     
     <v-btn class="allGames" to="/game-list">Voir tous les jeux a louer </v-btn>
-
-
-    </div>
   </v-container>
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import HomePres from '~/components/HomePres.vue'
-import CardGame from '~/components/CardGame.vue'
-import FilterBar from '~/components/FilterBar.vue';
+// import CardGame from '~/components/CardGame.vue'
+// import FilterBar from '~/components/FilterBar.vue';
+import ListGames from '~/components/lists/ListGames.vue';
 
 export default {
   name: 'Home',
   components: {
     HomePres,
-    CardGame,
-    FilterBar,
+    // CardGame,
+    // FilterBar,
+    ListGames,
   },
   data() {
     return {

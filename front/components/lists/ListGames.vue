@@ -5,14 +5,7 @@
       :dialog-modal="dialogModal"
       :game="game"
     />
-    <v-text-field
-      v-model="search"
-      class="search-input"
-      light
-      outlined
-      placeholder="Ville"
-      @input="searchGamesByNames"
-    ></v-text-field>
+    <FilterBar @filters-change="handleFiltersChange" />
     totalPages: {{maxPage}}
     <v-row>
       <div v-if="games.length === 0">
@@ -31,19 +24,28 @@
         </div>
       </v-col>
     </v-row>
-    <v-btn @click="next">Next</v-btn>
-    <v-btn @click="prev">prev</v-btn>
+    <v-pagination
+        v-model="page"
+        :length="maxPage"
+        :total-visible="4"
+        prev-icon="mdi-menu-left"
+        next-icon="mdi-menu-right"
+        :lenght="maxPage"
+        @input="updatePage"
+    ></v-pagination> -->
   </div>
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import ModalGameList from '~/components/modals/ModalGameList.vue'
 import CardGame from '~/components/CardGame.vue'
+import FilterBar from '~/components/FilterBar.vue'
 export default {
   name: 'ListGames',
   components: {
     CardGame,
     ModalGameList,
+    FilterBar,
   },
   data() {
     return {
@@ -82,20 +84,6 @@ export default {
       setShowSingInModal: 'authentications/setShowSignInModal',
       fetchGames: 'games/fetchGames',
     }),
-    searchGamesByNames(){
-      this.games=[]
-      this.$axios.get(`/api/rentingGames?city=${this.search}`).then((res) => {
-        const datas = res.data
-        datas.map((game) => {
-          game.Game.price_Day_Renting =game.price_Day_Renting
-          game.Game.owner_id = game.User.id
-          game.Game.pseudo = game.User.pseudo
-          game.Game.rental_id = game.id
-        this.games.push(game.Game)
-        return game
-      })
-    })
-    },
     next(){
       this.page++
       this.$axios.get(`/api/rentingGames/?page=${this.page}&pageSize=4`).then((res) => {
@@ -125,6 +113,53 @@ export default {
         return game
       })
     })
+    },
+    updatePage(newPage) {
+      this.page = newPage; 
+      if(this.filter && this.selectedFilter){
+      this.fetchGames(this.page, this.filter,this.selectedFilter);
+    }else{
+      this.fetchGames(this.page);
+    }
+    },
+    handleFiltersChange(filters) {
+      this.filters=filters
+      if(filters.selectedFilter==='Name'){
+        this.$axios.get(`/api/rentingGames?page=${this.page}&pageSize=8`).then((res) => {
+        this.datas = res.data;
+        this.games = this.datas.games.map((game) => {
+          game.Game.pseudo = game.User.pseudo;
+          return game.Game;
+        });
+      });
+      }
+      const { filter, selectedFilter } = filters;
+      this.fetchGames(this.page, filter, selectedFilter);
+    },
+
+    fetchGames(page, filter, selectedFilter) {
+      let apiUrl = `/api/rentingGames?page=${page}&pageSize=8`;
+      switch (selectedFilter) {
+        case 'City':
+        apiUrl += `&city=${filter}`;
+        break;
+          case 'Categories':
+          apiUrl += `&category=${filter}`;
+          break;
+          case 'Mechanics':
+          apiUrl += `&mechanic=${filter}`;
+          break;
+        default:
+          break;
+      }
+      this.$axios.get(apiUrl).then((res) => {
+        this.datas = res.data;
+        this.maxPage=this.datas.totalPages
+        this.games = this.datas.games.map((game) => {
+          game.Game.pseudo = game.User.pseudo;
+          return game.Game;
+        });
+      });
     },
     }
 }

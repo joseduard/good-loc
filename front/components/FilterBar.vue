@@ -1,62 +1,69 @@
 <template>
   <div class="rowFilter">
     <v-select
-      v-model="selectedItem"
+      v-model="selectedFilter"
       :items="dropdownItems"
       placeholder="Filter by:"
       outlined
       class="filter"
-      :class="{'orange--text': selectedItem !== null}"
+      :class="{'orange--text': selectedFilter !== null}"
     ></v-select>
-
     <v-select
-      v-if="selectedItem === 'Categories'"
-      v-model="selectedCategory"
+      v-if="selectedFilter === 'Categories'"
+      v-model="filter"
       :items="categories"
       placeholder="Choose a category:"
       outlined
       class="filter"
-      :class="{'orange--text': selectedCategory !== null}"
+      :class="{'orange--text': filter !== null}"
     ></v-select>
 
     <v-select
-      v-if="selectedItem === 'Mechanics'"
-      v-model="selectedMechanic"
+      v-if="selectedFilter === 'Mechanics'"
+      v-model="filter"
       :items="mechanics"
       placeholder="Choose a mechanic:"
       outlined
       class="filter"
-      :class="{'orange--text': selectedMechanic !== null}"
+      :class="{'orange--text': filter !== null}"
     ></v-select>
 
     <v-select
-      v-if="selectedItem === 'City'"
-      v-model="selectedCity"
+      v-if="selectedFilter === 'City'"
+      v-model="filter"
       :items="cities"
       placeholder="Choose a city:"
       outlined
       class="filter"
-      :class="{'orange--text': selectedCity !== null}"
+      :class="{'orange--text': filter !== null}"
     ></v-select>
+  <v-text-field
+        v-model="filter"
+        label="Objet du message"
+        clearable
+        class="input-required"
+        @input="emitFiltersChange"
+      ></v-text-field>
+
   </div>
+
 </template>
 
 <script>
 export default {
   data() {
     return {
-      selectedCategory: null,
+      filter: null,
       categories: [],
-      selectedMechanic: null,
       mechanics: [],
-      selectedCity: null,
       cities: [],
-      selectedItem: null,
-      dropdownItems: ['City', 'Categories', 'Mechanics'],
+      dropdownItems: ['City', 'Categories', 'Mechanics','Name'],
+      selectedName: '',
+      selectedFilter: null,
     };
   },
   watch: {
-    selectedItem(newVal) {
+    selectedFilter(newVal) {
       if (newVal === 'Categories') {
         this.fetchCategories();
       } else if (newVal === 'Mechanics') {
@@ -64,15 +71,8 @@ export default {
       } else if (newVal === 'City') {
         this.fetchCities();
       }
-      this.emitFiltersChange();
     },
-    selectedCategory() {
-      this.emitFiltersChange();
-    },
-    selectedMechanic() {
-      this.emitFiltersChange();
-    },
-    selectedCity() {
+    filter() {
       this.emitFiltersChange();
     },
   },
@@ -94,9 +94,8 @@ export default {
     },
     emitFiltersChange() {
       this.$emit('filters-change', {
-        selectedCategory: this.selectedCategory,
-        selectedMechanic: this.selectedMechanic,
-        selectedCity: this.selectedCity,
+        filter: this.filter,
+        selectedFilter: this.selectedFilter,
       });
     },
   },
