@@ -226,7 +226,14 @@ export const listGames = async (req, res) => {
     }
 
 
-    res.json({ totalItems: limit,currentPage :page,totalPages:count, games:games    });
+    res.json({
+      totalItems: count,
+      currentPage: page,
+      pageSize: limit,
+      totalPages: Math.ceil(count / limit),
+      games:games
+
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({
