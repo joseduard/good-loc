@@ -9,19 +9,16 @@
     </div>
     
     <HomePres />
-
- <v-select
-    v-model="selectedItem"
-    :items="dropdownItems"
-    label="Filter by :"
-    outlined
-    class="filter"
-    :class="{'orange--text': selectedItem !== null}"
-  ></v-select>
-
-    <v-row class="gamePres">
+    <FilterBar @filters-change="handleFiltersChange" />
+    
+    <v-row class="gamePres" v-if="games.length > 0">
       <v-col v-for="(game, index) in games" :key="index" sm="6" md="3">
         <CardGame :game="game" />
+      </v-col>
+    </v-row>
+    <v-row class="gamePres" v-else>
+      <v-col>
+        <p>Aucun jeu ne correspond à votre recherche</p>
       </v-col>
     </v-row>
 
@@ -46,51 +43,36 @@
 import { mapGetters, mapActions } from 'vuex'
 import HomePres from '~/components/HomePres.vue'
 import CardGame from '~/components/CardGame.vue'
+import FilterBar from '~/components/FilterBar.vue';
+
 export default {
   name: 'Home',
   components: {
     HomePres,
     CardGame,
+    FilterBar,
   },
   data() {
     return {
-       selectedItem: null,
-      dropdownItems: ['city', 'categories', 'mechanics'],
+      selectedCategory: null,
+      categories: [],
+      selectedMechanic: null,
+      mechanics: [],
+      selectedCity: null,
+      cities: [],
+      selectedItem: null,
+      dropdownItems: ['City', 'Categories', 'Mechanics'],
       page: 1,
       dialogSignIn: false,
       dialogSignUp: false,
       dialogForgottenPassword: false,
       games: [],
-      gameMasters: [
-        {
-          name: 'Game Master',
-          presentation: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-        {
-          name: 'Game Master',
-          presentation: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-        {
-          name: 'Game Master',
-          presentation: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-        {
-          name: 'Game Master',
-          presentation: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-        {
-          name: 'Game Master',
-          presentation: 'Excepteur tempor magna dolor tempor.',
-          textBtn: 'Trouver un jeu',
-        },
-      ],
+      filter:[],
+      gameMasters: [],
     }
   },
-  created() {// this.gameMasters = this.$axios.get('/api/game-masters');
+  created() {
+    ;// this.gameMasters = this.$axios.get('/api/game-masters');
   },
   mounted() {
     this.fetchGames(this.page);
@@ -103,11 +85,10 @@ export default {
       getShowForgotPasswordModal: 'authentications/getShowForgotPasswordModal',
     }),
   },
-  watch: {
-    page(newPage) {
-      this.fetchGames(newPage); // Appel de la méthode pour récupérer les jeux en fonction de la nouvelle page
-    },
-  },
+ watch: {
+  
+},
+
   methods: {
     ...mapActions({
       setShowSignUpModal: 'authentications/setShowSignUpModal',
@@ -115,21 +96,49 @@ export default {
       setShowSignInModal: 'authentications/setShowSignInModal',
       fetchGames: 'games/fetchGames',
     }),
-    filterGameMasters(e) {
-      this.gameMasters = this.$axios.get(`/api/games-home/`)
-    },
+    
     updatePage(newPage) {
-      this.page = newPage;
+      this.page = newPage; 
+      if (this.filter.selectedCategory !== null ) {
+        this.selectedCategory = this.filter.selectedCategory;
+      } else if ( this.filter.selectedMechanic !== null ) {
+        this.selectedMechanic = this.filter.selectedMechanic;
+      } else if (this.filter.selectedCity !== null) {
+        this.selectedCity = this.filter.selectedCity;
+      }
+      this.fetchGames(this.page, this.selectedCategory, this.selectedMechanic, this.selectedCity);
     },
-    fetchGames(page) {
-      this.$axios.get(`/api/rentingGames?page=${page}&pageSize=8`).then((res) => {
-      this.datas = res.data;
-      this.games = this.datas.map((game) => {
-        game.Game.pseudo = game.User.pseudo;
-        return game.Game;
+
+
+    handleFiltersChange(filters) {
+      const { selectedCategory, selectedMechanic, selectedCity } = filters;
+      this.filter = filters;
+      this.fetchGames(this.page, selectedCategory, selectedMechanic, selectedCity);
+    },
+
+    fetchGames(page, selectedCategory, selectedMechanic, selectedCity) {
+      let apiUrl = `/api/rentingGames?page=${page}&pageSize=8`;
+
+      if (selectedCity) {
+        apiUrl += `&city=${selectedCity}`;
+      }
+
+      if (selectedMechanic) {
+        apiUrl += `&mechanic=${selectedMechanic}`;
+      }
+
+      if (selectedCategory) {
+        apiUrl += `&category=${selectedCategory}`;
+      }
+
+      this.$axios.get(apiUrl).then((res) => {
+        this.datas = res.data;
+        this.games = this.datas.games.map((game) => {
+          game.Game.pseudo = game.User.pseudo;
+          return game.Game;
+        });
       });
-    });
-  },
+    },
   },
 }
 </script>

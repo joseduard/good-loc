@@ -25,7 +25,7 @@
               <v-row>
                 <img class="icon" src="../assets/images/002.png"/>
                 <span v-if="game.category_id !== null">Category: {{ game.category_id}}</span>
-                <span v-else> Category : Dinosaurs </span>
+                <span v-else> Category : Poney </span>
               </v-row>   
               <v-row>
                 <img class="icon" src="../assets/images/019.png"/>

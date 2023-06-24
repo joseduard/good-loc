@@ -6,6 +6,7 @@ import uploadRoutes from "./uploadRoutes.js";
 import gamesRoutes from "./gamesRoutes.js";
 import rentingGamesRoutes from "./rentingGamesRoutes.js";
 import rentingRoutes from "./rentsRoutes.js";
+import filterRoutes from "./filterRoutes.js";
 import {config} from "../../config/app.config.js";
 
 const router = express.Router();
@@ -21,6 +22,7 @@ router.use("/api/upload", uploadRoutes);
 router.use("/api/", gamesRoutes);
 router.use("/api/", rentingGamesRoutes);
 router.use("/api/", rentingRoutes);
+router.use("/api/", filterRoutes);
 
 
 export function setupRoutes(app) {
