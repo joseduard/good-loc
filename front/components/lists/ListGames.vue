@@ -23,13 +23,12 @@
         </div>
       </v-col>
     </v-row>
-    <v-pagination v-if="games.length !== 0"
+    <v-pagination v-if="shouldShowPagination"
         v-model="page"
         :length="maxPage"
         :total-visible="4"
         prev-icon="mdi-menu-left"
         next-icon="mdi-menu-right"
-        :lenght="maxPage"
         @input="updatePage"
     ></v-pagination>
   </div>
@@ -49,6 +48,7 @@ export default {
   data() {
     return {
       dialogModal: false,
+      showPagination: true,
       games: [],
       search: '',
       page:1,
@@ -61,21 +61,40 @@ export default {
       getShowSignInModal: 'authentications/getShowSignInModal',
       getGamesList: 'games/getGamesList',
     }),
+    shouldShowPagination() {
+      // Vérifier si la route actuelle est "game-list"
+      return this.$route.name === 'game-list' && this.games.length !== 0;
+    },
   },
+  
   mounted() {
-    this.$axios.get(`/api/rentingGames?page=1&pageSize=4`).then((res) => {
-      const datas = res.data
-      console.log(datas);
-      this.maxPage=datas.totalPages
-      datas.games.map((game) => {
-        game.Game.price_Day_Renting =game.price_Day_Renting
-        game.Game.owner_id = game.User.id
-        game.Game.pseudo = game.User.pseudo
-        game.Game.rental_id = game.id
-      this.games.push(game.Game)
-      return game
-    })
-  })
+    if (this.$route.name === 'game-list') {
+      this.$axios.get(`/api/rentingGames?page=1&pageSize=24`).then((res) => {
+        const datas = res.data
+        this.maxPage = datas.totalPages
+        datas.games.map((game) => {
+          game.Game.price_Day_Renting = game.price_Day_Renting
+          game.Game.owner_id = game.User.id
+          game.Game.pseudo = game.User.pseudo
+          game.Game.rental_id = game.id
+          this.games.push(game.Game)
+          return game
+        })
+      })
+    } else {
+      this.$axios.get(`/api/rentingGames?page=1&pageSize=8`).then((res) => {
+        const datas = res.data
+        this.maxPage = datas.totalPages
+        datas.games.map((game) => {
+          game.Game.price_Day_Renting = game.price_Day_Renting
+          game.Game.owner_id = game.User.id
+          game.Game.pseudo = game.User.pseudo
+          game.Game.rental_id = game.id
+          this.games.push(game.Game)
+          return game
+        })
+      })
+    }
   },
   methods: {
     ...mapActions({
@@ -83,84 +102,106 @@ export default {
       setShowSingInModal: 'authentications/setShowSignInModal',
       fetchGames: 'games/fetchGames',
     }),
-    next(){
+    next() {
       this.page++
-      this.$axios.get(`/api/rentingGames/?page=${this.page}&pageSize=4`).then((res) => {
-        this.games=[]
+      this.$axios.get(`/api/rentingGames/?page=${this.page}&pageSize=8`).then((res) => {
+        this.games = []
         const datas = res.data
         datas.games.map((game) => {
-          game.Game.price_Day_Renting =game.price_Day_Renting
+          game.Game.price_Day_Renting = game.price_Day_Renting
           game.Game.owner_id = game.User.id
           game.Game.pseudo = game.User.pseudo
           game.Game.rental_id = game.id
-        this.games.push(game.Game)
-        return game
+          this.games.push(game.Game)
+          return game
+        })
       })
-    })
     },
-    prev(){
+    prev() {
       this.page--
-      this.$axios.get(`/api/rentingGames/?page=${this.page}&pageSize=4`).then((res) => {
+      this.$axios.get(`/api/rentingGames/?page=${this.page}&pageSize=8`).then((res) => {
         const datas = res.data
-        this.games=[]
+        this.games = []
         datas.games.map((game) => {
-          game.Game.price_Day_Renting =game.price_Day_Renting
+          game.Game.price_Day_Renting = game.price_Day_Renting
           game.Game.owner_id = game.User.id
           game.Game.pseudo = game.User.pseudo
           game.Game.rental_id = game.id
-        this.games.push(game.Game)
-        return game
+          this.games.push(game.Game)
+          return game
+        })
       })
-    })
     },
     updatePage(newPage) {
       this.page = newPage;
-      if(this.filter && this.selectedFilter){
-      this.fetchGames(this.page, this.filter,this.selectedFilter);
-    }else{
-      this.fetchGames(this.page);
-    }
+      if (this.filter && this.selectedFilter) {
+        this.fetchGames(this.page, this.filter, this.selectedFilter);
+      } else {
+        this.fetchGames(this.page);
+      }
     },
     handleFiltersChange(filters) {
-      this.filters=filters
-      if(filters.selectedFilter==='Name'){
-        this.$axios.get(`/api/rentingGames?page=${this.page}&pageSize=8`).then((res) => {
-        this.datas = res.data;
-        this.games = this.datas.games.map((game) => {
-          game.Game.pseudo = game.User.pseudo;
-          return game.Game;
-        });
-      });
-      }
+      this.filters = filters
       const { filter, selectedFilter } = filters;
       this.fetchGames(this.page, filter, selectedFilter);
     },
 
     fetchGames(page, filter, selectedFilter) {
-      let apiUrl = `/api/rentingGames?page=${page}&pageSize=8`;
-      switch (selectedFilter) {
-        case 'City':
-        apiUrl += `&city=${filter}`;
-        break;
+      if (this.$route.name === 'game-list') {
+        let apiUrl = `/api/rentingGames?page=${page}&pageSize=24`;
+        switch (selectedFilter) {
+          case 'City':
+            apiUrl += `&city=${filter}`;
+            break;
           case 'Categories':
-          apiUrl += `&category=${filter}`;
-          break;
+            apiUrl += `&category=${filter}`;
+            break;
           case 'Mechanics':
-          apiUrl += `&mechanic=${filter}`;
-          break;
-        default:
-          break;
-      }
-      this.$axios.get(apiUrl).then((res) => {
-        this.datas = res.data;
-        this.maxPage=this.datas.totalPages
-        this.games = this.datas.games.map((game) => {
-          game.Game.pseudo = game.User.pseudo;
-          return game.Game;
+            apiUrl += `&mechanic=${filter}`;
+            break;
+          case 'Name':
+            apiUrl += `&name=${filter}`;
+            break;
+          default:
+            break;
+        }
+        this.$axios.get(apiUrl).then((res) => {
+          this.datas = res.data;
+          this.maxPage = this.datas.totalPages
+          this.games = this.datas.games.map((game) => {
+            game.Game.pseudo = game.User.pseudo;
+            return game.Game;
+          });
         });
-      });
+      } else {
+        let apiUrl = `/api/rentingGames?page=${page}&pageSize=8`;
+        switch (selectedFilter) {
+          case 'City':
+            apiUrl += `&city=${filter}`;
+            break;
+          case 'Categories':
+            apiUrl += `&category=${filter}`;
+            break;
+          case 'Mechanics':
+            apiUrl += `&mechanic=${filter}`;
+            break;
+          case 'Name':
+            apiUrl += `&name=${filter}`;
+            break;
+          default:
+            break;
+        }
+        this.$axios.get(apiUrl).then((res) => {
+          this.datas = res.data;
+          this.maxPage = this.datas.totalPages
+          this.games = this.datas.games.map((game) => {
+            game.Game.pseudo = game.User.pseudo;
+            return game.Game;
+          });
+        });
+      }
     },
-    }
+  }
 }
 </script>
 

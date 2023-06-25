@@ -38,12 +38,15 @@
       :class="{'orange--text': filter !== null}"
     ></v-select>
   <v-text-field
+        v-if="selectedFilter === 'Name'"
         v-model="filter"
-        label="Objet du message"
+        :items="name"
+        placeholder="write a game name"
         clearable
-        class="input-required"
-        @input="emitFiltersChange"
-      ></v-text-field>
+        class="filter"
+        @keydown.enter="emitFiltersChange"
+        outlined
+    ></v-text-field>
 
   </div>
 
@@ -57,6 +60,7 @@ export default {
       categories: [],
       mechanics: [],
       cities: [],
+      name:'',
       dropdownItems: ['City', 'Categories', 'Mechanics','Name'],
       selectedName: '',
       selectedFilter: null,
@@ -102,28 +106,42 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-                         .rowFilter{
-                           display:flex;
-                           flex-direction: row;
-                           .v-input{
-                             flex: 0;
-                             margin-right: 100px;
-                             font-size: 16px;
-                             letter-spacing: normal;
-                             max-width: 100%;
-                             text-align: left;
-                             color: black; // this line
-                           }
-                           .v-text-field.v-text-field--enclosed {
-                             margin-right: 5px;
-                           }
-                           // Add this to change the color of the items in the dropdown
-                           .v-select-list {
-                             .v-list-item {
-                               color: black;
-                             }
-                           }
-                         }
+@import '@/design/_colors';
+
+
+.rowFilter {
+  display: flex;
+  flex-direction: row;
+  
+  .filter {
+    margin-right: 20px;
+    font-size: 16px;
+    letter-spacing: normal;
+    max-width: 20%;
+    text-align: left;
+    background-color: black;
+    color: orange;
+    width: 25%;
+  }
+
+  .filter.v-text-field--outlined > .v-input__control > .v-input__slot {
+    background: $color-secondary !important;
+    width: 150px;
+    margin-top: 40px;
+    border-radius: 10px;
+    border: 2px solid $color-primary;
+    color: white !important;
+  }
+
+  .v-text-field.v-text-field--enclosed {
+    margin-right: 5px;
+  }
+
+  .v-select-list {
+    .v-list-item {
+      color: black;
+    }
+  }
+}
 
 </style>
-

@@ -13,12 +13,12 @@
                 <span v-else> By : Adolf Mussolini </span>
               </v-row>
               <v-row>
-                <!-- <img class="icon" src="../assets/images/007.png"/> -->
+                <img class="icon" src="../assets/images/007.png"/>
                 <span v-if="game.min_players !== ''">Players : {{ game.min_players }} to {{ game.max_players }}</span>
                 <span v-else> Players : 1 to 10 </span>
               </v-row>
               <v-row>
-                <!-- <img class="icon" src="../assets/images/004.png"/> -->
+                <img class="icon" src="../assets/images/004.png"/>
                 <span v-if="game.average_note !== '' || game.average_note !== 0.00">Note : {{ game.average_note }} /5</span>
                 <span v-else> Note : 3/5 </span>
               </v-row>

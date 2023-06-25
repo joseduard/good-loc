@@ -125,6 +125,7 @@ export const getRentingGamesByUser = async (req, res) => {
   }
 };
 
+
 /** récupère une listes de jeux disponible a la location. */
 export const listGames = async (req, res) => {
   try {
@@ -138,6 +139,7 @@ export const listGames = async (req, res) => {
 
     const city = req.query.city;
     const categoryName = req.query.category;
+    const gameName = req.query.name;
 
     let whereCondition = {};
     let includeCondition = [];
@@ -158,6 +160,10 @@ export const listGames = async (req, res) => {
       if (category) {
         whereCondition["$Game.category_id$"] = category.id; // Utiliser Game au lieu de Games
       }
+    }
+//filtre par name
+    if (gameName) {
+      whereCondition["$Game.name$"] = { [Op.like]: `%${gameName}%` };
     }
 
     includeCondition.push({
