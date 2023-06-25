@@ -68,3 +68,35 @@ export default {
   },
 }
 </script>
+<style scoped lang="scss">
+#cube {
+  width: 250px;
+  height: 150px;
+  border: 1px solid black;
+  position: relative;
+  text-align: left;
+  border-radius: 30px !important ;
+  #all {
+    #card {
+      #img {
+        #afterImg {
+          margin-left: 1000px !important;
+        }
+      }
+    }
+  }
+  #img {
+    height: 50px !important;
+    width: 50px !important;
+    position: absolute;
+    left: 6rem;
+    top: -20px;
+  }
+  #title {
+    margin-top: 25px;
+  }
+
+}
+
+
+</style>

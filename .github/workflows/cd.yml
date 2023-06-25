@@ -1,0 +1,16 @@
+name: Continuous deployment (push to main)
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [run-FrontEnd-Tests, run-BackEnd-Tests]
+    if: ${{ success() }}
+    steps:
+      - uses: distributhor/workflow-webhook@v1
+        env:
+          webhook_url: ${{ secrets.WEBHOOK_SECRET }}http://137.74.196.230:7320/deploy
+          webhook_secret: ${{ secrets.WEBHOOK_SECRET }}

@@ -1,11 +1,9 @@
-name: Continuous integration
+name: Continuous integration (pull requests)
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
+
 jobs:
   run-FrontEnd-Tests:
     runs-on: ubuntu-latest
@@ -19,6 +17,7 @@ jobs:
           node-version: "18"
       - run: yarn
       - run: yarn test:unit
+
   run-BackEnd-Tests:
     runs-on: ubuntu-latest
     defaults:
@@ -31,12 +30,3 @@ jobs:
           node-version: "18"
       - run: yarn
       - run: yarn test
-  deploy:
-    needs: [run-FrontEnd-Tests, run-BackEnd-Tests]
-    if: ${{ success() }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: distributhor/workflow-webhook@v1
-        env:
-          webhook_url: http://137.74.196.230:7320/deploy
-          webhook_secret: 9MCYb@WJwL2G-Dz

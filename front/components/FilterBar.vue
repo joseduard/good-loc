@@ -101,3 +101,29 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+                         .rowFilter{
+                           display:flex;
+                           flex-direction: row;
+                           .v-input{
+                             flex: 0;
+                             margin-right: 100px;
+                             font-size: 16px;
+                             letter-spacing: normal;
+                             max-width: 100%;
+                             text-align: left;
+                             color: black; // this line
+                           }
+                           .v-text-field.v-text-field--enclosed {
+                             margin-right: 5px;
+                           }
+                           // Add this to change the color of the items in the dropdown
+                           .v-select-list {
+                             .v-list-item {
+                               color: black;
+                             }
+                           }
+                         }
+
+</style>
+

@@ -39,9 +39,12 @@
       <v-btn text color="tertiary" :to="{ name: 'game-list' }">
         <span>Liste des jeux</span>
       </v-btn>
+   <!--
       <v-btn text color="tertiary" :to="{ name: 'game-master-list' }">
         <span class="white--text">Liste de GM</span>
       </v-btn>
+
+   -->
       <v-btn v-if="!$auth.loggedIn" text color="tertiary ">
         <span @click="setShowSingUpModal">Se connecter</span>
       </v-btn>

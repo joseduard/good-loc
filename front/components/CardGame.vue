@@ -26,7 +26,7 @@
                 <img class="icon" src="../assets/images/002.png"/>
                 <span v-if="game.category_id !== null">Category: {{ game.category_id}}</span>
                 <span v-else> Category : Poney </span>
-              </v-row>   
+              </v-row>
               <v-row>
                 <img class="icon" src="../assets/images/019.png"/>
                 <span v-if="game.mechanics_type_id !== null"> Mechanic : {{ game.mechanics_type_id}}</span>
@@ -43,3 +43,50 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+#card {
+  border: 2px solid rgba(96, 93, 93, 0.41);
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: rgba(209, 107, 5, 0.55) 0px 2px 5px -1px, rgba(209, 107, 5, 0.85)0px 1px 3px -1px;
+  height :250px !important;
+
+  #title {
+    padding-top: 5px;
+    border-top: 1px solid rgba(243, 127, 3, 0.55);
+    height :250px !important;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    line-height: 24px;
+    max-height: 30px;
+  }
+  #subtitle {
+    height:fit-content;
+    padding: 0;
+    margin-top: 3px;
+    font-size: 10px;
+    .row{
+      margin-top: 10px;
+      min-height: 20px;
+      .pseudo{
+        padding-top:0;
+        font-size: 12px ;
+        margin: -10px 20px 5px auto;
+        font-weight: 600;
+        color:rgba(209, 107, 5, 0.85);
+        text-align:right;
+      }
+      .col{
+        padding: 2px;
+      }
+      img{
+        margin-left: 20px;
+        margin-right: 5px;
+        width: 20px ;
+        height: 20px ;
+      }
+    }
+  }
+}
+</style>

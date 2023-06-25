@@ -71,3 +71,15 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+
+@import '@/design/_colors';
+
+#inspire {
+  .inspire-info {
+    color: $color-info;
+  }
+}
+</style>
+

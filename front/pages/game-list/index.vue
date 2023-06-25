@@ -19,3 +19,14 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+
+#all {
+  color: black;
+  .search-input {
+    color: black;
+    width: 150px !important;
+  }
+}
+
+</style>

@@ -7,6 +7,7 @@ const state = () => ({
       class: 'primary--text',
       to: '/game-list',
     },
+    /*
     {
       faIconType: 'fas',
       faIcon: 'faHome',
@@ -14,11 +15,13 @@ const state = () => ({
       class: 'primary--text',
       to: '/game-master-list',
     },
+
+    * */
     {
       faIconType: 'fas',
       faIcon: 'faHome',
       title: 'A propos',
-      to: '/inspirep',
+      to: '/inspire',
       class: 'primary--text',
     },
   ],
@@ -33,7 +36,8 @@ const state = () => ({
     {
       faIconType: 'fas',
       faIcon: 'lightbulb',
-      title: 'Inspire1',
+      title: 'Inspire',
+      to: '/inspire',
       class: 'primary--text',
     },
     {

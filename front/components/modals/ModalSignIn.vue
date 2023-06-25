@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="showSignInModal" persistent width="50em">
     <v-card id="cardModal">
-      <v-card id="cardInscription" class="mx-auto">
+      <v-card id="cardConnexion" class="mx-auto">
         <v-card-title class="justify-center"> Connexion avec : </v-card-title>
         <v-row>
           <v-col col="12" sm="6" md="4">
@@ -99,3 +99,22 @@ export default {
   },
 }
 </script>
+
+<style scoped lang="scss">
+#cardModal {
+  text-align: center;
+  #cardConnexion {
+    width: 80%;
+    margin-left: 10%;
+    border: 1px solid black;
+  }
+  #rowForm {
+    width: 80%;
+    margin-left: 10%;
+    margin-bottom: 20px;
+  }
+  padding-bottom: 40px;
+  padding-top: 40px;
+}
+
+</style>

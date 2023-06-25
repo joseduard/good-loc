@@ -4,7 +4,7 @@
     <v-row>
       <v-col cols="12" md="4" lg="3">
         <div class="container-img">
-          <v-img class="avatar-img" :src="user.img" height="200px"> </v-img>          
+          <v-img class="avatar-img" :src="user.img" height="200px"> </v-img>
         </div>
         <ModalUserAddGame
           v-if="dialogModal"
@@ -291,3 +291,33 @@ export default {
 
 }
 </script>
+<style lang="scss" scoped>
+
+@import "@/design/_colors.scss";
+
+#user-id {
+  .container-img {
+    background-color: $color-primary;
+    height: 220px;
+    width: 220px;
+    display: flex;
+    border-radius: 60px 0px 60px 0px;
+    align-items: center;
+  }
+  .avatar-img {
+    width: 200px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: block;
+  }
+  .text-wrap {
+    word-wrap: break-word;
+  }
+  .card-actions {
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+  }
+}
+</style>

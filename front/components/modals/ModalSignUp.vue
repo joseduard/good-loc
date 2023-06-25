@@ -122,3 +122,22 @@ export default {
   },
 }
 </script>
+
+<style scoped lang="scss">
+#cardModal {
+  text-align: center;
+  #cardInscription {
+    width: 80%;
+    margin-left: 10%;
+    border: 1px solid black;
+  }
+  #rowForm {
+    width: 80%;
+    margin-left: 10%;
+    margin-bottom: 20px;
+  }
+  padding-bottom: 40px;
+  padding-top: 40px;
+}
+
+</style>

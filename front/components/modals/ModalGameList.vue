@@ -100,3 +100,9 @@ export default {
   },
 }
 </script>
+
+<style scoped lang="scss">
+#all {
+font-size: large !important;
+}
+</style>

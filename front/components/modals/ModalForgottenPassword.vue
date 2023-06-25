@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="showForgotPasswordModal" persistent width="50em">
     <v-card id="cardModal">
-      <v-card id="cardInscription" class="mx-auto">
+      <v-card id="cardForgotPassword" class="mx-auto">
         <v-card-title class="justify-center">
           Mot de passe oublié ? NOT a shame</v-card-title
         >
@@ -33,3 +33,32 @@ export default {
   },
 }
 </script>
+
+<style scoped lang="scss">
+
+#cardModal {
+  text-align: center;
+  #cardForgotPassword {
+    width: 80%;
+    margin-left: 10%;
+    border: 1px solid black;
+  }
+  #rowForm {
+    width: 80%;
+    margin-left: 10%;
+    margin-bottom: 20px;
+  }
+  #rowPass {
+    width: 80%;
+    margin-left: 10%;
+    margin-bottom: 20px;
+    #btnSend {
+      margin-top: 10px;
+    }
+  }
+  padding-bottom: 40px;
+  padding-top: 40px;
+}
+
+
+</style>

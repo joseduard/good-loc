@@ -138,3 +138,14 @@ export default {
 
 }
 </script>
+
+
+<style lang="scss" scoped>
+
+#all {
+  #imgGame {
+    margin-bottom: 20px;
+  }
+}
+
+</style>

@@ -6,7 +6,6 @@
       :game="game"
     />
     <FilterBar @filters-change="handleFiltersChange" />
-    totalPages: {{maxPage}}
     <v-row>
       <div v-if="games.length === 0">
         <p>Aucun jeu ne correspond à votre recherche</p>
@@ -32,7 +31,7 @@
         next-icon="mdi-menu-right"
         :lenght="maxPage"
         @input="updatePage"
-    ></v-pagination> 
+    ></v-pagination>
   </div>
 </template>
 <script>
@@ -115,7 +114,7 @@ export default {
     })
     },
     updatePage(newPage) {
-      this.page = newPage; 
+      this.page = newPage;
       if(this.filter && this.selectedFilter){
       this.fetchGames(this.page, this.filter,this.selectedFilter);
     }else{
@@ -164,3 +163,9 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+#all {
+  color: black;
+}
+</style>

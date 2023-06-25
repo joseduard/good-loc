@@ -194,5 +194,24 @@ export default {
 }
 </script>
 
+<style lang="scss" scoped>
 
+@import "@/design/_colors.scss";
+
+#messages {
+  background-color: white;
+  // .theme--dark.v-input input,
+  // .theme--dark.v-input textarea {
+  //   color: $color-quinary;
+  // }
+  .theme--dark.v-label {
+    color: $color-primary;
+  }
+  .card-msg {
+    border-radius: 15px;
+  }
+}
+
+
+</style>
 
