@@ -19,9 +19,9 @@ const state = () => ({
     * */
     {
       faIconType: 'fas',
-      faIcon: 'faHome',
-      title: 'A propos',
-      to: '/inspire',
+      faIcon: 'gavel',
+      title: 'legals',
+      to: '/legals',
       class: 'primary--text',
     },
   ],
@@ -35,9 +35,9 @@ const state = () => ({
     },
     {
       faIconType: 'fas',
-      faIcon: 'lightbulb',
-      title: 'Inspire',
-      to: '/inspire',
+      faIcon: 'gavel',
+      title: 'legals',
+      to: '/legals',
       class: 'primary--text',
     },
     {

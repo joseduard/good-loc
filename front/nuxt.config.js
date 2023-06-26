@@ -63,6 +63,7 @@ export default {
         'faHorseHead',
         'faLightbulb',
         'faMessage',
+        'faGavel',
       ],
       brands: ['faGoogle'],
     },

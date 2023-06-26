@@ -5,6 +5,7 @@
       :items="dropdownItems"
       placeholder="Filter by:"
       outlined
+      background-color="secondary"
       class="filter"
       :class="{'orange--text': selectedFilter !== null}"
     ></v-select>
@@ -14,6 +15,7 @@
       :items="categories"
       placeholder="Choose a category:"
       outlined
+      background-color="secondary"
       class="filter"
       :class="{'orange--text': filter !== null}"
     ></v-select>
@@ -24,6 +26,7 @@
       :items="mechanics"
       placeholder="Choose a mechanic:"
       outlined
+      background-color="secondary"
       class="filter"
       :class="{'orange--text': filter !== null}"
     ></v-select>
@@ -34,6 +37,7 @@
       :items="cities"
       placeholder="Choose a city:"
       outlined
+      background-color="secondary"
       class="filter"
       :class="{'orange--text': filter !== null}"
     ></v-select>
@@ -119,7 +123,6 @@ export default {
     letter-spacing: normal;
     max-width: 250px;
     text-align: left;
-    background-color: $color-secondary;
     color: $color-quaternary;
     width: 100px;
   }

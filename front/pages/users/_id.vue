@@ -22,7 +22,11 @@
           <span class="text-avatar">Your avatar</span>
           
         </div>
- 
+        <ModalUserAddGame
+          v-if="dialogModal"
+          :dialog-modal="dialogModal"
+          :game="game"
+        />
         <v-card class= "user-info">
           <v-card-text>
             <v-card-title class="white--text">

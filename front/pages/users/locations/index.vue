@@ -35,35 +35,31 @@
                 </v-col>
             </v-row>
         </v-card> -->
-    <v-card class=" card br-5px white">
-      <v-card-title class="justify-center orange--text" >
-        <h1 >My reservations</h1></v-card-title
+    <v-card class="card br-5px white">
+      <v-card-title class="justify-center orange--text">
+        <h1>My reservations</h1></v-card-title
       >
       <v-row>
-        <v-col sm="12" md="6">
-          <v-card class="card br-5px white">
-            <v-card-title  class="justify-center orange--text">
+        <v-col sm="12" md="12">
+          <v-card class="gamesList br-5px white">
+            <v-card-title class="orange--text">
               <h1>Validate</h1>
             </v-card-title>
-            <v-card-subtitle align="center">
-              <div
-                v-for="(game, index) in waitingreservations.rents"
-                :key="index"
-              >
+            <v-card-subtitle align="center" v-if="reserving">
+              <v-row>
                 <v-col
-                  v-if="game.status === 'reserved'"
-                 
+                  v-for="(game, index) in reserving.rents"
+                  :key="index"
                   class="black--text"
+                  md="3"
+                  sm="3"
                 >
                   <card-game :game="game.associatedGame" />
-                  <v-btn  @click="validateReservation(game.id, 'rented')">validate</v-btn>
+                  <v-btn @click="validateReservation(game.id, 'rented')"
+                    >validate</v-btn
+                  >
                 </v-col>
-              </div>
-              <!-- <v-btn @click="nextReserved">next</v-btn>
-                <v-btn>
-                    {{ pageReserved }}
-                </v-btn>
-                <v-btn @click="prevReserved">prev</v-btn> -->
+              </v-row>
               <v-pagination
                 v-if="games.length !== 0"
                 v-model="pageReserved"
@@ -76,28 +72,57 @@
             </v-card-subtitle>
           </v-card>
         </v-col>
-        <v-col sm="12" md="6">
-          <v-card class="card br-5px white">
-            <v-card-title class="justify-center orange--text">
-              <h1>Close</h1>
+        <v-col sm="12" md="12">
+          <v-card class="gamesList br-5px white">
+            <v-card-title class="orange--text">
+              <h1>Running location</h1>
             </v-card-title>
-            <v-card-subtitle align="center">
+            <v-card-subtitle
+              v-if="closing.rents.length > 0"
+              align="center"
+            >
               <v-row>
                 <v-col
-                  v-for="(game, index) in waitingclose.rents"
+                  v-for="(game, index) in closing.rents"
                   :key="index"
                   md="6"
-                  lg="6"
-                ><div v-if="game.status === 'rented'">
-                  <card-game
-                    :game="game.associatedGame"
-                    
-                  />
+                  lg="3"
+                >
+                  <card-game :game="game.associatedGame" />
                   <v-btn @click="validateReservation(game.id, 'closed')"
->Close</v-btn>
-</div>
-                  <!-- {{ game.associatedGame.name }}
-                        <v-img :src="game.associatedGame.img" height="50" width="70" alt="game.associatedGame[0].game.name" /> -->
+                    >Close</v-btn
+                  >
+                </v-col>
+              </v-row>
+              <v-pagination
+                v-if="games.length !== 0"
+                v-model="pageClosing"
+                :length="maxPageClosing"
+                :total-visible="4"
+                prev-icon="mdi-menu-left"
+                next-icon="mdi-menu-right"
+                @input="updatepageClosing"
+              ></v-pagination>
+            </v-card-subtitle>
+          </v-card>
+          </v-col>
+          <v-col sm="12" md="12">
+          <v-card class="gamesList br-5px white">
+            <v-card-title class="orange--text">
+              <h1>Closed</h1>
+            </v-card-title>
+            <v-card-subtitle
+              v-if="closing.rents.length > 0"
+              align="center"
+            >
+              <v-row>
+                <v-col
+                  v-for="(game, index) in closed.rents"
+                  :key="index"
+                  md="6"
+                  lg="3"
+                >
+                  <card-game :game="game.associatedGame" />
                 </v-col>
               </v-row>
               <v-pagination
@@ -107,11 +132,11 @@
                 :total-visible="4"
                 prev-icon="mdi-menu-left"
                 next-icon="mdi-menu-right"
-                @input="updatePageClosed"
+                @input="updatepageClosed"
               ></v-pagination>
             </v-card-subtitle>
           </v-card>
-        </v-col>
+          </v-col>
       </v-row>
     </v-card>
   </div>
@@ -125,11 +150,14 @@ export default {
   data() {
     return {
       games: {},
-      waitingreservations: {},
-      waitingclose: {},
+      reserving: { rents: {}},
+      closing: { rents: {} },
+      closed: { rents: {} },
       pageReserved: 1,
+      pageClosing: 1,
       pageClosed: 1,
       maxPageClosed: null,
+      maxPageClosing: null,
       maxPageReserved: null,
     }
   },
@@ -148,21 +176,31 @@ export default {
       .get(
         `api/user/account/rent/${
           this.$auth.$storage.getUniversal('user').id
-        }/reserved?pageSize=5&page=${this.pageReserved}`
+        }/reserved?pageSize=8&page=${this.pageReserved}`
       )
       .then((res) => {
         this.maxPageReserved = res.data.totalPages
-        this.waitingreservations = res.data
+        this.reserving = res.data
       })
     this.$axios
       .get(
         `api/user/account/rent/${
           this.$auth.$storage.getUniversal('user').id
-        }/rented?pageSize=10&page=${this.pageClosed}`
+        }/rented?pageSize=8&page=${this.pageClosing}`
+      )
+      .then((res) => {
+        this.maxPageClosing = res.data.totalPages
+        this.closing = res.data
+      })
+      this.$axios
+      .get(
+        `api/user/account/rent/${
+          this.$auth.$storage.getUniversal('user').id
+        }/closed?pageSize=8&page=${this.pageClosed}`
       )
       .then((res) => {
         this.maxPageClosed = res.data.totalPages
-        this.waitingclose = res.data
+        this.closed = res.data
       })
   },
   methods: {
@@ -173,23 +211,42 @@ export default {
           status,
         })
         .then((res) => {
-          if (status === 'closed') {
-            this.waitingclose.rents.map((rent) => {
-              if (rent.id === rentId) {
-                rent.status = status
-              }
-              return rent
-            })
-            this.$awn.success('status updated : ' + status)
-          } else {
-            this.waitingreservations.rents.map((rent) => {
-              if (rent.id === rentId) {
-                rent.status = status
-                this.waitingclose.rents.push(rent)
-              }
-              return rent
-            })
-            this.$awn.success('status updated : ' + status)
+          switch (status) {
+            case 'rented':
+              this.reserving.rents.map((rent, index) => {
+                if (rent.id === rentId) {
+                  rent.status = status
+                  this.closing.rents.push(rent)
+                  this.reserving.rents.splice(index, 1)
+                }
+                return rent
+              })
+              this.$awn.success('status updated : ' + status)
+              break
+            case 'closed':
+              this.closing.rents.map((rent, index) => {
+                if (rent.id === rentId) {
+                  rent.status = status
+                  this.closed.rents.push(rent)
+                  this.closing.rents.splice(index, 1)
+                }
+
+                return rent
+              })
+              this.$awn.success('status updated : ' + status)
+              break
+            case 'finished':
+              this.closed.rents.map((rent, index) => {
+                if (rent.id === rentId) {
+                  rent.status = status
+                  this.closed.rents.splice(index, 1)
+                }
+                return rent
+              })
+              this.$awn.success('status updated : ' + status)
+              break
+            default:
+              break
           }
         })
     },
@@ -198,25 +255,45 @@ export default {
         this.$awn.warning('no more page')
       } else {
         this.$axios
-          .$get(`api/rentingGames/${this.user.id}?page=${this.page}&pageSize=5`)
+          .$get(`api/user/account/rent/${
+          this.$auth.$storage.getUniversal('user').id
+        }/reserved?pageSize=8&page=${this.pageReserved}`)
           .then((response) => {
-            this.rentingGames = response.rentingGames
+            this.reserving.rents = response.rents
           })
       }
     },
-    updatePageClosed() {
+    updatepageClosing() {
+      if (this.pageClosing > this.maxPageClosing) {
+        this.$awn.warning('no more page')
+      } else {
+        this.$axios
+          .$get(
+            `api/user/account/rent/${
+          this.$auth.$storage.getUniversal('user').id
+        }/rented?pageSize=8&page=${this.pageClosing}`
+          )
+          .then((response) => {
+            this.closing.rents = response.rents
+          })
+      }
+    },
+    updatepageClosed() {
       if (this.pageClosed > this.maxPageClosed) {
         this.$awn.warning('no more page')
       } else {
         this.$axios
           .$get(
-            `api/rentingGames/${this.user.id}?page=${this.pageClosed}&pageSize=5`
+            `api/user/account/rent/${
+          this.$auth.$storage.getUniversal('user').id
+        }/closed?pageSize=8&page=${this.pageClosed}`
           )
           .then((response) => {
-            this.rentingGames = response.rentingGames
+            this.closed.rents = response.rents
           })
       }
     },
+
     getGame(reponse) {
       reponse.Game.map((game) => {
         this.$axios.$get(`api/game/${game.game_id}`).then((res) => {
@@ -232,8 +309,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.card
-{
-    box-shadow: rgba(209, 107, 5, 0.691) 0px 4px 12px !important;
+@import '@/design/_colors.scss';
+.gamesList {
+  background-color: white !important;
+  border-radius: 5px !important;
+  border: 2px solid $color-primary !important;
 }
 </style>
