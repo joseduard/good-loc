@@ -74,21 +74,36 @@ export const UpdateRentStatus = async (req, res) => {
   });
   const userId = req.body.user_id;
   if (checkRent.user_id_owner === userId) {
-    await Rent.update(
-      {
-        status: req.body.status,
-      },
-      {
-        where: {
-          id: req.params.id,
+    if (checkRent.status === "reserved") {
+      await Rent.update(
+        {
+          status: req.body.status,
         },
-      }
-    );
-    res.status(201).json({ checkRent, status: "updated" });
-  } else {
-    return res
-      .status(405)
-      .json({ message: "Vous n'êtes pas le propriétaire de cette location" });
+        {
+          where: {
+            id: req.params.id,
+          },
+        }
+      );
+      res.status(201).json({ checkRent, status: "rented" });
+    } else if (checkRent.status === "rented") {
+      await Rent.update(
+        {
+          status: req.body.status,
+          return_date: Date.now(),
+        },
+        {
+          where: {
+            id: req.params.id,
+          },
+        }
+      );
+      res.status(201).json({ checkRent, status: "closed" });
+    } else {
+      return res
+        .status(405)
+        .json({ message: "Vous n'êtes pas le propriétaire de cette location" });
+    }
   }
 };
 
