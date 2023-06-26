@@ -1,26 +1,14 @@
 <template>
   <v-dialog v-model="showSignInModal" persistent width="50em">
     <v-card id="cardModal">
+      <v-btn icon @click="closeModal" class="close-button">
+          <v-icon>mdi-close</v-icon>
+      </v-btn>
       <v-card id="cardConnexion" class="mx-auto">
-        <v-card-title class="justify-center"> Connexion avec : </v-card-title>
-        <v-row>
-          <v-col col="12" sm="6" md="4">
-            <font-awesome-icon
-              :icon="['fab', 'google']"
-              class="primary--text"
-            />
-          </v-col>
-          <v-col col="12" sm="6" md="4">
-            <font-awesome-icon :icon="['fab', 'google']" />
-          </v-col>
-          <v-col col="12" sm="6" md="4">
-            <font-awesome-icon :icon="['fab', 'google']" />
-          </v-col>
-        </v-row>
+        <v-card-title class="justify-center"> Login : </v-card-title>
+      
         <div id="rowForm">
-          <v-row align="center">
-            <v-divider></v-divider>Ou :<v-divider></v-divider>
-          </v-row>
+          
           <form @submit.prevent="userLogin">
             <v-text-field v-model="email" required label="Email"></v-text-field>
             <v-text-field
@@ -28,10 +16,17 @@
               :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
               :type="show1 ? 'text' : 'password'"
               required
-              label="Mot de passe"
+              label="Password"
               @click:append="show1 = !show1"
             ></v-text-field>
-            <v-btn type="submit">Connexion</v-btn>
+            <v-btn class="button_login" type="submit">
+              <v-img
+                class="unicorn_button"
+                :src="require(`../.././assets/images/succes_unicorn.png`)"
+                contain>
+              </v-img>
+              GOOOOO !
+            </v-btn>
             <!-- <v-btn @click="logout">logout</v-btn> -->
           </form>
           <!-- {{ $auth.$storage.getUniversal('user') }} -->
@@ -86,6 +81,9 @@ export default {
         )
       } catch (err) {}
     },
+    closeModal() {
+      this.setShowSignInModal(false)
+    },
     async logout() {
       try {
         const userId = this.$auth.$storage.getUniversal('user').id
@@ -101,6 +99,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@/design/_colors';
+
 #cardModal {
   text-align: center;
   #cardConnexion {
@@ -117,4 +117,26 @@ export default {
   padding-top: 40px;
 }
 
+.close-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 16px;
+}
+.unicorn_button {
+    height: 70px;
+    width: 70px;
+  }
+
+  .button_login {
+    border-radius: 20px 70px 35px 70px;
+    background-color: $color-primary !important;
+    cursor: pointer ;
+  }
+  .button_login:hover {
+    background-color: white !important;
+    color: black; 
+    border: 2px solid rgba(96, 93, 93, 0.41);
+  }
 </style>
+

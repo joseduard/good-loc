@@ -1,24 +1,29 @@
 <template>
   <v-container id="user-id">
     <ModalUserAddGame />
-    <v-row>
-      <v-col cols="12" md="4" lg="3">
+
         <div class="container-img">
-          <v-img class="avatar-img" :src="user.img" height="200px"> </v-img>
+          <v-img v-if="test === true" class="avatar-img" :src="user.img" height="200px"> </v-img>
+          <v-img v-else class="avatar-img" :src="require(`../../assets/images/avatar.png`)"  contain></v-img>
+        </div> 
+        <div class="container-input-avatar">
+          <v-file-input
+            class="input-avatar"
+            @change="uploadAvatar"
+            v-model="file"
+            :rules="rules"
+            accept="image/png, image/jpeg, image/bmp"
+            placeholder="Pick an avatar"
+            prepend-icon="mdi-camera"
+            label="Avatar"
+            hide-input
+          >
+          </v-file-input>
+          <span class="text-avatar">Your avatar</span>
+          
         </div>
-        <ModalUserAddGame
-          v-if="dialogModal"
-          :dialog-modal="dialogModal"
-          :game="game"
-        />
-        <div class="br-5px orange" align="center">
-          <p>Ajouter image</p>
-        <v-file-input v-model="file">Add avatar</v-file-input>
-      <v-btn @click="uploadAvatar">upload</v-btn>
-    </div>
-      </v-col>
-      <v-col cols="12" md="8" lg="9">
-        <v-card >
+ 
+        <v-card class= "user-info">
           <v-card-text>
             <v-card-title class="white--text">
               <font-awesome-icon
@@ -37,7 +42,7 @@
                 <v-text-field
                   v-model="user.email"
                   dense
-                  placeholder="Votre email"
+                  placeholder="your email"
                   type="text"
                   clearable
                   required
@@ -70,7 +75,7 @@
                 <v-text-field
                   v-model="user.pseudo"
                   dense
-                  placeholder="Votre Pseudo"
+                  placeholder="Your pseudo"
                   type="text"
                   clearable
                   required
@@ -86,7 +91,7 @@
                 <v-textarea
                   v-model="user.description"
                   dense
-                  placeholder="Description de votre profil"
+                  placeholder="your gamer story"
                   clearable
                   required
                   :rules="[rules.required]"
@@ -100,19 +105,17 @@
           <v-card-actions class="card-actions">
             <v-row justify="center">
               <v-btn color="tertiary" text @click="cancel()"> Cancel</v-btn>
-              <v-btn color="primary" @click="save()">Sauvegarder</v-btn>
+              <v-btn color="primary" @click="save()">Save my profil</v-btn>
             </v-row>
           </v-card-actions>
         </v-card>
-      </v-col>
-    </v-row>
-    <v-row>
+    <v-row >
       <v-col cols="12" md="12">
-        <v-list  class=" card br-5px white">
+        <v-list class= "games-info">
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title class="text-uppercase tertiary--text"
-                >Mes Jeux</v-list-item-title
+                >My Games</v-list-item-title
               >
             </v-list-item-content>
             <v-list-item-action>
@@ -137,17 +140,9 @@
             <v-col
               v-for="(game, index) in rentingGames"
               :key="index"
-              cols="2"
             >
             <CardGame :game="game.Game"></CardGame>
-              <!-- <v-card class="ma-2">
-                  <v-card-title class="white--text">
-                    <v-img :src="game.Game.img" height="120px"></v-img>
-                  </v-card-title>
-                  <v-card-subtitle>
-                    <span class="ml-2 fw-700 white--text" >{{ game.Game.name }}</span>
-                  </v-card-subtitle>
-              </v-card> -->
+              
             </v-col>
           </v-row>
           <v-pagination 
@@ -179,6 +174,7 @@ export default {
   middleware: 'auth',
   data() {
     return {
+      test: false,
       rules: {
         required: (value) => !!value || this.messageRequired,
         email: (value) => {
@@ -211,7 +207,7 @@ export default {
     this.$axios.$get('/api/user/'+this.user.id).then((response) => {
       this.user = response
     })
-    this.$axios.$get('api/rentingGames/'+this.user.id+'?page=1&pageSize=5').then((response) => {
+    this.$axios.$get('api/rentingGames/'+this.user.id+'?page=1&pageSize=3').then((response) => {
       this.maxPages = response.totalPages
       this.rentingGames = response.rentingGames
       this.rentingGames.map((game) => {
@@ -296,18 +292,13 @@ export default {
 @import "@/design/_colors.scss";
 
 #user-id {
-  .container-img {
-    background-color: $color-primary;
-    height: 220px;
-    width: 220px;
-    display: flex;
-    border-radius: 60px 0px 60px 0px;
-    align-items: center;
-  }
+  
   .avatar-img {
-    width: 200px;
-    height: 100px;
+    width: 270px;
+    height: 250px;
     border-radius: 50%;
+    border: 2px solid $color-primary;
+    box-shadow: rgba(0, 0, 0, 0.3) 15px 4px 12px;
     margin: 0 auto;
     display: block;
   }
@@ -319,5 +310,38 @@ export default {
     justify-content: center;
     padding: 16px;
   }
+
 }
+.v-text-field {
+    padding-top: 0px; 
+    margin-top: 0px; 
+}
+  .container-input-avatar {
+    display: flex;
+    flex-direction: row;
+    background-color: black;
+    flex-wrap: nowrap;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 20px auto; ;
+    
+    
+    .text-avatar {
+      color: $color-primary ;
+      margin-right: 10px;
+      margin-top: 5px;
+    }
+  }
+  .user-info{
+        padding-bottom: 40px;
+        margin-bottom: 20px;
+        border-radius:5px;
+  }
+  .games-info{
+      background-color: white;
+      border-radius: 5px;
+      border: 2px solid $color-primary;
+  }
 </style>

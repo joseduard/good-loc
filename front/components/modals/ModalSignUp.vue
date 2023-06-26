@@ -6,18 +6,18 @@
       </v-btn>
       <v-container class="login_container">
         <v-card-title class="justify-center"> Already an Unicorn Gamer ?</v-card-title>
-        <div class ="button_row">
-          <v-img
-          class="unicorn_button"
-          :src="require(`../.././assets/images/succes_unicorn.png`)"
-          contain></v-img>
           <v-btn class="button_login"
             @click="
               setShowSignUpModal(false)
               setShowSingInModal(true)
             "
-          >Login</v-btn>
-        </div>
+          >
+          <v-img
+                  class="unicorn_button"
+                  :src="require(`../.././assets/images/succes_unicorn.png`)"
+                contain>
+          </v-img>
+          Login</v-btn>
       </v-container>
       <v-container class="login_container">
       <v-card id="cardInscription">
@@ -53,13 +53,12 @@
                 :rules="[rules.required]"
                 label="Pseudo"
               ></v-text-field>
-              <div class ="button_row">
-                  <v-img
-                  class="unicorn_button"
-                  :src="require(`../.././assets/images/succes_unicorn.png`)"
+              <v-btn class ="button_signup" type="submit">
+                <v-img
+                class="unicorn_button"
+                :src="require(`../.././assets/images/succes_unicorn.png`)"
                 contain></v-img>
-                <v-btn class ="button_signup" type="submit">Sign up the rainbow</v-btn>
-              </div>
+              Sign up </v-btn>
             </form>
           </div>
         </v-card>
@@ -149,24 +148,20 @@ export default {
   .unicorn_button {
     height: 70px;
     width: 70px;
-    position: relative; 
-    right: -10px; 
   }
+
   .button_login {
-    position: relative;
-    right: 230px;
     border-radius: 20px 70px 35px 70px;
-    background-color: $color-primary;
-    cursor: pointer;
+    background-color: $color-primary !important;
+    cursor: pointer ;
   }
   .button_login:hover {
-    background-color: $color-quaternary;
+    background-color: white !important;
+    color: black; 
     border: 2px solid rgba(96, 93, 93, 0.41);
   }
 
   .button_signup {
-    position: relative;
-    right: 50px;
     border-radius: 20px 70px 35px 70px;
     background-color: $color-primary;
     cursor: pointer;
@@ -190,9 +185,7 @@ export default {
   background-color: $color-secondary;
   position: relative;
   #cardInscription {
-    background-color: rgba(22, 21, 21, 0.9);
-    width: 80%;
-    margin-left: 10%;
+    background-color: transparent;
   }
   #rowForm {
     width: 80%;
@@ -203,19 +196,4 @@ export default {
   padding-top: 40px;
 }
 
-@media (min-width: 768px) {
-.login_container {
-  .unicorn_button{
-    right: 60px;    
-  }
-  .button_login {
-    right: 50px;
-    font-size: 12px;
-  }
-  .button_signup {
-        right: 95px;
-    font-size: 12px;
-  }
-}
-}
 </style>

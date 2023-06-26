@@ -1,6 +1,9 @@
 <template>
   <v-dialog v-model="showForgotPasswordModal" persistent width="50em">
     <v-card id="cardModal">
+      <v-btn icon @click="setShowSignUpModal(false)" class="close-button">
+          <v-icon>mdi-close</v-icon>
+      </v-btn>
       <v-card id="cardForgotPassword" class="mx-auto">
         <v-card-title class="justify-center">
           Mot de passe oublié ? NOT a shame</v-card-title
