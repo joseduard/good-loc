@@ -10,7 +10,7 @@
       <div v-if="games.length === 0">
         <p>Aucun jeu ne correspond à votre recherche</p>
       </div>
-      <v-col v-for="(gameAtm,index) in games" :key="index" cols="12" md="2" lg="3">
+      <v-col v-for="(gameAtm,index) in games" :key="index" >
         <div
           @click="
             !$auth.loggedIn

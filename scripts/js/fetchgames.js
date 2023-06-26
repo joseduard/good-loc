@@ -1,6 +1,6 @@
 import axios from "axios";
 import { parseString } from "xml2js";
-import db from "../../config/db.config.js";
+import db from "../../back/app/config/db.config.js";
 import GamesImport from "../models/Games.js";
 import PublishersImport from "../models/Publishers.js";
 import CategoriesImport from "../models/Categories.js"; // Ajout de l'importation pour le modèle "Categories"

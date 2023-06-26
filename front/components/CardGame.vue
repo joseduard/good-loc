@@ -49,6 +49,8 @@ export default {
   border-radius: 5px 5px 5px 5px;
   box-shadow: rgba(209, 107, 5, 0.55) 0px 2px 5px -1px, rgba(209, 107, 5, 0.85)0px 1px 3px -1px;
   height :250px !important;
+  min-width:250px;
+  max-width: 300px;
 
   #title {
     padding-top: 5px;

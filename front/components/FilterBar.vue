@@ -117,11 +117,11 @@ export default {
     margin-right: 20px;
     font-size: 16px;
     letter-spacing: normal;
-    max-width: 20%;
+    max-width: 250px;
     text-align: left;
-    background-color: black;
-    color: orange;
-    width: 25%;
+    background-color: $color-secondary;
+    color: $color-quaternary;
+    width: 100px;
   }
 
   .filter.v-text-field--outlined > .v-input__control > .v-input__slot {
@@ -139,7 +139,7 @@ export default {
 
   .v-select-list {
     .v-list-item {
-      color: black;
+      color: $color-secondary;
     }
   }
 }
