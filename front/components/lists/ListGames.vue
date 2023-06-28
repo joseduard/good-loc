@@ -71,6 +71,7 @@ export default {
     if (this.$route.name === 'game-list') {
       this.$axios.get(`/api/rentingGames?page=1&pageSize=24`).then((res) => {
         const datas = res.data
+        console.log(datas);
         this.maxPage = datas.totalPages
         datas.games.map((game) => {
           game.Game.price_Day_Renting = game.price_Day_Renting
@@ -85,6 +86,7 @@ export default {
       this.$axios.get(`/api/rentingGames?page=1&pageSize=8`).then((res) => {
         const datas = res.data
         this.maxPage = datas.totalPages
+        console.log(datas);
         datas.games.map((game) => {
           game.Game.price_Day_Renting = game.price_Day_Renting
           game.Game.owner_id = game.User.id
@@ -95,6 +97,7 @@ export default {
         })
       })
     }
+  
   },
   methods: {
     ...mapActions({

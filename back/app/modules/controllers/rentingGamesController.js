@@ -129,14 +129,9 @@ export const getRentingGamesByUser = async (req, res) => {
 /** récupère une listes de jeux disponible a la location. */
 export const listGames = async (req, res) => {
   try {
-    //TODO : ajouter une condition pour exclure les jeux reservé et loué par l'utilisateur
-
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.pageSize, 10) || 10;
-
-
     const offset = (page - 1) * limit;
-
     const city = req.query.city;
     const categoryName = req.query.category;
     const gameName = req.query.name;
@@ -146,8 +141,7 @@ export const listGames = async (req, res) => {
 
     // Filtrer par ville
     if (city) {
-      whereCondition["$User.city$"] =        { [Op.like]: `%${city}%` };
-      ;
+      whereCondition["$User.city$"] = { [Op.like]: `%${city}%` };
     }
 
     // Récupérer l'ID de la catégorie en fonction du nom
@@ -158,16 +152,17 @@ export const listGames = async (req, res) => {
       });
 
       if (category) {
-        whereCondition["$Game.category_id$"] = category.id; // Utiliser Game au lieu de Games
+        whereCondition["$Game.category_id$"] = category.id;
       }
     }
-//filtre par name
+
+    // Filtre par nom de jeu
     if (gameName) {
       whereCondition["$Game.name$"] = { [Op.like]: `%${gameName}%` };
     }
 
     includeCondition.push({
-      model: Games, // Utiliser Games au lieu de Game
+      model: Games,
       attributes: [
         "id",
         "img",
@@ -192,7 +187,7 @@ export const listGames = async (req, res) => {
       where: whereCondition ?? null,
     });
 
-    const {rows, count} = await RentingGames.findAndCountAll({
+    const { rows, count } = await RentingGames.findAndCountAll({
       include: [
         {
           model: Users,
@@ -218,27 +213,47 @@ export const listGames = async (req, res) => {
       limit: limit,
       offset: offset,
     });
-    const games = rows
-    for (const rentedGame of games) {
-      rentedGame.Game.category = Categories.findOne({
-        where: { id: rentedGame.Game.category_id },
-      });
-      rentedGame.Game.mechanic = MechanicsType.findOne({
-        where: { id: rentedGame.Game.mechanics_type_id },
-      });
-      rentedGame.Game.publisher = Publishers.findOne({
-        where: { id: rentedGame.Game.publisher_id },
-      });
-    }
 
+    const games = await Promise.all(
+      rows.map(async (rentedGame) => {
+        const game = rentedGame.Game;
+
+        const category = game.category_id
+          ? await Categories.findByPk(game.category_id, {
+              attributes: ["id", "name"],
+            })
+          : null;
+
+        const mechanic = game.mechanics_type_id
+          ? await MechanicsType.findByPk(game.mechanics_type_id, {
+              attributes: ["id", "name"],
+            })
+          : null;
+        
+        const publisher = game.publisher_id
+          ? await Publishers.findByPk(game.publisher_id, {
+              attributes: ["id", "name"],
+            })
+          : null;
+
+        return {
+          ...rentedGame.toJSON(),
+          Game: {
+            ...game.toJSON(),
+            category_name: category ? category.name : null,
+            mechanic_name: mechanic ? mechanic.name : null,
+            publisher_name: publisher ? publisher.name : null,
+          },
+        };
+      })
+    );
 
     res.json({
       totalItems: count,
       currentPage: page,
       pageSize: limit,
       totalPages: Math.ceil(count / limit),
-      games:games
-
+      games: games,
     });
   } catch (error) {
     console.error(error);
@@ -247,6 +262,8 @@ export const listGames = async (req, res) => {
     });
   }
 };
+
+
 
 export const getRentingGameById = async (req, res) => {
   try {
@@ -345,6 +362,7 @@ export const getBestGameRenting = async (req, res) => {
             "email",
             "city",
             "pseudo",
+            "img",
           ],
         },
       ],
