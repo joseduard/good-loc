@@ -1,49 +1,15 @@
 <template >
   <div>
-    <!-- <v-card id="Locations" class="br-5px white">
-            <v-card-title class="orange--text">
-                <h1>Locations</h1>
-            </v-card-title>
-            <v-row>
-                <v-col>
-                    <v-card-subtitle >
-                        <v-card  class="br-5px white">
-                            <v-card-title class="orange--text">
-                                <h2>My Games</h2>
-                            </v-card-title>
-                            <v-card-subtitle>
-                                <v-col >
-                                    <div v-for="(game,index) in games" :key="index" class="black--text">
-                                        {{ game.Game.name }}
-                                    </div>
-                                </v-col>
-                            </v-card-subtitle>
-                        </v-card>
-                    </v-card-subtitle>
-                </v-col>
-                <v-col>
-                    <v-card-subtitle>
-                        <v-card  class="br-5px white">
-                            <v-card-title class="orange--text">
-                                <h2>GM prestations</h2>
-                            </v-card-title>
-                            <v-card-subtitle class="black--text">
-                                Coming soon
-                            </v-card-subtitle>
-                        </v-card>
-                    </v-card-subtitle>
-                </v-col>
-            </v-row>
-        </v-card> -->
     <v-card class="card br-5px white">
       <v-card-title class="justify-center orange--text">
-        <h1>My reservations</h1></v-card-title
+        <h1>MY RENTS</h1></v-card-title
       >
       <v-row>
         <v-col sm="12" md="12">
+
+              <h2>Rents who need validation</h2>
           <v-card class="gamesList br-5px white">
             <v-card-title class="orange--text">
-              <h1>Validate</h1>
             </v-card-title>
             <v-card-subtitle align="center" v-if="reserving">
               <v-row>
@@ -55,7 +21,7 @@
                   sm="3"
                 >
                   <card-game :game="game.associatedGame" />
-                  <v-btn @click="validateReservation(game.id, 'rented')"
+                  <v-btn class="rent_button" @click="validateReservation(game.id, 'rented')"
                     >validate</v-btn
                   >
                 </v-col>
@@ -73,69 +39,69 @@
           </v-card>
         </v-col>
         <v-col sm="12" md="12">
-          <v-card class="gamesList br-5px white">
-            <v-card-title class="orange--text">
-              <h1>Running location</h1>
-            </v-card-title>
-            <v-card-subtitle
-              v-if="closing.rents.length > 0"
-              align="center"
-            >
-              <v-row>
-                <v-col
-                  v-for="(game, index) in closing.rents"
-                  :key="index"
-                  md="6"
-                  lg="3"
-                >
-                  <card-game :game="game.associatedGame" />
-                  <v-btn @click="validateReservation(game.id, 'closed')"
-                    >Close</v-btn
+            <h2>Running Rent 🦄</h2>
+            <v-card class="gamesList br-5px white">
+              <v-card-title class="orange--text">
+              </v-card-title>
+              <v-card-subtitle
+                v-if="closing.rents.length > 0"
+                align="center"
+              >
+                <v-row>
+                  <v-col
+                    v-for="(game, index) in closing.rents"
+                    :key="index"
+                    md="6"
+                    lg="3"
                   >
-                </v-col>
-              </v-row>
-              <v-pagination
-                v-if="games.length !== 0"
-                v-model="pageClosing"
-                :length="maxPageClosing"
-                :total-visible="4"
-                prev-icon="mdi-menu-left"
-                next-icon="mdi-menu-right"
-                @input="updatepageClosing"
-              ></v-pagination>
-            </v-card-subtitle>
-          </v-card>
+                    <card-game :game="game.associatedGame" />
+                    <v-btn class="rent_button" @click="validateReservation(game.id, 'closed')"
+                      >Close</v-btn
+                    >
+                  </v-col>
+                </v-row>
+                <v-pagination
+                  v-if="games.length !== 0"
+                  v-model="pageClosing"
+                  :length="maxPageClosing"
+                  :total-visible="4"
+                  prev-icon="mdi-menu-left"
+                  next-icon="mdi-menu-right"
+                  @input="updatepageClosing"
+                ></v-pagination>
+              </v-card-subtitle>
+            </v-card>
           </v-col>
           <v-col sm="12" md="12">
-          <v-card class="gamesList br-5px white">
-            <v-card-title class="orange--text">
-              <h1>Closed</h1>
-            </v-card-title>
-            <v-card-subtitle
-              v-if="closing.rents.length > 0"
-              align="center"
-            >
-              <v-row>
-                <v-col
-                  v-for="(game, index) in closed.rents"
-                  :key="index"
-                  md="6"
-                  lg="3"
-                >
-                  <card-game :game="game.associatedGame" />
-                </v-col>
-              </v-row>
-              <v-pagination
-                v-if="games.length !== 0"
-                v-model="pageClosed"
-                :length="maxPageClosed"
-                :total-visible="4"
-                prev-icon="mdi-menu-left"
-                next-icon="mdi-menu-right"
-                @input="updatepageClosed"
-              ></v-pagination>
-            </v-card-subtitle>
-          </v-card>
+            <h2>Finished Rents</h2>
+            <v-card class="gamesList br-5px white">
+              <v-card-title class="orange--text">
+              </v-card-title>
+              <v-card-subtitle
+                v-if="closing.rents.length > 0"
+                align="center"
+              >
+                <v-row>
+                  <v-col
+                    v-for="(game, index) in closed.rents"
+                    :key="index"
+                    md="6"
+                    lg="3"
+                  >
+                    <card-game :game="game.associatedGame" />
+                  </v-col>
+                </v-row>
+                <v-pagination
+                  v-if="games.length !== 0"
+                  v-model="pageClosed"
+                  :length="maxPageClosed"
+                  :total-visible="4"
+                  prev-icon="mdi-menu-left"
+                  next-icon="mdi-menu-right"
+                  @input="updatepageClosed"
+                ></v-pagination>
+              </v-card-subtitle>
+            </v-card>
           </v-col>
       </v-row>
     </v-card>
@@ -299,7 +265,6 @@ export default {
         this.$axios.$get(`api/game/${game.game_id}`).then((res) => {
           game.Game = res.data
         })
-        console.log(game.Game.price_Day_Renting)
         this.games.push(game.Game)
         return game
       })
@@ -313,6 +278,29 @@ export default {
 .gamesList {
   background-color: white !important;
   border-radius: 5px !important;
-  border: 2px solid $color-primary !important;
+  border: 1px solid $color-primary !important;
+}
+h1,h2{
+  color:$color-secondary;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+h2{
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.rent_button{
+  background-color: $color-primary !important;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 12px;
+  border: none;
+  border-radius: 20px 70px 35px 70px;
+  cursor: pointer !important;
+  transition: all 0.3s ease-in-out;
+  &:hover{
+    background-color: $color-secondary !important;
+  }
 }
 </style>

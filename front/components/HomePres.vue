@@ -58,6 +58,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+@import '@/design/_colors.scss';
 #firstRow {
   #cube {
     width: 260px;
@@ -89,6 +90,12 @@ export default {
       height: 50px !important;
       width: 140px !important;
       box-shadow: rgba(209, 107, 5, 0.691) 0px 4px 12px;
+      border-radius: 20px 70px 35px 70px;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+      &:hover{
+        background-color: $color-secondary !important;
+      }
 
     }
   }
