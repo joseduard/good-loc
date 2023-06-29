@@ -81,3 +81,14 @@ export const getGameById = async (req, res) => {
   }
 };
 
+export const getAllGamesName = async (req, res) => {
+  try {
+    const games = await Games.findAll({ attributes: ["id", "name"]});
+    const nameList = games.map(game => game.name);
+    res.status(200).json(nameList);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des jeux :", error);
+    res.status(500).json({ error: "Erreur lors de la récupération des jeux" });
+  }
+};
+

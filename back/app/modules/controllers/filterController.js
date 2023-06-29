@@ -46,3 +46,17 @@ export const getAllCities = async (req, res) => {
     res.status(500).json({ error: 'Une erreur est survenue lors de la récupération des villes.' });
   }
 };
+
+
+export const getAllPseudo = async (req, res) => {
+  try {
+    const pseudo = await Users.findAll({
+      attributes: ['pseudo'],
+    });
+    const pseudoList = pseudo.map(pseudo => pseudo.pseudo);
+    res.status(200).json(pseudoList);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des pseudos :", error);
+    res.status(500).json({ error: "Erreur lors de la récupération des pseudos" });
+  }
+}

@@ -99,8 +99,8 @@
                   clearable
                   required
                   :rules="[rules.required]"
-                  :counter="50"
-                  rows="1"
+                  :counter="200"
+                  rows="3"
                   max-height="200"
                 />
               </v-list-item-content>

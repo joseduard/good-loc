@@ -2,19 +2,20 @@
   <div>
     <v-dialog v-model="showAddGameModal" persistent>
       <v-card>
+        <v-btn icon @click="closeModal" class="close-button">
+          <v-icon>mdi-close</v-icon>
+      </v-btn>
         <v-card-title>Add game</v-card-title>
         <v-card-subtitle>
-          <v-col md="6" sm="12"> </v-col>
-          <v-text-field v-model="search" @change="getGamesByName">
-          </v-text-field>
+          
           <!-- v-text field parceque je n'arrive pas faire marcher avec l'autocomplete-->
           
           <v-autocomplete
-            v-model="game"
+            v-model="search"
             label="Autocomplete"
             :items="games"
-            return-object
             item-text="name"
+            @change="getGamesByName"
           ></v-autocomplete>
           <v-img :src="game.img" :width="300"></v-img>
           {{ game.name }}
@@ -39,7 +40,9 @@ export default {
       cautionPrice: 0,
     }
   },
-  mounted() {},
+  mounted() {
+    this.getGamesName();
+  },
   computed: {
     ...mapGetters({
       getShowAddGameModal: 'user/getShowAddGameModal',
@@ -52,9 +55,17 @@ export default {
     ...mapActions({
       setShowAddGameModal: 'user/setShowAddGameModal',
     }),
+     closeModal() {
+      this.setShowAddGameModal(false);
+    },
+    getGamesName() {
+      this.$axios.$get('/api/gamesName/').then((response) => {
+        this.games = response
+      })
+    },
     getGamesByName() {
       this.$axios.$get('/api/gamesByName/' + this.search).then((response) => {
-        this.games = response
+        this.game = response[0]
       })
     },
     addGameRent(){

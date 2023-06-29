@@ -46,13 +46,15 @@
       <v-card-title class="quaternary--text">Nouveau Message</v-card-title>
       <v-card-text class="card-msg secondary pt-4">
         <v-form ref="valid_form_message" v-model="validFormMessage">
-          <v-text-field
-            v-model="newMessage.receiver_pseudo"
-            :rules="[rules.required]"
-            label="Pseudo"
-            clearable
-            class="input-required"
-          ></v-text-field>
+          <v-autocomplete
+          v-model="newMessage.receiver_pseudo"
+          :items="pseudoList"
+          :rules="[rules.required]"
+          label="Pseudo"
+          clearable
+          class="input-required"
+        ></v-autocomplete>
+
           <v-text-field
             v-model="newMessage.object"
             :rules="[rules.required]"
@@ -82,10 +84,12 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'MessagesPage',
   data() {
     return {
+      pseudoList: [], // Liste des pseudos récupérés depuis l'API
       rules: {
         required: (value) => !!value || 'Ce champ est requis',
       },
@@ -99,10 +103,10 @@ export default {
         message_content: null,
       },
       userId: null,
-      messageToDelete:{
-      messageId: null,
-      userId: null,
-    }
+      messageToDelete: {
+        messageId: null,
+        userId: null,
+      },
     }
   },
   computed: {
@@ -112,31 +116,31 @@ export default {
       getUserInfo: 'user/getUserInfo',
     }),
     totalPages() {
-      if(this.messagesList){
+      if (this.messagesList) {
         return Math.ceil(this.messagesList.length / this.itemsPerPage);
-      } else{
-        return null
+      } else {
+        return null;
       }
     },
     displayedMessages() {
-      if(this.messagesList){
+      if (this.messagesList) {
         const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-      const endIndex = startIndex + this.itemsPerPage;
-      return this.messagesList.slice(startIndex, endIndex);
-      } else{
-        return null
+        const endIndex = startIndex + this.itemsPerPage;
+        return this.messagesList.slice(startIndex, endIndex);
+      } else {
+        return null;
       }
     },
     currentUserId() {
-      return this.$auth.$storage.getUniversal('user').id
+      return this.$auth.$storage.getUniversal('user').id;
     },
     messagesList() {
-      return this.getMessagesList.data
+      return this.getMessagesList.data;
     },
   },
   mounted() {
-  // this.setMessagesList();
-  this.loadMessages()
+    this.loadMessages();
+    this.fetchPseudoList(); // Appel pour récupérer la liste des pseudos
   },
   methods: {
     ...mapActions({
@@ -149,50 +153,61 @@ export default {
       this.currentPage = page;
     },
     deleteMsg(id) {
-      this.messageToDelete.messageId = id
-      this.messageToDelete.userId = this.currentUserId
+      this.messageToDelete.messageId = id;
+      this.messageToDelete.userId = this.currentUserId;
       this.deleteMessage(this.messageToDelete)
         .then(() => {
-          this.setMessagesList(this.currentUserId)
-          this.$awn.success('Message supprimé')
+          this.setMessagesList(this.currentUserId);
+          this.$awn.success('Message supprimé');
         })
         .catch((error) => {
-          this.$awn.alert("Erreur lors de la suppression du message")
-          this.$debugLog(error)
-        })
+          this.$awn.alert("Erreur lors de la suppression du message");
+          this.$debugLog(error);
+        });
     },
     sendMessage() {
-      this.$refs.valid_form_message.validate()
+      this.$refs.valid_form_message.validate();
       if (this.validFormMessage && this.newMessage) {
-        this.newMessage.sender_id = this.currentUserId
+        this.newMessage.sender_id = this.currentUserId;
         this.postMessageCreate(this.newMessage)
           .then((response) => {
-            this.$debugLog(response)
-            this.$refs.valid_form_message.reset()
-            this.$refs.valid_form_message.resetValidation()
-            this.$awn.success('Message envoyé')
+            this.$debugLog(response);
+            this.$refs.valid_form_message.reset();
+            this.$refs.valid_form_message.resetValidation();
+            this.$awn.success('Message envoyé');
           })
           .catch((error) => {
-            this.$awn.alert("Erreur lors de l'envoi du message")
-            this.$debugLog(error)
-          })
+            this.$awn.alert("Erreur lors de l'envoi du message");
+            this.$debugLog(error);
+          });
       }
     },
     loadMessages() {
-      if(this.currentUserId){
+      if (this.currentUserId) {
         this.setMessagesList(this.currentUserId)
           .then((response) => {
-            this.$debugLog(response)
+            this.$debugLog(response);
           })
           .catch((error) => {
-            this.$awn.alert("Erreur lors du chargement des messages")
-            this.$debugLog(error)
-          })
+            this.$awn.alert("Erreur lors du chargement des messages");
+            this.$debugLog(error);
+          });
       }
+    },
+    fetchPseudoList() {
+      this.$axios.$get('/api/pseudo')
+        .then((response) => {
+          this.pseudoList = response;
+          console.log(this.pseudoList);
+        })
+        .catch((error) => {
+          console.error("Erreur lors de la récupération des pseudos :", error);
+        });
     },
   },
 }
 </script>
+
 
 <style lang="scss" scoped>
 
