@@ -146,7 +146,7 @@ export const getRentsByUserId = async (req, res) => {
             where: {
               id: rent.user_id_renter,
             },
-            attributes: ["id", "pseudo", "email", "img"],
+            attributes: ["id", "pseudo", "email", "img","city"],
           }
       );
       return {
@@ -219,7 +219,7 @@ export const getRentsByRenterId = async (req, res) => {
             where: {
               id: rent.user_id_owner,
             },
-            attributes: ["id", "pseudo", "email", "img"],
+            attributes: ["id", "pseudo", "email", "img","city"],
           }
       );
       return {

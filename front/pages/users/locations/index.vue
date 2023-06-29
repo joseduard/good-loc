@@ -20,10 +20,8 @@
                   md="3"
                   sm="3"
                 >
-                  <card-game :game="game.associatedGame" />
-                  <v-btn class="rent_button" @click="validateReservation(game.id, 'rented')"
-                    >validate</v-btn
-                  >
+                  <card-game :game="game.associatedGame" :user="game.associatedUser" :dateResa="game.beginning_date"/>
+                  <ConfirmationModal @confirmation="validateReservation(game.id, 'rented')" :name="'Validate'"/>
                 </v-col>
               </v-row>
               <v-pagination
@@ -54,10 +52,8 @@
                     md="6"
                     lg="3"
                   >
-                    <card-game :game="game.associatedGame" />
-                    <v-btn class="rent_button" @click="validateReservation(game.id, 'closed')"
-                      >Close</v-btn
-                    >
+                    <card-game :game="game.associatedGame" :user="game.associatedUser" :dateResa="game.beginning_date" />
+                    <ConfirmationModal @confirmation="validateReservation(game.id, 'closed')" :name="'Close'"/>
                   </v-col>
                 </v-row>
                 <v-pagination
@@ -88,7 +84,7 @@
                     md="6"
                     lg="3"
                   >
-                    <card-game :game="game.associatedGame" />
+                    <card-game :game="game.associatedGame" :user="game.associatedUser" :dateResa="game.beginning_date" />
                   </v-col>
                 </v-row>
                 <v-pagination
@@ -109,9 +105,11 @@
 </template>
 <script>
 import CardGame from '~/components/CardGame.vue'
+import ConfirmationModal from '~/components/modals/ConfirmationModal.vue'
 export default {
   components: {
     CardGame,
+    ConfirmationModal
   },
   data() {
     return {
@@ -258,17 +256,6 @@ export default {
             this.closed.rents = response.rents
           })
       }
-    },
-
-    getGame(reponse) {
-      reponse.Game.map((game) => {
-        this.$axios.$get(`api/game/${game.game_id}`).then((res) => {
-          game.Game = res.data
-        })
-        this.games.push(game.Game)
-        return game
-      })
-      return reponse
     },
   },
 }

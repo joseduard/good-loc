@@ -1,5 +1,4 @@
 <template>
-  <v-container>
     <v-list>
       <v-list-item
         v-for="(item, i) in sidebarUser"
@@ -24,7 +23,6 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-  </v-container>
 </template>
 
 <script>

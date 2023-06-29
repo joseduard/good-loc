@@ -71,14 +71,7 @@
                   </v-img><span>Description</span>
                 </v-btn>
                 <!--TODO: change to router-link -->
-                <v-btn @click="createRent">
-                  <v-img
-                    class="unicorn_button_rent"
-                    :src="require(`../.././assets/images/unicorn_prout.png`)"
-                    contain>
-                  </v-img>
-                  <span id="span_rent">Rent</span>
-                </v-btn>
+                <ConfirmationModal @confirmation="createRent" :name="'rent'"/>
                 <!-- TODO: change to router-link -->
             </v-row>
         </div>
@@ -86,11 +79,14 @@
     </div>
   </v-dialog>
 </template>
-
 <script>
+import ConfirmationModal from './ConfirmationModal.vue'
 export default {
   name: 'ModalGameList',
-  props: {
+    components: {
+    ConfirmationModal,
+  },
+    props: {
     dialogModal: {
       required: true,
       type: Boolean,
@@ -134,6 +130,7 @@ export default {
       })
     }
   },
+
 }
 </script>
 

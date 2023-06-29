@@ -4,13 +4,18 @@
     <ModalSignIn />
     <ModalForgottenPassword />
     <!-- Sidebar -->
-    <v-navigation-drawer
+    
+    <!-- <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
       fixed
       app
-    >
+    > -->
+    <v-menu     
+    v-model="drawer"
+    transition="scroll-y-transition"
+>
       <!-- Sidebar List -->
       <v-list>
         <v-list-item :to="item.to" router exact>
@@ -28,7 +33,7 @@
       </v-list>
       <UnauthenticatedUserSidebar v-if="!$auth.loggedIn" />
       <UserSidebar v-if="$auth.loggedIn" />
-    </v-navigation-drawer>
+    </v-menu>
     <!-- Header -->
     <v-app-bar id="header" :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon color="primary" @click.stop="drawer = !drawer" />
