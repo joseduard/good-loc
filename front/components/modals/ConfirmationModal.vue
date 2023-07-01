@@ -3,18 +3,24 @@
     <v-btn @click="dialog = true"
       >{{ name }}
       <v-dialog v-model="dialog" activator="parent" max-width="500px">
-        <v-card class="container_rent">
+        <v-card class="container_rent align-center">
+
           <v-card-title>Confirmation</v-card-title>
-          <v-card-text>Are you sure ?</v-card-text>
+          <v-card-text><p>
+            {{ nameDate }}</p>
+          <v-date-picker v-model="picker" @change="$emit('dateSelected',picker)"></v-date-picker>
+</v-card-text>
           <v-card-actions>
             <v-btn
               @click="
-                $emit('confirmation')
+                
+                $emit('confirmation', picker)
                 dialog = false
               "
               >Confirm</v-btn
             >
             <v-btn @click="dialog = false">Cancel</v-btn>
+
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -29,10 +35,12 @@ export default {
       required: true,
     },
     dialogModal: Boolean,
+    nameDate: String,
   },
   data() {
     return {
       dialog: false,
+      picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
     }
   },
 }
@@ -40,6 +48,7 @@ export default {
 <style scoped lang="scss">
 @import '@/design/_colors';
 .container_rent {
+  max-width: 375px;
   width: 100%;
   height: 100%;
   border: 2px solid $color-primary;

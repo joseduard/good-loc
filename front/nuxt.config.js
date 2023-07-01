@@ -69,7 +69,13 @@ export default {
         'faGavel',
         'faGamepad',
         'faMoneyBill',
-        'faRectangleList'
+        'faRectangleList',
+        'faTreeCity',
+        'faCalendar',
+        'faUserGroup',
+        'faStar',
+        'faGears',
+
       ],
       brands: ['faGoogle'],
     },

@@ -25,6 +25,8 @@
                   />
                   <ConfirmationModal
                     :name="'Validate'"
+                    @dateSelected="dateSelected"
+                    :nameDate="'Select a start date'"
                     @confirmation="validateReservation(game.id, 'rented')"
                   />
                 </v-col>
@@ -59,6 +61,8 @@
                   />
                   <ConfirmationModal
                     :name="'Close'"
+                    :nameDate="'Select a closing date'"
+                    @dateSelected="dateSelected"
                     @confirmation="validateReservation(game.id, 'closed')"
                   />
                 </v-col>
@@ -130,6 +134,8 @@ export default {
       maxPageReserved: null,
       dataHolder: null,
       indexRent: null,
+      selectedGame: null,
+      selected:null,
     }
   },
   computed: {
@@ -148,6 +154,9 @@ export default {
       fetchReserved : 'rents/fetchReserved',
       fetchClosed : 'rents/fetchClosed',
         }),
+    dateSelected(picker){
+      this.selected=picker
+    },
     loadRents() {
       this.fetchRented(this.pageRented)
       this.fetchClosed(this.pageClosed)
@@ -157,9 +166,10 @@ export default {
       this.maxPageReserved=this.getReserved.totalPages
 
     },
-    validateReservation(rentId, status) {
+    validateReservation( id, status) {
+      console.log(this.selected)
       this.$axios
-        .put(`api/rent/${rentId}/updateStatus`, {
+        .put(`api/rent/${id}/updateStatus`, {
           user_id: this.$auth.$storage.getUniversal('user').id,
           status,
         })

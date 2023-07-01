@@ -8,8 +8,8 @@
       </v-card-title>
       <v-card-subtitle
         v-if="
-          $nuxt.$route.path !== '/users/locations' &&
-          $nuxt.$route.path !== '/users/purchases'
+          $nuxt.$route.path !== '/users/rentsAsOwner' &&
+          $nuxt.$route.path !== '/users/rentsAsRenter'
         "
         id="subtitle"
       >
@@ -17,14 +17,18 @@
           <span v-if="game.pseudo" class="pseudo">By : {{ game.pseudo }} </span>
         </v-row>
         <v-row>
-          <img class="icon" src="../assets/images/007.png" />
+          <!-- <img class="icon" src="../assets/images/007.png" /> -->
+          <font-awesome-icon class="icon primary--text" :icon="['fas', 'user-group']"  />
+
           <span v-if="game.min_players !== null"
             >Players : {{ game.min_players }} to {{ game.max_players }}</span
           >
           <span v-else> Players : 1 to 10 </span>
         </v-row>
         <v-row>
-          <img class="icon" src="../assets/images/004.png" />
+          <!-- <img class="icon" src="../assets/images/004.png" /> -->
+          <font-awesome-icon class="icon primary--text" :icon="['fas', 'star']"  />
+
           <span v-if="game.average_note !== null || game.average_note !== 0.0"
             >Note : {{ game.average_note }} /5</span
           >
@@ -38,7 +42,9 @@
           <span v-else> Category : Poney </span>
         </v-row>
         <v-row>
-          <img class="icon" src="../assets/images/icon2.png" />
+          <!-- <img class="icon" src="../assets/images/icon2.png" /> -->
+          <font-awesome-icon class="icon primary--text" :icon="['fas', 'gears']"  />
+
           <span v-if="game.mechanic_name !== null">
             Mechanic : {{ game.mechanic_name }}</span
           >
@@ -47,8 +53,8 @@
       </v-card-subtitle>
       <v-card-subtitle
         v-if="
-          $nuxt.$route.path === '/users/locations' ||
-          $nuxt.$route.path === '/users/purchases'
+          $nuxt.$route.path === '/users/rentsAsOwner' ||
+          $nuxt.$route.path === '/users/rentsAsRenter'
         "
         id="subtitle"
       >
@@ -60,19 +66,22 @@
           <span v-else> Players : 1 to 10 </span>
         </v-row>
         <v-row>
-          <img class="icon" src="../assets/images/004.png" />
+          <!-- <img class="icon" src="../assets/images/004.png" /> -->
+          <font-awesome-icon class="icon primary--text" :icon="['fas', 'envelope']"  />
           <span v-if="user.email !== null || user.average_note !== 0.0"
             >email : {{ user.email }}</span
           >
           <span v-else> Note : 3/5 </span>
         </v-row>
         <v-row>
-          <img class="icon" src="../assets/images/icon1.png" />
+          <font-awesome-icon class="icon primary--text" :icon="['fas', 'tree-city']"  />
           <span v-if="user.category_name !== null">City: {{ user.city }}</span>
           <span v-else> Category : Poney </span>
         </v-row>
         <v-row>
-          <img class="icon" src="../assets/images/icon2.png" />
+          <!-- <img class="icon" src="../assets/images/icon2.png" /> -->
+          <font-awesome-icon class="icon primary--text" :icon="['fas', 'calendar']"  />
+
           <!-- date sale mais je sais pas comment parse en js :/ -->
           <span v-if="dateResa !== null"> Reserving date : {{ dateResa }}</span>
           <span v-else> Mechanics : Dice </span>
@@ -139,12 +148,19 @@ export default {
       .col {
         padding: 2px;
       }
-      img {
+      // img {
+      //   margin-left: 20px;
+      //   margin-right: 5px;
+      //   width: 20px;
+      //   height: 20px;
+      // }
+      .icon {
         margin-left: 20px;
         margin-right: 5px;
         width: 20px;
         height: 20px;
       }
+
     }
   }
 }

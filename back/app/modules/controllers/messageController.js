@@ -100,7 +100,11 @@ export const deleteMessage = (req, res) => {
   const userId = req.query.userId;
 
   Message.findOne({
-    where: { id: messageId, receiver_id: userId }, // Vérifiez si l'id_receiver du message est égal à l'id de l'utilisateur en cours
+    where: { id: messageId, [Op.or]:
+      [{ receiver_id: userId },
+             { sender_id: userId}
+           ]
+  }, // Vérifiez si l'id_receiver du message est égal à l'id de l'utilisateur en cours ou du sender
   })
     .then((message) => {
       if (!message) {
