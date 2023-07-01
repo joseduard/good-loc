@@ -1,14 +1,13 @@
 <template>
   <v-dialog v-model="showSignInModal" persistent width="50em">
     <v-card id="cardModal">
-      <v-btn icon @click="closeModal" class="close-button">
-          <v-icon>mdi-close</v-icon>
+      <v-btn icon class="close-button" @click="closeModal">
+        <v-icon>mdi-close</v-icon>
       </v-btn>
       <v-card id="cardConnexion" class="mx-auto">
         <v-card-title class="justify-center"> Login : </v-card-title>
-      
+
         <div id="rowForm">
-          
           <form @submit.prevent="userLogin">
             <v-text-field v-model="email" required label="Email"></v-text-field>
             <v-text-field
@@ -23,7 +22,8 @@
               <v-img
                 class="unicorn_button"
                 :src="require(`../.././assets/images/succes_unicorn.png`)"
-                contain>
+                contain
+              >
               </v-img>
               GOOOOO !
             </v-btn>
@@ -67,7 +67,7 @@ export default {
         const password = this.password
         await this.$auth.loginWith('local', { data: { email, password } }).then(
           (response) => {
-            const user=response.data.data
+            const user = response.data.data
             this.$auth.setUser(user)
             this.$auth.$storage.setUniversal('user', user)
             this.$auth.$storage.setUniversal('loggedIn', true)
@@ -124,19 +124,18 @@ export default {
   margin: 16px;
 }
 .unicorn_button {
-    height: 70px;
-    width: 70px;
-  }
+  height: 70px;
+  width: 70px;
+}
 
-  .button_login {
-    border-radius: 20px 70px 35px 70px;
-    background-color: $color-primary !important;
-    cursor: pointer ;
-  }
-  .button_login:hover {
-    background-color: white !important;
-    color: black; 
-    border: 2px solid rgba(96, 93, 93, 0.41);
-  }
+.button_login {
+  border-radius: 20px 70px 35px 70px;
+  background-color: $color-primary !important;
+  cursor: pointer;
+}
+.button_login:hover {
+  background-color: white !important;
+  color: black;
+  border: 2px solid rgba(96, 93, 93, 0.41);
+}
 </style>
-

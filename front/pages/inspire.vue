@@ -73,7 +73,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 @import '@/design/_colors';
 
 #inspire {
@@ -82,4 +81,3 @@ export default {
   }
 }
 </style>
-

@@ -4,7 +4,7 @@
     <ModalSignIn />
     <ModalForgottenPassword />
     <!-- Sidebar -->
-    
+
     <!-- <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -12,10 +12,7 @@
       fixed
       app
     > -->
-    <v-menu     
-    v-model="drawer"
-    transition="scroll-y-transition"
->
+    <v-menu v-model="drawer" transition="scroll-y-transition">
       <!-- Sidebar List -->
       <v-list>
         <v-list-item :to="item.to" router exact>
@@ -44,7 +41,7 @@
       <v-btn text color="tertiary" :to="{ name: 'game-list' }">
         <span>Liste des jeux</span>
       </v-btn>
-   <!--
+      <!--
       <v-btn text color="tertiary" :to="{ name: 'game-master-list' }">
         <span class="white--text">Liste de GM</span>
       </v-btn>
@@ -53,7 +50,12 @@
       <v-btn v-if="!$auth.loggedIn" text color="tertiary ">
         <span @click="setShowSingUpModal">Se connecter</span>
       </v-btn>
-      <v-btn v-if="$auth.loggedIn" text color="tertiary" :to="'/users/'+$auth.$storage.getUniversal('user').id">
+      <v-btn
+        v-if="$auth.loggedIn"
+        text
+        color="tertiary"
+        :to="'/users/' + $auth.$storage.getUniversal('user').id"
+      >
         <font-awesome-icon :icon="['fas', 'user']" />
       </v-btn>
       <v-btn
@@ -135,7 +137,6 @@ export default {
       try {
         const user = this.$auth.$storage.getUniversal('user')
         const userId = user.id
-        console.log(userId)
         await this.$auth.logout({ data: { userId } })
         this.$auth.$storage.removeUniversal('user')
         this.setShowSignInModal(false)

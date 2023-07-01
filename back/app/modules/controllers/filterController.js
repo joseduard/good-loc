@@ -32,12 +32,13 @@ export const getAllMechanics = async (req, res) => {
 export const getAllCities = async (req, res) => {
   try {
     const cities = await Users.findAll({
+        order: [["city", "ASC"]],
       attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('city')), 'city']],
       where: {
         city: {
           [Sequelize.Op.ne]: null
-        }
-      }
+        },
+      },
     });
 
     const cityList = cities.map(city => city.city);

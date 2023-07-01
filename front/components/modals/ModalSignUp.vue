@@ -1,65 +1,78 @@
 <template>
   <v-dialog v-model="showSignUpModal" persistent width="50em">
     <div id="cardModal">
-      <v-btn icon @click="setShowSignUpModal(false)" class="close-button">
-          <v-icon>mdi-close</v-icon>
+      <v-btn icon class="close-button" @click="setShowSignUpModal(false)">
+        <v-icon>mdi-close</v-icon>
       </v-btn>
       <v-container class="login_container">
-        <v-card-title class="justify-center"> Already an Unicorn Gamer ?</v-card-title>
-          <v-btn class="button_login"
-            @click="
-              setShowSignUpModal(false)
-              setShowSingInModal(true)
-            "
-          >
+        <v-card-title class="justify-center">
+          Already an Unicorn Gamer ?</v-card-title
+        >
+        <v-btn
+          class="button_login"
+          @click="
+            setShowSignUpModal(false)
+            setShowSingInModal(true)
+          "
+        >
           <v-img
-                  class="unicorn_button"
-                  :src="require(`../.././assets/images/succes_unicorn.png`)"
-                contain>
+            class="unicorn_button"
+            :src="require(`../.././assets/images/succes_unicorn.png`)"
+            contain
+          >
           </v-img>
-          Login</v-btn>
+          Login</v-btn
+        >
       </v-container>
       <v-container class="login_container">
-      <v-card id="cardInscription">
-        <v-card-title class="justify-center"> Become a Unicorn 🌈</v-card-title>
+        <v-card id="cardInscription">
+          <v-card-title class="justify-center">
+            Become a Unicorn 🌈</v-card-title
+          >
           <div id="rowForm">
             <v-divider></v-divider>
-            <form @submit.prevent="sendRegister">
+            <v-form ref="formUser" @submit.prevent="sendRegister">
               <v-text-field
                 v-model="name"
                 label="Nom"
-                :rules="[rules.required]"
+                :rules="[rules.required, rules.min, rules.noSpecialChar]"
+                required
               ></v-text-field>
               <v-text-field
                 v-model="firstname"
                 label="Prenom"
                 type="text"
-                :rules="[rules.required]"
+                :rules="[rules.required, rules.min, rules.noSpecialChar]"
+                required
               ></v-text-field>
               <v-text-field
                 v-model="email"
-                :rules="[rules.required]"
+                :rules="[rules.emailRules]"
                 type="email"
                 label="Email"
+                required
               ></v-text-field>
               <v-text-field
                 v-model="password"
                 type="password"
-                :rules="[rules.required]"
+                :rules="[rules.required, rules.min, rules.noSpecialChar]"
                 label="Password"
+                required
               ></v-text-field>
               <v-text-field
                 v-model="pseudo"
-                :rules="[rules.required]"
+                :rules="[rules.required, rules.min, rules.noSpecialChar]"
                 label="Pseudo"
               ></v-text-field>
-              <v-btn class ="button_signup" type="submit">
+              <v-btn class="button_signup" type="submit">
                 <v-img
-                class="unicorn_button"
-                :src="require(`../.././assets/images/succes_unicorn.png`)"
-                contain></v-img>
-              Sign up </v-btn>
-            </form>
+                  class="unicorn_button"
+                  :src="require(`../.././assets/images/succes_unicorn.png`)"
+                  contain
+                ></v-img>
+                Sign up
+              </v-btn>
+            </v-form>
           </div>
         </v-card>
       </v-container>
@@ -82,6 +95,10 @@ export default {
       pseudo: '',
       rules: {
         required: (value) => !!value || 'Ce champ est requis',
+        emailRules:
+        v => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid',
+        min: v => v.length >= 6 || 'Min 6 characters',
+        noSpecialChar: v => !v || !/[~`!#$%^&*+=\-[\]\\';,/{}|\\":<>?]/g.test(v) || 'No special characters',
       },
     }
   },
@@ -105,6 +122,9 @@ export default {
       setShowSingInModal: 'authentications/setShowSignInModal',
     }),
     async sendRegister() {
+      const isValid = await this.$refs.formUser.validate();
+
+if (isValid) {
       await this.$axios
         .post('api/auth/register', {
           eame: this.name,
@@ -122,7 +142,10 @@ export default {
             },
           })
         })
-    },
+    }else {
+      this.$awn.alert('Please respect rules')
+    }
+  }
   },
 }
 </script>
@@ -153,11 +176,11 @@ export default {
   .button_login {
     border-radius: 20px 70px 35px 70px;
     background-color: $color-primary !important;
-    cursor: pointer ;
+    cursor: pointer;
   }
   .button_login:hover {
     background-color: white !important;
-    color: black; 
+    color: black;
     border: 2px solid rgba(96, 93, 93, 0.41);
   }
 
@@ -195,5 +218,4 @@ export default {
   padding-bottom: 40px;
   padding-top: 40px;
 }
-
 </style>

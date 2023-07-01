@@ -7,7 +7,7 @@
       outlined
       background-color="secondary"
       class="filter"
-      :class="{'orange--text': selectedFilter !== null}"
+      :class="{ 'orange--text': selectedFilter !== null }"
     ></v-select>
     <v-select
       v-if="selectedFilter === 'Categories'"
@@ -17,7 +17,7 @@
       outlined
       background-color="secondary"
       class="filter"
-      :class="{'orange--text': filter !== null}"
+      :class="{ 'orange--text': filter !== null }"
     ></v-select>
 
     <v-select
@@ -28,7 +28,7 @@
       outlined
       background-color="secondary"
       class="filter"
-      :class="{'orange--text': filter !== null}"
+      :class="{ 'orange--text': filter !== null }"
     ></v-select>
 
     <v-select
@@ -39,21 +39,19 @@
       outlined
       background-color="secondary"
       class="filter"
-      :class="{'orange--text': filter !== null}"
+      :class="{ 'orange--text': filter !== null }"
     ></v-select>
-  <v-text-field
-        v-if="selectedFilter === 'Name'"
-        v-model="filter"
-        :items="name"
-        placeholder="write a game name"
-        clearable
-        class="filter"
-        @keydown.enter="emitFiltersChange"
-        outlined
+    <v-text-field
+      v-if="selectedFilter === 'Name'"
+      v-model="filter"
+      :items="name"
+      placeholder="write a game name"
+      clearable
+      class="filter"
+      outlined
+      @keydown.enter="emitFiltersChange"
     ></v-text-field>
-
   </div>
-
 </template>
 
 <script>
@@ -64,59 +62,58 @@ export default {
       categories: [],
       mechanics: [],
       cities: [],
-      name:'',
-      dropdownItems: ['City', 'Categories', 'Mechanics','Name'],
+      name: '',
+      dropdownItems: ['City', 'Categories', 'Mechanics', 'Name'],
       selectedName: '',
       selectedFilter: null,
-    };
+    }
   },
   watch: {
     selectedFilter(newVal) {
       if (newVal === 'Categories') {
-        this.fetchCategories();
+        this.fetchCategories()
       } else if (newVal === 'Mechanics') {
-        this.fetchMechanics();
+        this.fetchMechanics()
       } else if (newVal === 'City') {
-        this.fetchCities();
+        this.fetchCities()
       }
     },
     filter() {
-      this.emitFiltersChange();
+      this.emitFiltersChange()
     },
   },
   methods: {
     fetchCategories() {
       this.$axios.get('api/categories').then((res) => {
-        this.categories = res.data.map((category) => category.name);
-      });
+        this.categories = res.data.map((category) => category.name)
+      })
     },
     fetchCities() {
       this.$axios.get('api/cities').then((res) => {
-        this.cities = res.data;
-      });
+        this.cities = res.data
+      })
     },
     fetchMechanics() {
       this.$axios.get('api/mechanics').then((res) => {
-        this.mechanics = res.data.map((mechanic) => mechanic.name);
-      });
+        this.mechanics = res.data.map((mechanic) => mechanic.name)
+      })
     },
     emitFiltersChange() {
       this.$emit('filters-change', {
         filter: this.filter,
         selectedFilter: this.selectedFilter,
-      });
+      })
     },
   },
-};
+}
 </script>
 <style scoped lang="scss">
 @import '@/design/_colors';
 
-
 .rowFilter {
   display: flex;
   flex-direction: row;
-  
+
   .filter {
     margin-right: 20px;
     font-size: 16px;
@@ -146,5 +143,4 @@ export default {
     }
   }
 }
-
 </style>

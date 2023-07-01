@@ -9,7 +9,7 @@
     </p>
     <div class="text-center">
       <v-btn text tile to="/" class="ne-link gold-underline text-right">
-        <h3 class=" fw-400 tertiary--text text-right">Revenir à l'accueil</h3>
+        <h3 class="fw-400 tertiary--text text-right">Revenir à l'accueil</h3>
       </v-btn>
     </div>
   </v-container>

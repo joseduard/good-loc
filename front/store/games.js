@@ -17,9 +17,7 @@ const actions = {
     try {
       const response = await this.$axios.get('api/games')
       commit('SET_GAMES_LIST', response.data)
-    } catch (error) {
-      console.log(error)
-    }
+    } catch (error) {}
   },
   setGamesList({ commit }) {
     this.$axios

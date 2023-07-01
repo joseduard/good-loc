@@ -2,14 +2,13 @@
   <div>
     <v-dialog v-model="showAddGameModal" persistent>
       <v-card>
-        <v-btn icon @click="closeModal" class="close-button">
+        <v-btn icon class="close-button" @click="closeModal">
           <v-icon>mdi-close</v-icon>
-      </v-btn>
+        </v-btn>
         <v-card-title>Add game</v-card-title>
         <v-card-subtitle>
-          
           <!-- v-text field parceque je n'arrive pas faire marcher avec l'autocomplete-->
-          
+
           <v-autocomplete
             v-model="search"
             label="Autocomplete"
@@ -40,9 +39,6 @@ export default {
       cautionPrice: 0,
     }
   },
-  mounted() {
-    this.getGamesName();
-  },
   computed: {
     ...mapGetters({
       getShowAddGameModal: 'user/getShowAddGameModal',
@@ -51,12 +47,15 @@ export default {
       return this.getShowAddGameModal
     },
   },
+  mounted() {
+    this.getGamesName()
+  },
   methods: {
     ...mapActions({
       setShowAddGameModal: 'user/setShowAddGameModal',
     }),
-     closeModal() {
-      this.setShowAddGameModal(false);
+    closeModal() {
+      this.setShowAddGameModal(false)
     },
     getGamesName() {
       this.$axios.$get('/api/gamesName/').then((response) => {
@@ -68,24 +67,29 @@ export default {
         this.game = response[0]
       })
     },
-    addGameRent(){
-      this.$axios.$post('/api/rentingGames/add', {
-        id: this.game.id,
-        ownerId:this.$auth.$storage.getUniversal('user').id,
-        priceDayRenting: this.pricePerDay,
-        discountMoreDayRenting: 0,
-        discountWeekRenting: 0,
-        priceBuying: 0,
-        cautionPrice: 0,
-      }).then((response) => {
-        this.$awn.success('game added')
-        this.$parent.$data.rentingGames.push(response)
-        this.setShowAddGameModal(false)
-      }, (error) => {
-        this.$awn.alert(error.response.data.error)
-        this.setShowAddGameModal(false)
-      })
-    }
+    addGameRent() {
+      this.$axios
+        .$post('/api/rentingGames/add', {
+          id: this.game.id,
+          ownerId: this.$auth.$storage.getUniversal('user').id,
+          priceDayRenting: this.pricePerDay,
+          discountMoreDayRenting: 0,
+          discountWeekRenting: 0,
+          priceBuying: 0,
+          cautionPrice: 0,
+        })
+        .then(
+          (response) => {
+            this.$awn.success('game added')
+            this.$parent.$data.rentingGames.push(response)
+            this.setShowAddGameModal(false)
+          },
+          (error) => {
+            this.$awn.alert(error.response.data.error)
+            this.setShowAddGameModal(false)
+          }
+        )
+    },
   },
 }
 </script>

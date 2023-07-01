@@ -20,7 +20,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
 #all {
   color: black;
   .search-input {
@@ -28,5 +27,4 @@ export default {
     width: 150px !important;
   }
 }
-
 </style>

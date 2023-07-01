@@ -1,8 +1,8 @@
 <template>
   <v-dialog v-model="showForgotPasswordModal" persistent width="50em">
     <v-card id="cardModal">
-      <v-btn icon @click="setShowSignUpModal(false)" class="close-button">
-          <v-icon>mdi-close</v-icon>
+      <v-btn icon class="close-button" @click="setShowSignUpModal(false)">
+        <v-icon>mdi-close</v-icon>
       </v-btn>
       <v-card id="cardForgotPassword" class="mx-auto">
         <v-card-title class="justify-center">
@@ -38,7 +38,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 #cardModal {
   text-align: center;
   #cardForgotPassword {
@@ -62,6 +61,4 @@ export default {
   padding-bottom: 40px;
   padding-top: 40px;
 }
-
-
 </style>

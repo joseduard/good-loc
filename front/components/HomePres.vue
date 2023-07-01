@@ -10,12 +10,12 @@
           <h3 class="titlePres">{{ pres.title }}</h3>
           <p>{{ pres.text }}</p>
           <p>{{ pres.text2 }}</p>
-          <v-btn :to="pres.to" :color="pres.open ? 'primary' : 'black'">{{ pres.textBtn }}</v-btn>
+          <v-btn :to="pres.to" :color="pres.open ? 'primary' : 'black'">{{
+            pres.textBtn
+          }}</v-btn>
         </v-container>
       </v-col>
     </v-row>
-
-
   </div>
 </template>
 
@@ -47,15 +47,16 @@ export default {
           title: 'ADOPT A GAME MASTER',
           img: '020.png',
           text: 'Some people love Unicorns 🦄.',
-          text2: 'Our Game Masters are the best in the world. And they are waiting for you.',
+          text2:
+            'Our Game Masters are the best in the world. And they are waiting for you.',
           textBtn: 'COMING SOON',
           open: false,
           to: '/',
         },
       ],
-    };
+    }
   },
-};
+}
 </script>
 <style scoped lang="scss">
 @import '@/design/_colors.scss';
@@ -75,9 +76,9 @@ export default {
       width: 70px !important;
       position: absolute;
       top: -30px;
-      left:6rem;
+      left: 6rem;
     }
-    p{
+    p {
       margin-top: 10px;
       font-size: 14px;
     }
@@ -85,7 +86,7 @@ export default {
       margin-top: 40px;
       font-size: 18px;
     }
-    .v-btn{
+    .v-btn {
       margin-top: 20px;
       height: 50px !important;
       width: 140px !important;
@@ -93,13 +94,10 @@ export default {
       border-radius: 20px 70px 35px 70px;
       transition: all 0.3s ease-in-out;
       cursor: pointer;
-      &:hover{
+      &:hover {
         background-color: $color-secondary !important;
       }
-
     }
   }
 }
-
-
 </style>

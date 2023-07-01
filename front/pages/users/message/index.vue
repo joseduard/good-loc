@@ -37,7 +37,7 @@
       </v-row>
     </v-card>
     <v-pagination
-    v-if="totalPages"
+      v-if="totalPages"
       v-model="currentPage"
       :length="totalPages"
       @input="changePage"
@@ -47,17 +47,18 @@
       <v-card-text class="card-msg secondary pt-4">
         <v-form ref="valid_form_message" v-model="validFormMessage">
           <v-autocomplete
-          v-model="newMessage.receiver_pseudo"
-          :items="pseudoList"
-          :rules="[rules.required]"
-          label="Pseudo"
-          clearable
-          class="input-required"
-        ></v-autocomplete>
-
+            v-model="newMessage.receiver_pseudo"
+            :items="pseudoList"
+            :rules="[rules.required]"
+            required
+            label="Pseudo"
+            clearable
+            class="input-required"
+          ></v-autocomplete>
           <v-text-field
             v-model="newMessage.object"
             :rules="[rules.required]"
+            required
             label="Objet du message"
             clearable
             class="input-required"
@@ -65,6 +66,7 @@
           <v-textarea
             v-model="newMessage.message_content"
             :rules="[rules.required]"
+            required
             label="Message"
             clearable
             class="input-required"
@@ -117,30 +119,30 @@ export default {
     }),
     totalPages() {
       if (this.messagesList) {
-        return Math.ceil(this.messagesList.length / this.itemsPerPage);
+        return Math.ceil(this.messagesList.length / this.itemsPerPage)
       } else {
-        return null;
+        return null
       }
     },
     displayedMessages() {
       if (this.messagesList) {
-        const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-        const endIndex = startIndex + this.itemsPerPage;
-        return this.messagesList.slice(startIndex, endIndex);
+        const startIndex = (this.currentPage - 1) * this.itemsPerPage
+        const endIndex = startIndex + this.itemsPerPage
+        return this.messagesList.slice(startIndex, endIndex)
       } else {
-        return null;
+        return null
       }
     },
     currentUserId() {
-      return this.$auth.$storage.getUniversal('user').id;
+      return this.$auth.$storage.getUniversal('user').id
     },
     messagesList() {
-      return this.getMessagesList.data;
+      return this.getMessagesList.data
     },
   },
   mounted() {
-    this.loadMessages();
-    this.fetchPseudoList(); // Appel pour récupérer la liste des pseudos
+    this.loadMessages()
+    this.fetchPseudoList() // Appel pour récupérer la liste des pseudos
   },
   methods: {
     ...mapActions({
@@ -150,68 +152,61 @@ export default {
       fetchUserById: 'user/fetchUserById',
     }),
     changePage(page) {
-      this.currentPage = page;
+      this.currentPage = page
     },
     deleteMsg(id) {
-      this.messageToDelete.messageId = id;
-      this.messageToDelete.userId = this.currentUserId;
+      this.messageToDelete.messageId = id
+      this.messageToDelete.userId = this.currentUserId
       this.deleteMessage(this.messageToDelete)
         .then(() => {
-          this.setMessagesList(this.currentUserId);
-          this.$awn.success('Message supprimé');
+          this.setMessagesList(this.currentUserId)
+          this.$awn.success('Message supprimé')
         })
         .catch((error) => {
-          this.$awn.alert("Erreur lors de la suppression du message");
-          this.$debugLog(error);
-        });
+          this.$awn.alert('Erreur lors de la suppression du message')
+          this.$debugLog(error)
+        })
     },
     sendMessage() {
-      this.$refs.valid_form_message.validate();
+      this.$refs.valid_form_message.validate()
       if (this.validFormMessage && this.newMessage) {
-        this.newMessage.sender_id = this.currentUserId;
+        this.newMessage.sender_id = this.currentUserId
         this.postMessageCreate(this.newMessage)
           .then((response) => {
-            this.$debugLog(response);
-            this.$refs.valid_form_message.reset();
-            this.$refs.valid_form_message.resetValidation();
-            this.$awn.success('Message envoyé');
+            this.$debugLog(response)
+            this.$refs.valid_form_message.reset()
+            this.$refs.valid_form_message.resetValidation()
+            this.$awn.success('Message envoyé')
           })
           .catch((error) => {
-            this.$awn.alert("Erreur lors de l'envoi du message");
-            this.$debugLog(error);
-          });
+            this.$awn.alert("Erreur lors de l'envoi du message")
+            this.$debugLog(error)
+          })
       }
     },
     loadMessages() {
       if (this.currentUserId) {
         this.setMessagesList(this.currentUserId)
           .then((response) => {
-            this.$debugLog(response);
+            this.$debugLog(response)
           })
           .catch((error) => {
-            this.$awn.alert("Erreur lors du chargement des messages");
-            this.$debugLog(error);
-          });
+            this.$awn.alert('Erreur lors du chargement des messages')
+            this.$debugLog(error)
+          })
       }
     },
     fetchPseudoList() {
-      this.$axios.$get('/api/pseudo')
-        .then((response) => {
-          this.pseudoList = response;
-          console.log(this.pseudoList);
-        })
-        .catch((error) => {
-          console.error("Erreur lors de la récupération des pseudos :", error);
-        });
+      this.$axios.$get('/api/pseudo').then((response) => {
+        this.pseudoList = response
+      })
     },
   },
 }
 </script>
 
-
 <style lang="scss" scoped>
-
-@import "@/design/_colors.scss";
+@import '@/design/_colors.scss';
 
 #messages {
   background-color: white;
@@ -226,7 +221,4 @@ export default {
     border-radius: 15px;
   }
 }
-
-
 </style>
-

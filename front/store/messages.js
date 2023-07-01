@@ -11,7 +11,6 @@ const getters = {
   },
 }
 
-
 const mutations = {
   SET_MESSAGES_LIST(state, messagesList) {
     state.messagesList = messagesList
@@ -20,7 +19,6 @@ const mutations = {
     state.message = message
   },
 }
-
 
 const actions = {
   // get message by id
@@ -48,7 +46,6 @@ const actions = {
       })
   },
 
-
   postMessageCreate({ commit }, message) {
     return this.$axios
       .post('api/user/account/message/create', message)
@@ -61,7 +58,14 @@ const actions = {
   },
   deleteMessage({ commit }, messageToDelete) {
     return this.$axios
-    .delete(`api/user/account/message?` + `messageId=` + messageToDelete.messageId + `&` + `userId=`+ messageToDelete.userId)
+      .delete(
+        `api/user/account/message?` +
+          `messageId=` +
+          messageToDelete.messageId +
+          `&` +
+          `userId=` +
+          messageToDelete.userId
+      )
       .then((response) => {
         return Promise.resolve(response)
       })
@@ -71,13 +75,9 @@ const actions = {
   },
 }
 
-
 export default {
   state,
   getters,
   mutations,
   actions,
 }
-
-
-

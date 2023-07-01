@@ -1,7 +1,7 @@
 const state = () => ({
   user: [],
   showAddGameModal: false,
-  userInfo: null
+  userInfo: null,
 })
 const getters = {
   getUser(state) {
@@ -12,7 +12,7 @@ const getters = {
   },
   getUserInfo(state) {
     return state.userInfo
-  }
+  },
 }
 
 const mutations = {
@@ -24,7 +24,7 @@ const mutations = {
   },
   SET_USER_INFO(state, user) {
     state.userInfo = user
-  }
+  },
 }
 
 const actions = {
@@ -42,7 +42,7 @@ const actions = {
       .catch((error) => {
         return Promise.reject(error)
       })
-  }
+  },
 }
 
 export default {

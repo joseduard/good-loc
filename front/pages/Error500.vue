@@ -18,7 +18,7 @@
       </v-col>
     </v-row> -->
     <v-row>
-      <v-col  class="d-flex justify-center"  cols="12" md="12" lg="12">
+      <v-col class="d-flex justify-center" cols="12" md="12" lg="12">
         <p class="hint">
           <v-btn text tile to="/">
             <h3 class="fw-400 primary--text">revenir à l'accueil</h3>

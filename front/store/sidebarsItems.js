@@ -2,7 +2,7 @@ const state = () => ({
   sidebarUnauthenticatedUser: [
     {
       faIconType: 'fas',
-      faIcon: 'faHome',
+      faIcon: 'rectangle-list',
       title: 'Liste des jeux',
       class: 'primary--text',
       to: '/game-list',
@@ -35,17 +35,17 @@ const state = () => ({
     },
     {
       faIconType: 'fas',
-      faIcon: 'gavel',
-      title: 'legals',
-      to: '/legals',
+      faIcon: 'money-bill',
+      title: 'rents (as owner)',
       class: 'primary--text',
+      to: '/users/rentsAsOwner',
     },
     {
       faIconType: 'fas',
-      faIcon: 'lightbulb',
-      title: 'locations',
+      faIcon: 'gamepad',
+      title: 'rents (as renter)',
       class: 'primary--text',
-      to: '/users/locations',
+      to: '/users/rentsAsRenter',
     },
     {
       faIconType: 'fas',
@@ -56,8 +56,9 @@ const state = () => ({
     },
     {
       faIconType: 'fas',
-      faIcon: 'horse-head',
-      title: 'A propos',
+      faIcon: 'gavel',
+      title: 'legals',
+      to: '/legals',
       class: 'primary--text',
     },
   ],

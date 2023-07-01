@@ -26,6 +26,9 @@ export default function (sequelize, DataTypes = dt) {
           fields: [{ name: "id" }],
         },
       ],
+      defaultScope: {
+        order: [["name", "ASC"]]
+      }
     }
   );
   categories.associate = (models) => {
