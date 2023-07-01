@@ -1,6 +1,7 @@
 import usersImport from "../../database/models/Users.js"
 import MessageImport from "../../database/models/Message.js"
 import db from "../../config/db.config.js";
+import { Op } from "sequelize";
 
 const Users = usersImport(db.sequelize)
 const Message = MessageImport(db.sequelize)
@@ -38,7 +39,13 @@ export const CreateMessage = (req, res) => {
 export const getAllUserMessages = (req, res) => {
   const userId = req.params.userId;
   Message.findAll({
-    where: { receiver_id: userId },
+    where:{
+      [Op.or]:
+     [{ receiver_id: userId },
+            { sender_id: userId}
+          ]
+        }
+    ,
       include: [
           {
                 model: Users,

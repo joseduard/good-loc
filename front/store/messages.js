@@ -1,10 +1,14 @@
 const state = () => ({
   messagesList: [],
   message: null,
+  pseudoList: [],
 })
 const getters = {
   getMessagesList(state) {
     return state.messagesList
+  },
+  getPseudoList(state) {
+    return state.pseudoList
   },
   getMessage(state) {
     return state.message
@@ -15,6 +19,9 @@ const mutations = {
   SET_MESSAGES_LIST(state, messagesList) {
     state.messagesList = messagesList
   },
+  SET_PSEUDO_LIST(state, messagesList) {
+    state.pseudoList = messagesList
+  },
   SET_MESSAGE(state, message) {
     state.message = message
   },
@@ -23,6 +30,7 @@ const mutations = {
 const actions = {
   // get message by id
   setMessageById({ commit }, messageId) {
+    console.log('prout')
     return this.$axios
       .get(`/user/account/message/${messageId}`)
       .then((response) => {
@@ -38,7 +46,26 @@ const actions = {
     return this.$axios
       .get(`api/user/account/message/list/${userId}`)
       .then((response) => {
-        commit('SET_MESSAGES_LIST', response)
+        commit('SET_MESSAGES_LIST', response.data)
+        return Promise.resolve(response)
+      })
+      .catch((error) => {
+        return Promise.reject(error)
+      })
+  },
+  setPseudoList({ commit }, userId) {
+    return this.$axios
+    .get(`api/user/account/message/list/${userId}`)
+    .then((response) => {
+        this.messages = response.data
+        const pseudoList=response.data.map((message) => {
+          if(message.sender_id!==this.$auth.$storage.getUniversal('user').id){
+          return message.sender.pseudo
+      }else{
+          return message.receiver.pseudo
+        }
+      })
+        commit('SET_PSEUDO_LIST', pseudoList)
         return Promise.resolve(response)
       })
       .catch((error) => {

@@ -7,12 +7,12 @@
       <v-row>
         <v-col sm="12" md="12">
           <h2>Rents who need validation</h2>
-          <v-card v-if="reserving" class="gamesList br-5px white">
+          <v-card v-if="reserved" class="gamesList br-5px white">
             <v-card-title class="orange--text"> </v-card-title>
             <v-card-subtitle align="center">
               <v-row>
                 <v-col
-                  v-for="(game, index) in reserving.rents"
+                  v-for="(game, index) in getReserved.rents"
                   :key="index"
                   class="black--text"
                   md="3"
@@ -47,7 +47,7 @@
             <v-card-subtitle align="center">
               <v-row>
                 <v-col
-                  v-for="(game, index) in closing.rents"
+                  v-for="(game, index) in getRented.rents"
                   :key="index"
                   md="6"
                   lg="3"
@@ -64,12 +64,12 @@
                 </v-col>
               </v-row>
               <v-pagination
-                v-model="pageClosing"
-                :length="maxPageClosing"
+                v-model="pageRented"
+                :length="maxPageRented"
                 :total-visible="4"
                 prev-icon="mdi-menu-left"
                 next-icon="mdi-menu-right"
-                @input="updatepageClosing"
+                @input="updatepageRented"
               ></v-pagination>
             </v-card-subtitle>
           </v-card>
@@ -81,7 +81,7 @@
             <v-card-subtitle align="center">
               <v-row>
                 <v-col
-                  v-for="(game, index) in closed.rents"
+                  v-for="(game, index) in getClosed.rents"
                   :key="index"
                   md="6"
                   lg="3"
@@ -95,7 +95,7 @@
               </v-row>
               <v-pagination
                 v-model="pageClosed"
-                :length="maxPageClosed"
+                :length="getClosed.totalPages"
                 :total-visible="4"
                 prev-icon="mdi-menu-left"
                 next-icon="mdi-menu-right"
@@ -109,6 +109,7 @@
   </div>
 </template>
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import CardGame from '~/components/CardGame.vue'
 import ConfirmationModal from '~/components/modals/ConfirmationModal.vue'
 export default {
@@ -118,52 +119,44 @@ export default {
   },
   data() {
     return {
-      reserving: { rents: {} },
-      closing: { rents: [] },
+      reserved: { rents: {} },
+      rented: { rents: [] },
       closed: { rents: {} },
       pageReserved: 1,
-      pageClosing: 1,
+      pageRented: 1,
       pageClosed: 1,
       maxPageClosed: null,
-      maxPageClosing: null,
+      maxPageRented: null,
       maxPageReserved: null,
       dataHolder: null,
       indexRent: null,
     }
   },
+  computed: {
+        ...mapGetters({
+            getRented : 'rents/getRented',
+            getReserved : 'rents/getReserved',
+            getClosed : 'rents/getClosed',
+        }),
+      },
   mounted() {
-    this.$axios
-      .get(
-        `api/user/account/rent/${
-          this.$auth.$storage.getUniversal('user').id
-        }/reserved?pageSize=8&page=${this.pageReserved}`
-      )
-      .then((res) => {
-        this.maxPageReserved = res.data.totalPages
-        this.reserving = res.data
-      })
-    this.$axios
-      .get(
-        `api/user/account/rent/${
-          this.$auth.$storage.getUniversal('user').id
-        }/rented?pageSize=8&page=${this.pageClosing}`
-      )
-      .then((res) => {
-        this.maxPageClosing = res.data.totalPages
-        this.closing = res.data
-      })
-    this.$axios
-      .get(
-        `api/user/account/rent/${
-          this.$auth.$storage.getUniversal('user').id
-        }/closed?pageSize=8&page=${this.pageClosed}`
-      )
-      .then((res) => {
-        this.maxPageClosed = res.data.totalPages
-        this.closed = res.data
-      })
+    this.loadRents()
   },
   methods: {
+    ...mapActions({
+      fetchRented : 'rents/fetchRented',
+      fetchReserved : 'rents/fetchReserved',
+      fetchClosed : 'rents/fetchClosed',
+        }),
+    loadRents() {
+      this.fetchRented(this.pageRented)
+      this.fetchClosed(this.pageClosed)
+      this.fetchReserved(this.pageReserved)
+      this.maxPageClosed=this.getClosed.totalPages
+      this.maxPageRented=this.getRented.totalPages
+      this.maxPageReserved=this.getReserved.totalPages
+
+    },
     validateReservation(rentId, status) {
       this.$axios
         .put(`api/rent/${rentId}/updateStatus`, {
@@ -171,86 +164,18 @@ export default {
           status,
         })
         .then((res) => {
-          switch (status) {
-            case 'rented':
-              this.dataHolder = this.reserving.rents.map((rent, index) => {
-                if (rent.id === rentId) {
-                  rent.status = status
-                  if (this.closing.rents === undefined) {
-                    this.closing.rents = []
-                  }
-                  this.closing.rents.push(rent)
-                  this.indexRent = index
-                }
-                return rent
-              })
-              this.reserving.rents = this.dataHolder
-              this.reserving.rents.splice(this.indexRent, 1)
-              this.$awn.success('status updated : ' + status)
-              break
-            case 'closed':
-              this.dataHolder = this.closing.rents.map((rent, index) => {
-                if (rent.id === rentId) {
-                  rent.status = status
-                  this.closed.rents.push(rent)
-                  this.indexRent = index
-                }
-                return rent
-              })
-              this.closing.rents = this.dataHolder
-              this.closing.rents.splice(this.indexRent, 1)
-
-              this.$awn.success('status updated : ' + status)
-              break
-            default:
-              break
-          }
-        })
+          this.$awn.success('Reservation closed')
+          this.loadRents()
+                })
     },
     updatePageReserved() {
-      if (this.pageReserved > this.maxPageReserved) {
-        this.$awn.warning('no more page')
-      } else {
-        this.$axios
-          .$get(
-            `api/user/account/rent/${
-              this.$auth.$storage.getUniversal('user').id
-            }/reserved?pageSize=8&page=${this.pageReserved}`
-          )
-          .then((response) => {
-            this.reserving.rents = response.rents
-          })
-      }
+      this.fetchReserved(this.pageReserved)
     },
-    updatepageClosing() {
-      if (this.pageClosing > this.maxPageClosing) {
-        this.$awn.warning('no more page')
-      } else {
-        this.$axios
-          .$get(
-            `api/user/account/rent/${
-              this.$auth.$storage.getUniversal('user').id
-            }/rented?pageSize=8&page=${this.pageClosing}`
-          )
-          .then((response) => {
-            this.closing.rents = response.rents
-          })
-      }
+    updatepageRented() {
+      this.fetchRented(this.pageRented)
     },
     updatepageClosed() {
-      if (this.pageClosed > this.maxPageClosed) {
-        this.$awn.warning('no more page')
-      } else {
-        this.$axios
-          .$get(
-            `api/user/account/rent/${
-              this.$auth.$storage.getUniversal('user').id
-            }/closed?pageSize=8&page=${this.pageClosed}`
-          )
-          .then((response) => {
-            this.closed.rents = response.rents
-          })
-      }
+        this.fetchClosed(this.pageClosed)
     },
   },
 }
