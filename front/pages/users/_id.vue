@@ -279,6 +279,7 @@ export default {
         .then((response) => {
           this.user.img = response.data.url
           this.$awn.success('avatar updated')
+          console.log(this.user.img);
         })
     },
   },

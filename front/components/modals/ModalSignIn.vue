@@ -63,24 +63,35 @@ export default {
     }),
     async userLogin() {
       try {
-        const email = this.email
-        const password = this.password
+        const email = this.email;
+        const password = this.password;
+
         await this.$auth.loginWith('local', { data: { email, password } }).then(
           (response) => {
-            const user = response.data.data
-            this.$auth.setUser(user)
-            this.$auth.$storage.setUniversal('user', user)
-            this.$auth.$storage.setUniversal('loggedIn', true)
-            this.setAuthUser(user)
-            this.setShowSignInModal(false)
-            this.$awn.success('Vous êtes connecté !')
+            const user = response.data.data;
+            this.$auth.setUser(user);
+            this.$auth.$storage.setUniversal('user', user);
+            this.$auth.$storage.setUniversal('loggedIn', true);
+            this.setAuthUser(user);
+            this.setShowSignInModal(false);
+            this.$awn.success('Vous êtes connecté !');
+            
+            this.$axios.get(`/api/user/${user.id}`).then((res) => {
+              const loggedUser = res.data;
+              if (loggedUser.city === null || loggedUser.city === '') {
+                this.$router.push(`/users/${user.id}`);
+              } else {
+                this.$router.push('/game-list');
+              }
+            });
           },
           (error) => {
-            this.$awn.alert(error)
+            this.$awn.alert(error);
           }
-        )
+        );
       } catch (err) {}
     },
+
     closeModal() {
       this.setShowSignInModal(false)
     },

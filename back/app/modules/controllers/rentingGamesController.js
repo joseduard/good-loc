@@ -320,7 +320,6 @@ export const getRentingGameById = async (req, res) => {
 export const getBestGameRenting = async (req, res) => {
   try {
     const gameId = req.params.id;
-    console.log(gameId);
     // Récupérer toutes les rentingGames pour le jeu spécifié
     const rentingGames = await RentingGames.findAll({
       where: {

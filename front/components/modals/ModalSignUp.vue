@@ -33,16 +33,16 @@
             <v-divider></v-divider>
             <v-form ref="formUser" @submit.prevent="sendRegister">
               <v-text-field
-                v-model="name"
-                label="Nom"
-                :rules="[rules.required, rules.min, rules.noSpecialChar]"
-                required
-              ></v-text-field>
-              <v-text-field
                 v-model="firstname"
                 label="Prenom"
                 type="text"
-                :rules="[rules.required, rules.min, rules.noSpecialChar]"
+                :rules="[rules.required, rules.noSpecialChar]"
+                required
+              ></v-text-field>
+              <v-text-field
+                v-model="name"
+                label="Nom"
+                :rules="[rules.required, rules.noSpecialChar]"
                 required
               ></v-text-field>
               <v-text-field
@@ -54,10 +54,12 @@
               ></v-text-field>
               <v-text-field
                 v-model="password"
-                type="password"
-                :rules="[rules.required, rules.min, rules.noSpecialChar]"
+                :rules="[rules.required, rules.min, rules.specialChar]"
                 label="Password"
-                required
+                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="show1 ? 'text' : 'password'"
+              required
+              @click:append="show1 = !show1"
               ></v-text-field>
               <v-text-field
                 v-model="pseudo"
@@ -93,12 +95,15 @@ export default {
       firstname: '',
       password: '',
       pseudo: '',
+      show1: false,
       rules: {
         required: (value) => !!value || 'Ce champ est requis',
         emailRules:
         v => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid',
         min: v => v.length >= 6 || 'Min 6 characters',
         noSpecialChar: v => !v || !/[~`!#$%^&*+=\-[\]\\';,/{}|\\":<>?]/g.test(v) || 'No special characters',
+        specialChar: v => !v || /[~`!#$%^&*+=\-[\]\\';,/{}|\\":<>?]/g.test(v) || 'At least one special character is required',
+
       },
     }
   },
@@ -127,7 +132,7 @@ export default {
 if (isValid) {
       await this.$axios
         .post('api/auth/register', {
-          eame: this.name,
+          name: this.name,
           firstname: this.firstname,
           email: this.email,
           password: this.password,

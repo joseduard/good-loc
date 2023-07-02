@@ -4,7 +4,6 @@
       <v-img :src="game.img" height="100px" cover></v-img>
       <v-card-title id="title">
         {{ game.name }}
-        {{ $nuxt.$route.path }}
       </v-card-title>
       <v-card-subtitle
         v-if="

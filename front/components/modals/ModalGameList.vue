@@ -15,7 +15,7 @@
           </v-card-title>
           <v-card-subtitle id="subtitle">
             <v-row class="item_rent">
-              <v-col sm="12" md="4">
+              <v-col cols="12" md="6" lg="4">
                 <v-row>
                   <img
                     cover
@@ -29,7 +29,7 @@
                   <span v-else> Players : 1 to 10 </span>
                 </v-row>
               </v-col>
-              <v-col sm="12" md="4">
+              <v-col cols="12" md="6" lg="4">
                 <v-row>
                   <img
                     cover
@@ -42,7 +42,7 @@
                   <span v-else> Category : Poney </span>
                 </v-row>
               </v-col>
-              <v-col sm="12" md="4">
+              <v-col cols="12" md="6" lg="4">
                 <v-row>
                   <img
                     cover
@@ -57,7 +57,7 @@
               </v-col>
             </v-row>
             <v-row class="item_rent">
-              <v-col sm="12" md="4">
+              <v-col cols="12" md="6" lg="4">
                 <v-row>
                   <img
                     cover
@@ -70,7 +70,7 @@
                   <span v-else> Sweet Age : 6 to 99 </span>
                 </v-row>
               </v-col>
-              <v-col sm="12" md="4">
+              <v-col cols="12" md="6" lg="4">
                 <v-row>
                   <img
                     cover
@@ -83,7 +83,7 @@
                   <span v-else> Complexity : 2/5 </span>
                 </v-row>
               </v-col>
-              <v-col sm="12" md="4">
+              <v-col cols="12" md="6" lg="4">
                 <v-row>
                   <img
                     cover
@@ -110,7 +110,9 @@
               ><span>Description</span>
             </v-btn>
             <!--TODO: change to router-link -->
-            <ConfirmationModal :name="'rent'" @confirmation="createRent" />
+            <ConfirmationModal  :name="'rent'" @confirmation="createRent">
+                
+            </ConfirmationModal> 
             <!-- TODO: change to router-link -->
           </v-row>
         </div>
@@ -191,6 +193,7 @@ export default {
   box-shadow: rgba(255, 129, 2, 0.25) 0px 30px 60px -12px inset,
     rgba(210, 90, 4, 0.3) 0px 18px 36px -18px inset;
   background-color: black !important;
+  overflow: auto;
 }
 .v-card {
   width: 90% !important;
@@ -228,12 +231,13 @@ export default {
     rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 .info_rent {
-  height: 350px;
+  height: fit-content;
+  padding-bottom: 20px;
   #title {
     font-size: 25px;
     font-weight: bold;
     color: $color-primary;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
   }
   .item_rent {
     margin-top: 30px;
@@ -262,67 +266,74 @@ export default {
   justify-content: center;
   flex-wrap: wrap;
   margin: 20px auto 0 0;
-  .v-btn {
-    margin-right: 30px;
-    background-color: $color-primary;
-    color: white;
-    min-width: 150px;
-    width: 150px;
-    max-width: 150px;
-    padding: 10px;
-    font-size: 15px;
-    border-radius: 5px;
-    span {
-      font-size: 15px;
-      line-height: 40px;
-      margin-left: -15px;
-    }
-    .unicorn_button {
-      opacity: 0;
-      margin-left: -30px;
-      width: 50px;
-      height: 50px;
-    }
-    .unicorn_button_rent {
-      opacity: 0;
-      margin-left: -110px;
-      width: 50px;
-      height: 50px;
-    }
-    #span_rent {
-      margin-left: -20px;
-    }
-  }
-  .v-btn:hover {
-    margin-right: 30px;
-    background-color: $color-secondary;
-    color: $color-primary;
-    min-width: 150px;
-    width: 150px;
-    max-width: 150px;
-    padding: 10px;
-    font-size: 15px;
-    border-radius: 5px;
-    span {
-      font-size: 15px;
-      line-height: 40px;
-      margin-left: -15px;
-    }
-    .unicorn_button {
-      opacity: 1;
-      margin-left: -30px;
-      width: 50px;
-      height: 50px;
-    }
-    .unicorn_button_rent {
-      opacity: 1;
-      margin-left: -110px;
-      width: 50px;
-      height: 50px;
-    }
-    #span_rent {
-      margin-left: -20px;
-    }
-  }
 }
+
+.rent_action_button .v-btn {
+  margin-right: 30px;
+  background-color: $color-primary;
+  color: white;
+  min-width: 150px;
+  width: 150px;
+  max-width: 150px;
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 5px;
+}
+
+.rent_action_button .v-btn span {
+  font-size: 15px;
+  line-height: 40px;
+  margin-left: -15px;
+}
+
+.rent_action_button .v-btn .unicorn_button {
+  opacity: 0;
+  margin-left: -30px;
+  width: 50px;
+  height: 50px;
+}
+
+.rent_action_button .v-btn:hover {
+  background-color: $color-secondary;
+  color: $color-primary;
+}
+
+.rent_action_button .v-btn:hover .unicorn_button {
+  opacity: 1;
+}
+
+.rent_action_button .confirmation-button {
+  margin-right: 30px;
+  background-color: $color-primary !important ;
+  color: white;
+  min-width: 150px;
+  width: 150px;
+  max-width: 150px;
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 5px;
+}
+
+.rent_action_button .confirmation-button span {
+  font-size: 15px;
+  line-height: 40px;
+  margin-left: -15px;
+}
+
+.rent_action_button .confirmation-button .unicorn_button {
+  opacity: 0;
+  margin-left: -30px;
+  width: 50px;
+  height: 50px;
+}
+
+.rent_action_button .confirmation-button:hover {
+  background-color: $color-secondary;
+  color: $color-primary;
+}
+
+.rent_action_button .confirmation-button:hover .unicorn_button {
+  opacity: 1;
+}
+
 </style>

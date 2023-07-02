@@ -144,13 +144,15 @@
 
     <v-row class="game_description">
       <h1 class="gameTitle">{{ game.name }}</h1>
-      <!-- Wtf ??? v-html ? really ?  -->
-      <!-- <div class="gameDescription" v-html="game.description"></div> -->
-      <span class="gameDescription" pre>{{ game.description }}</span>
+      <div class="gameDescription" v-html="game.description"></div>
+      <!-- Wtf ??? v-html ? really ? ...On recoit du html pour les descriptions !!  <span class="gameDescription" pre>{{ game.description }}</span>-->
     </v-row>
 
-    <v-row id="rentings">
-      <h2 class="title">Best Rentings</h2>
+    <v-col id="rentings">
+      <v-row>
+        <h2 class="title">Best Rentings</h2>
+      </v-row>
+      
       <v-row>
         <v-col
           v-for="(presta, index) in gameRents"
@@ -164,7 +166,7 @@
             <v-row class="row_avatar">
               <v-img
                 cover
-                src="https://i.imgur.com/mJboO28.png"
+                :src="presta.User.img"
                 class="img_user"
               ></v-img>
             </v-row>
@@ -183,7 +185,7 @@
           </a>
         </v-col>
       </v-row>
-    </v-row>
+    </v-col>
   </div>
 </template>
 <script>
@@ -293,11 +295,11 @@ img {
     text-transform: uppercase;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 20px;
+    margin: 20px 10px;
   }
   .item {
-    max-width: 100%;
-    margin-bottom: 10px;
+    max-width: 250px;
+    margin: 20px auto; 
     border: 1px solid $color-primary;
     border-radius: 5px;
     margin: 10px;

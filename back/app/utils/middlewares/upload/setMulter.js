@@ -11,11 +11,23 @@ const storage = multer.diskStorage({
     callback(null, "app/uploads");
   },
   filename: (req, file, callback) => {
-    const name = file.originalname.split(" ").join("_");
+    const originalName = file.originalname;
     const extension = MIME_TYPES[file.mimetype];
-    callback(null, name + Date.now() + "." + extension);
+
+    if (!extension) {
+      return callback(new Error("Extension de fichier non valide"));
+    }
+
+    const timestamp = Date.now();
+    const filename = `${originalName.substring(
+      0,
+      originalName.lastIndexOf(".")
+    )}${timestamp}.${extension}`;
+    callback(null, filename);
   },
 });
+
+
 
 // exports multer & add limits size accepted
 export const setMulterConfig =  multer({
