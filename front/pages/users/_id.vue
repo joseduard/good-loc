@@ -278,8 +278,11 @@ export default {
         })
         .then((response) => {
           this.user.img = response.data.url
-          this.$awn.success('avatar updated')
-          console.log(this.user.img);
+          this.$axios
+            .$put('/api/user/account/user-information', this.user)
+            .then((response) => {
+              this.$awn.success('avatar updated')
+            })
         })
     },
   },

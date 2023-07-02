@@ -14,7 +14,7 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/007.png`)"
+            :src="require(`../../assets/images/succes_unicorn.png`)"
           />
           <span v-if="game.category_name !== null"
             >Category: {{ game.category_name }}</span
@@ -27,7 +27,7 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/007.png`)"
+            :src="require(`../../assets/images/succes_unicorn.png`)"
           />
           <span v-if="game.mechanic_name !== null"
             >Mechanic : {{ game.mechanic_name }}</span
@@ -40,7 +40,7 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/007.png`)"
+            :src="require(`../../assets/images/succes_unicorn.png`)"
           />
           <span v-if="game.playtime !== null"
             >PlayTime: : {{ game.playtime }} min
@@ -53,7 +53,7 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/007.png`)"
+            :src="require(`../../assets/images/succes_unicorn.png`)"
           />
           <span v-if="game.average_learning_complexity !== null"
             >Learning : {{ game.average_learning_complexity }}/5</span
@@ -66,7 +66,7 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/007.png`)"
+            :src="require(`../../assets/images/succes_unicorn.png`)"
           />
           <span v-if="game.average_strategy_complexity !== null"
             >Strategy complexity :
@@ -80,7 +80,7 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/007.png`)"
+            :src="require(`../../assets/images/succes_unicorn.png`)"
           />
           <span v-if="game.average_note !== null">
             Average Note : {{ game.average_note }}
@@ -93,7 +93,7 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/007.png`)"
+            :src="require(`../../assets/images/succes_unicorn.png`)"
           />
           <span v-if="game.min_players !== null"
             >Players min : {{ game.min_players }}
@@ -106,7 +106,7 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/007.png`)"
+            :src="require(`../../assets/images/succes_unicorn.png`)"
           />
           <span v-if="game.max_players !== null"
             >Players max : {{ game.max_players }}
@@ -119,7 +119,7 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/007.png`)"
+            :src="require(`../../assets/images/succes_unicorn.png`)"
           />
           <span v-if="game.publisher_name !== null"
             >Publisher : {{ game.publisher_name }}</span
@@ -132,7 +132,7 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/007.png`)"
+            :src="require(`../../assets/images/succes_unicorn.png`)"
           />
           <span v-if="game.year_published !== null"
             >Birth'Year : {{ game.year_published }}
@@ -259,6 +259,7 @@ export default {
     margin-bottom: 10px;
     span {
       color: white;
+      font-size:14px ;
     }
   }
 }
@@ -318,7 +319,7 @@ img {
         font-weight: bold;
         color: $color-primary !important;
         line-height: 25px;
-        font-size: 20px;
+        font-size: 16px;
       }
     }
     .img_user {
@@ -326,6 +327,7 @@ img {
     }
     span {
       color: white;
+      font-size :14px;
     }
     a:hover {
       cursor: pointer;
