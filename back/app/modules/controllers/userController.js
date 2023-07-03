@@ -1,3 +1,5 @@
+import { Sequelize } from 'sequelize';
+
 export const getUserProfil = (req, res) => {
   const { users } = req['models'];
   const userId = req.params.id;

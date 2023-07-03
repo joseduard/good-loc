@@ -197,13 +197,13 @@ export const getRentsByRenterId = async (req, res) => {
       limit,
       offset,
     });
-    const rents = rows;
-    if (rents.length === 0) {
+    const rentsRes = rows;
+    if (rentsRes.length === 0) {
       return res.status(404).json({ message: 'Aucune location en cours' });
     }
 
     const transformedRents = await Promise.all(
-      rents.map(async (rent) => {
+      rentsRes.map(async (rent) => {
         const rentingGame = await rentingOrBuyingGames.findOne({
           where: {
             id: rent.user_game_id,
@@ -212,6 +212,7 @@ export const getRentsByRenterId = async (req, res) => {
           include: [
             {
               model: games,
+              as: 'game',
               attributes: [
                 'id',
                 'name',

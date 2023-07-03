@@ -75,7 +75,7 @@ export const getGameById = async (req, res) => {
 };
 
 export const getAllGamesName = async (req, res) => {
-  const { games, categories, mechanicsType, publishers } = req['models'];
+  const { games } = req['models'];
   try {
     const gamesRes = await games.findAll({ attributes: ['id', 'name'] });
     const nameList = gamesRes.map((game) => game.name);
