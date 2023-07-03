@@ -1,5 +1,5 @@
-import { Sequelize } from "sequelize";
-import { config as loadEnv } from "dotenv";
+import { Sequelize } from 'sequelize';
+import { config as loadEnv } from 'dotenv';
 loadEnv();
 
 const sequelize = new Sequelize(
@@ -9,7 +9,7 @@ const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT),
-    dialect: "mysql",
+    dialect: 'mysql',
     pool: {
       max: 5,
       min: 0,

@@ -1,15 +1,15 @@
-"use strict";
-const config = require("../config/config").production;
+'use strict';
+const config = require('../config/config').production;
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     return queryInterface.addColumn(
       {
-        tableName: "Games",
+        tableName: 'Games',
         schema: config.schema,
       },
-      "upc",
+      'upc',
       {
         type: Sequelize.STRING(255),
         allowNull: true,
@@ -20,10 +20,10 @@ module.exports = {
   async down(queryInterface) {
     return queryInterface.removeColumn(
       {
-        tableName: "Games",
+        tableName: 'Games',
         schema: config.schema,
       },
-      "upc"
+      'upc'
     );
   },
 };

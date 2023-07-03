@@ -1,31 +1,29 @@
-import usersImport from "../../database/models/Users.js"
-import MessageImport from "../../database/models/Message.js"
-import db from "../../config/db.config.js";
-import { Op } from "sequelize";
+import { Op } from 'sequelize';
 
-const Users = usersImport(db.sequelize)
-const Message = MessageImport(db.sequelize)
 export const CreateMessage = (req, res) => {
+  const { users, message } = req['models'];
   const receiverPseudo = req.body.receiver_pseudo;
   // add a rate limit to the amount of messages sent per 10 minutes to other users
 
-  Users.findOne({
-    where: {
-      pseudo: receiverPseudo,
-    },
-  })
+  users
+    .findOne({
+      where: {
+        pseudo: receiverPseudo,
+      },
+    })
     .then((user) => {
       if (!user) {
-        return res.status(404).send({ message: "User not found" });
+        return res.status(404).send({ message: 'User not found' });
       }
-      Message.create({
-        receiver_id: user.id,
-        sender_id: req.body.sender_id,
-        object: req.body.object,
-        message_content: req.body.message_content,
-      })
-        .then((message) => {
-          res.send({ message: "Message was created & sent" });
+      message
+        .create({
+          receiver_id: user.id,
+          sender_id: req.body.sender_id,
+          object: req.body.object,
+          message_content: req.body.message_content,
+        })
+        .then(() => {
+          res.send({ message: 'Message was created & sent' });
         })
         .catch((err) => {
           res.status(500).send({ message: err.message });
@@ -37,30 +35,26 @@ export const CreateMessage = (req, res) => {
 };
 
 export const getAllUserMessages = (req, res) => {
+  const { users, message } = req['models'];
   const userId = req.params.userId;
-  Message.findAll({
-    where:{
-      [Op.or]:
-     [{ receiver_id: userId },
-            { sender_id: userId}
-          ]
-        }
-    ,
+  message
+    .findAll({
+      where: {
+        [Op.or]: [{ receiver_id: userId }, { sender_id: userId }],
+      },
       include: [
-          {
-                model: Users,
-                as: "sender",
-                attributes: ["id", "pseudo", "img"],
-          },
-            {
-                model: Users,
-                as: "receiver",
-                attributes: ["id", "pseudo", "img"],
-
-            }
-
-      ]
-  })
+        {
+          model: users,
+          as: 'sender',
+          attributes: ['id', 'pseudo', 'img'],
+        },
+        {
+          model: users,
+          as: 'receiver',
+          attributes: ['id', 'pseudo', 'img'],
+        },
+      ],
+    })
     .then((messages) => {
       res.send(messages);
     })
@@ -70,23 +64,25 @@ export const getAllUserMessages = (req, res) => {
 };
 
 export const findOneMessage = (req, res) => {
-  const messageId = req.params.messageId;
-  Message.findOne({
-    where: { id: messageId },
-      include: [
-            {
-                model: Users,
-                as: "sender",
-                attributes: ["id", "pseudo", "img"],
-            },
-            {
-                model: Users,
-                as: "receiver",
-                attributes: ["id", "pseudo", "img"],
-            },
-        ],
+  const { users, message } = req['models'];
 
-  })
+  const messageId = req.params.messageId;
+  message
+    .findOne({
+      where: { id: messageId },
+      include: [
+        {
+          model: users,
+          as: 'sender',
+          attributes: ['id', 'pseudo', 'img'],
+        },
+        {
+          model: users,
+          as: 'receiver',
+          attributes: ['id', 'pseudo', 'img'],
+        },
+      ],
+    })
     .then((messages) => {
       res.send(messages);
     })
@@ -96,26 +92,28 @@ export const findOneMessage = (req, res) => {
 };
 
 export const deleteMessage = (req, res) => {
+  const { message } = req['models'];
+
   const messageId = req.query.messageId;
   const userId = req.query.userId;
 
-  Message.findOne({
-    where: { id: messageId, [Op.or]:
-      [{ receiver_id: userId },
-             { sender_id: userId}
-           ]
-  }, // Vérifiez si l'id_receiver du message est égal à l'id de l'utilisateur en cours ou du sender
-  })
+  message
+    .findOne({
+      where: {
+        id: messageId,
+        [Op.or]: [{ receiver_id: userId }, { sender_id: userId }],
+      }, // Vérifiez si l'id_receiver du message est égal à l'id de l'utilisateur en cours ou du sender
+    })
     .then((message) => {
       if (!message) {
         return res
           .status(404)
-          .send({ message: "Message not found or unauthorized" });
+          .send({ message: 'Message not found or unauthorized' });
       }
       message
         .destroy()
         .then(() => {
-          res.send({ message: "Message deleted successfully" });
+          res.send({ message: 'Message deleted successfully' });
         })
         .catch((err) => {
           res.status(500).send({ message: err.message });
@@ -125,4 +123,3 @@ export const deleteMessage = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
-

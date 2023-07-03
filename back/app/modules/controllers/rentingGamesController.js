@@ -1,18 +1,5 @@
-import db from "../../config/db.config.js";
-import RentingGamesImport from "../../database/models/Renting_Or_Buying_Games.js";
-import GamesImport from "../../database/models/Games.js";
-import UsersImport from "../../database/models/Users.js";
-import CategoriesImport from "../../database/models/Categories.js";
-import MechanicsTypeImport from "../../database/models/Mechanics_Type.js";
-import PublishersImport from "../../database/models/Publishers.js";
-import {Op} from "sequelize";
+import { Op } from 'sequelize';
 
-const RentingGames = RentingGamesImport(db.sequelize);
-const Games = GamesImport(db.sequelize);
-const Users = UsersImport(db.sequelize);
-const Categories = CategoriesImport(db.sequelize);
-const MechanicsType = MechanicsTypeImport(db.sequelize);
-const Publishers = PublishersImport(db.sequelize);
 /**
  * Add a renting game.
  *
@@ -21,6 +8,7 @@ const Publishers = PublishersImport(db.sequelize);
  * @returns {Object}
  */
 export const addRentingGame = async (req, res) => {
+  const { games, rentingOrBuyingGames } = req['models'];
   const {
     id,
     ownerId,
@@ -33,7 +21,7 @@ export const addRentingGame = async (req, res) => {
 
   try {
     // find the game in table "Games"
-    const game = await Games.findOne({
+    const game = await games.findOne({
       where: {
         id: id,
       },
@@ -44,7 +32,7 @@ export const addRentingGame = async (req, res) => {
     }
 
     // check if the game is already in renting by the same owner
-    const existingRentingGame = await RentingGames.findOne({
+    const existingRentingGame = await rentingOrBuyingGames.findOne({
       where: {
         game_id: game.id,
         owner_id: ownerId,
@@ -54,11 +42,11 @@ export const addRentingGame = async (req, res) => {
     if (existingRentingGame) {
       return res
         .status(400)
-        .json({ error: "Le jeu spécifié est déjà en location ou à la vente" });
+        .json({ error: 'Le jeu spécifié est déjà en location ou à la vente' });
     }
 
     // insert a new renting game
-    await RentingGames.create({
+    await rentingOrBuyingGames.create({
       game_id: game.id,
       owner_id: ownerId,
       price_day_renting: priceDayRenting,
@@ -70,7 +58,7 @@ export const addRentingGame = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: "La location a été ajoutée avec succès" });
+      .json({ message: 'La location a été ajoutée avec succès' });
   } catch (error) {
     console.error("Erreur lors de l'ajout de la location :", error);
     return res
@@ -89,24 +77,27 @@ export const addRentingGame = async (req, res) => {
  * @returns {Object} - L'objet JSON contenant les jeux de location de l'utilisateur.*/
 
 export const getRentingGamesByUser = async (req, res) => {
+  const { games, rentingOrBuyingGames } = req['models'];
   const { page, pageSize } = req.query;
   const limit = parseInt(pageSize) || 10;
   const offset = (parseInt(page) - 1) * limit;
   const userId = req.params.id;
 
   try {
-    const { count, rows: rentingGames } = await RentingGames.findAndCountAll({
-      where: {
-        owner_id: userId,
-      },
-      include: [
-        {
-            model: Games,
-            attributes: ["id", "name", "img"],
-        }],
-      limit,
-      offset,
-    });
+    const { count, rows: rentingGames } =
+      await rentingOrBuyingGames.findAndCountAll({
+        where: {
+          owner_id: userId,
+        },
+        include: [
+          {
+            model: games,
+            attributes: ['id', 'name', 'img'],
+          },
+        ],
+        limit,
+        offset,
+      });
 
     return res.status(200).json({
       totalItems: count,
@@ -125,9 +116,16 @@ export const getRentingGamesByUser = async (req, res) => {
   }
 };
 
-
 /** récupère une listes de jeux disponible a la location. */
 export const listGames = async (req, res) => {
+  const {
+    games,
+    users,
+    categories,
+    mechanicsType,
+    publishers,
+    rentingOrBuyingGames,
+  } = req['models'];
   try {
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.pageSize, 10) || 10;
@@ -141,75 +139,75 @@ export const listGames = async (req, res) => {
 
     // Filtrer par ville
     if (city) {
-      whereCondition["$User.city$"] = { [Op.like]: `%${city}%` };
+      whereCondition['$User.city$'] = { [Op.like]: `%${city}%` };
     }
 
     // Récupérer l'ID de la catégorie en fonction du nom
     if (categoryName) {
-      const category = await Categories.findOne({
-        attributes: ["id"],
+      const category = await categories.findOne({
+        attributes: ['id'],
         where: { name: categoryName },
       });
 
       if (category) {
-        whereCondition["$Game.category_id$"] = category.id;
+        whereCondition['$Game.category_id$'] = category.id;
       }
     }
 
     // Filtre par nom de jeu
     if (gameName) {
-      whereCondition["$Game.name$"] = { [Op.like]: `%${gameName}%` };
+      whereCondition['$Game.name$'] = { [Op.like]: `%${gameName}%` };
     }
 
     includeCondition.push({
-      model: Games,
+      model: games,
       attributes: [
-        "id",
-        "img",
-        "name",
-        "publisher_id",
-        "description",
-        "category_id",
-        "mechanics_type_id",
-        "price",
-        "year_published",
-        "min_players",
-        "max_players",
-        "playtime",
-        "age_min",
-        "average_learning_complexity",
-        "average_strategy_complexity",
-        "average_note",
-        "average_price_buy",
-        "average_price_location",
-        "upc",
+        'id',
+        'img',
+        'name',
+        'publisher_id',
+        'description',
+        'category_id',
+        'mechanics_type_id',
+        'price',
+        'year_published',
+        'min_players',
+        'max_players',
+        'playtime',
+        'age_min',
+        'average_learning_complexity',
+        'average_strategy_complexity',
+        'average_note',
+        'average_price_buy',
+        'average_price_location',
+        'upc',
       ],
       where: whereCondition ?? null,
     });
 
-    const { rows, count } = await RentingGames.findAndCountAll({
+    const { rows, count } = await rentingOrBuyingGames.findAndCountAll({
       include: [
         {
-          model: Users,
-          as: "User",
+          model: users,
+          as: 'User',
           attributes: [
-            "id",
-            "firstname",
-            "lastname",
-            "email",
-            "city",
-            "role",
-            "img",
-            "description",
-            "isLoggedIn",
-            "pseudo",
+            'id',
+            'firstname',
+            'lastname',
+            'email',
+            'city',
+            'role',
+            'img',
+            'description',
+            'isLoggedIn',
+            'pseudo',
           ],
           where: city ? { city: { [Op.like]: `%${city}%` } } : null,
         },
         ...includeCondition,
       ],
-      attributes: ["id", "price_Day_Renting"],
-      order: [["price_day_renting", "ASC"]],
+      attributes: ['id', 'price_Day_Renting'],
+      order: [['price_day_renting', 'ASC']],
       limit: limit,
       offset: offset,
     });
@@ -219,20 +217,20 @@ export const listGames = async (req, res) => {
         const game = rentedGame.Game;
 
         const category = game.category_id
-          ? await Categories.findByPk(game.category_id, {
-              attributes: ["id", "name"],
+          ? await categories.findByPk(game.category_id, {
+              attributes: ['id', 'name'],
             })
           : null;
 
         const mechanic = game.mechanics_type_id
-          ? await MechanicsType.findByPk(game.mechanics_type_id, {
-              attributes: ["id", "name"],
+          ? await mechanicsType.findByPk(game.mechanics_type_id, {
+              attributes: ['id', 'name'],
             })
           : null;
-        
+
         const publisher = game.publisher_id
-          ? await Publishers.findByPk(game.publisher_id, {
-              attributes: ["id", "name"],
+          ? await publishers.findByPk(game.publisher_id, {
+              attributes: ['id', 'name'],
             })
           : null;
 
@@ -263,47 +261,46 @@ export const listGames = async (req, res) => {
   }
 };
 
-
-
 export const getRentingGameById = async (req, res) => {
+  const { games, users, rentingOrBuyingGames } = req['models'];
   try {
-    const rentingGame = await RentingGames.findOne({
+    const rentingGame = await rentingOrBuyingGames.findOne({
       where: { id: req.params.id },
       include: [
         {
-          model: Games,
+          model: games,
           attributes: [
-            "id",
-            "img",
-            "name",
-            "publisher_id",
-            "description",
-            "category_id",
-            "mechanics_type_id",
-            "price",
-            "year_published",
-            "min_players",
-            "max_players",
-            "playtime",
-            "age_min",
-            "average_learning_complexity",
-            "average_strategy_complexity",
-            "average_note",
-            "average_price_buy",
-            "average_price_location",
-            "upc",
+            'id',
+            'img',
+            'name',
+            'publisher_id',
+            'description',
+            'category_id',
+            'mechanics_type_id',
+            'price',
+            'year_published',
+            'min_players',
+            'max_players',
+            'playtime',
+            'age_min',
+            'average_learning_complexity',
+            'average_strategy_complexity',
+            'average_note',
+            'average_price_buy',
+            'average_price_location',
+            'upc',
           ],
         },
         {
-          model: Users,
-          as: "User",
+          model: users,
+          as: 'User',
           attributes: [
-            "id",
-            "firstname",
-            "lastname",
-            "email",
-            "city",
-            "pseudo",
+            'id',
+            'firstname',
+            'lastname',
+            'email',
+            'city',
+            'pseudo',
           ],
         },
       ],
@@ -318,50 +315,51 @@ export const getRentingGameById = async (req, res) => {
 };
 
 export const getBestGameRenting = async (req, res) => {
+  const { games, users, rentingOrBuyingGames } = req['models'];
   try {
     const gameId = req.params.id;
     // Récupérer toutes les rentingGames pour le jeu spécifié
-    const rentingGames = await RentingGames.findAll({
+    const rentingGames = await rentingOrBuyingGames.findAll({
       where: {
         game_id: gameId,
       },
-      order: [["price_day_renting", "ASC"]],
+      order: [['price_day_renting', 'ASC']],
       include: [
         {
-          model: Games,
+          model: games,
           attributes: [
-            "id",
-            "img",
-            "name",
-            "publisher_id",
-            "description",
-            "category_id",
-            "mechanics_type_id",
-            "price",
-            "year_published",
-            "min_players",
-            "max_players",
-            "playtime",
-            "age_min",
-            "average_learning_complexity",
-            "average_strategy_complexity",
-            "average_note",
-            "average_price_buy",
-            "average_price_location",
-            "upc",
+            'id',
+            'img',
+            'name',
+            'publisher_id',
+            'description',
+            'category_id',
+            'mechanics_type_id',
+            'price',
+            'year_published',
+            'min_players',
+            'max_players',
+            'playtime',
+            'age_min',
+            'average_learning_complexity',
+            'average_strategy_complexity',
+            'average_note',
+            'average_price_buy',
+            'average_price_location',
+            'upc',
           ],
         },
         {
-          model: Users,
-          as: "User",
+          model: users,
+          as: 'User',
           attributes: [
-            "id",
-            "firstname",
-            "lastname",
-            "email",
-            "city",
-            "pseudo",
-            "img",
+            'id',
+            'firstname',
+            'lastname',
+            'email',
+            'city',
+            'pseudo',
+            'img',
           ],
         },
       ],
@@ -370,7 +368,7 @@ export const getBestGameRenting = async (req, res) => {
     if (rentingGames.length === 0) {
       return res
         .status(404)
-        .json({ error: "Aucune location trouvée pour ce jeu" });
+        .json({ error: 'Aucune location trouvée pour ce jeu' });
     }
 
     res.json(rentingGames);

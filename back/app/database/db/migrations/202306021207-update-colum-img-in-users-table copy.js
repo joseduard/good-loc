@@ -1,5 +1,5 @@
-"use strict";
-require("dotenv").config();
+'use strict';
+require('dotenv').config();
 
 export async function up(queryInterface, Sequelize) {
   await queryInterface.sequelize.transaction(async (t) => {
@@ -9,7 +9,7 @@ export async function up(queryInterface, Sequelize) {
     );
   });
 
-  return queryInterface.changeColumn("Users", "img", {
+  return queryInterface.changeColumn('Users', 'img', {
     type: Sequelize.STRING,
     allowNull: false,
     defaultValue: `${process.env.back_url}/uploads/avatar02062202.png`,

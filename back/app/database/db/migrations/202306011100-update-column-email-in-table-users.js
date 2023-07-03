@@ -1,5 +1,5 @@
-"use strict";
-const config = require("../config/config").production;
+'use strict';
+const config = require('../config/config').production;
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -13,9 +13,9 @@ module.exports = {
 
     return queryInterface.changeColumn(
       {
-        tableName: "Users",
+        tableName: 'Users',
       },
-      "email",
+      'email',
       {
         type: Sequelize.STRING,
         allowNull: false,

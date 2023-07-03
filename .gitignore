@@ -8,4 +8,7 @@ scripts/js/*.json
 scripts/bash/download-data-from-bga/save/
 scripts/bash/download-data-from-bga/tmp/bga-sitemap-xml/*.xml
 
-scripts/js/*.json
+# back uploads related to user avatars
+back/app/uploads/**/*.png
+back/app/uploads/**/*.jpg
+back/app/uploads/**/*.jpeg

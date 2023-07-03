@@ -1,17 +1,15 @@
-import UsersImport from "../../database/models/Users.js";
-import db from "../../config/db.config.js";
-const Users = UsersImport(db.sequelize);
-
 export const getUserProfil = (req, res) => {
+  const { users } = req['models'];
   const userId = req.params.id;
-  Users.findOne({
-    where: {
-      id: userId,
-    },
-  })
+  users
+    .findOne({
+      where: {
+        id: userId,
+      },
+    })
     .then((user) => {
       if (!user) {
-        return res.status(405).send({ message: "User not found" });
+        return res.status(405).send({ message: 'User not found' });
       }
       res.status(200).send({
         id: user.id,
@@ -31,16 +29,18 @@ export const getUserProfil = (req, res) => {
 };
 
 export const updateUserInformation = (req, res) => {
+  const { users } = req['models'];
   const userId = req.body.id;
 
-  Users.findOne({
-    where: {
-      id: userId,
-    },
-  })
+  users
+    .findOne({
+      where: {
+        id: userId,
+      },
+    })
     .then((user) => {
       if (!user) {
-        return res.status(405).send({ message: "User not found" });
+        return res.status(405).send({ message: 'User not found' });
       }
 
       user.lastname = req.body.lastname || user.lastname;
@@ -54,9 +54,46 @@ export const updateUserInformation = (req, res) => {
       return user.save();
     })
     .then(() => {
-      res.send({ message: "User was updated successfully!" });
+      res.send({ message: 'User was updated successfully!' });
     })
     .catch((err) => {
       res.status(500).send({ message: err.message });
     });
+};
+
+export const getAllPseudo = async (req, res) => {
+  const { users } = req['models'];
+  try {
+    const pseudo = await users.findAll({
+      attributes: ['pseudo'],
+    });
+    const pseudoList = pseudo.map((pseudo) => pseudo.pseudo);
+    res.status(200).json(pseudoList);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des pseudos :', error);
+    res
+      .status(500)
+      .json({ error: 'Erreur lors de la récupération des pseudos' });
+  }
+};
+
+export const getAllCities = async (req, res) => {
+  const { users } = req['models'];
+  try {
+    const cities = await users.findAll({
+      attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('city')), 'city']],
+      where: {
+        city: {
+          [Sequelize.Op.ne]: null,
+        },
+      },
+    });
+
+    const cityList = cities.map((city) => city.city);
+    res.status(200).json(cityList);
+  } catch (error) {
+    res.status(500).json({
+      error: 'Une erreur est survenue lors de la récupération des villes.',
+    });
+  }
 };

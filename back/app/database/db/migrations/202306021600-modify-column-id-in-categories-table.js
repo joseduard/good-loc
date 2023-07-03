@@ -1,5 +1,5 @@
-"use strict";
-const config = require("../config/config").production;
+'use strict';
+const config = require('../config/config').production;
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -18,8 +18,8 @@ module.exports = {
 
       // Modification de la structure de la table Categories
       await queryInterface.changeColumn(
-        "Categories",
-        "id",
+        'Categories',
+        'id',
         {
           type: Sequelize.STRING,
           allowNull: false,
@@ -29,8 +29,8 @@ module.exports = {
 
       // Modification de la structure de la table Games
       await queryInterface.changeColumn(
-        "Games",
-        "category_id",
+        'Games',
+        'category_id',
         {
           type: Sequelize.STRING,
           allowNull: false,

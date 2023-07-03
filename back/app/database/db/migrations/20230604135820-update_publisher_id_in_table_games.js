@@ -1,19 +1,19 @@
-"use strict";
-const config = require("../config/config").production;
+'use strict';
+const config = require('../config/config').production;
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return await queryInterface.sequelize.transaction(async (transaction) => {
       // Suppression de la clé étrangère publisher_id dans la table Games
-      await queryInterface.removeConstraint("Games", "Games_ibfk_1", {
+      await queryInterface.removeConstraint('Games', 'Games_ibfk_1', {
         transaction,
       });
 
       // Modification de la structure de la table Publishers
       await queryInterface.changeColumn(
-        "Publishers",
-        "id",
+        'Publishers',
+        'id',
         {
           type: Sequelize.STRING,
           allowNull: false,
@@ -23,8 +23,8 @@ module.exports = {
 
       // Modification de la structure de la table Games
       await queryInterface.changeColumn(
-        "Games",
-        "publisher_id",
+        'Games',
+        'publisher_id',
         {
           type: Sequelize.STRING,
           allowNull: false,
@@ -34,18 +34,18 @@ module.exports = {
 
       // Ajout de la clé étrangère publisher_id dans la table Games
       await queryInterface.addConstraint(
-        "Games",
+        'Games',
         {
-          fields: ["publisher_id"],
-          type: "foreign key",
-          name: "Games_ibfk_1",
+          fields: ['publisher_id'],
+          type: 'foreign key',
+          name: 'Games_ibfk_1',
           references: {
             //Required field
-            table: "Publishers",
-            field: "id",
+            table: 'Publishers',
+            field: 'id',
           },
-          onDelete: "cascade",
-          onUpdate: "cascade",
+          onDelete: 'cascade',
+          onUpdate: 'cascade',
         },
         { transaction }
       );

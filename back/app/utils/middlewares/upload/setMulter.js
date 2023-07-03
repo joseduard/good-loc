@@ -1,39 +1,40 @@
-import multer from "multer";
-// Define Mime_types Logic
+import multer from 'multer';
+import fs from 'fs';
+
 const MIME_TYPES = {
-  "image/jpg": "jpg",
-  "image/jpeg": "jpg",
-  "image/png": "png",
+  'image/jpg': 'jpg',
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
 };
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "app/uploads");
+    const dir = `app/uploads/${req.user.pseudo}`;
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true }); // 'recursive: true' creates parent directories if they do not exist
+    }
+    callback(null, dir);
   },
   filename: (req, file, callback) => {
-    const originalName = file.originalname;
-    const extension = MIME_TYPES[file.mimetype];
-
-    if (!extension) {
-      return callback(new Error("Extension de fichier non valide"));
-    }
-
-    const timestamp = Date.now();
-    const filename = `${originalName.substring(
-      0,
-      originalName.lastIndexOf(".")
-    )}${timestamp}.${extension}`;
-    callback(null, filename);
+    const name = file.originalname.split(' ').join('_');
+    callback(null, name);
   },
 });
 
-
-
-// exports multer & add limits size accepted
-export const setMulterConfig =  multer({
+const fileFilter = (req, file, callback) => {
+  if (MIME_TYPES[file.mimetype]) {
+    // Accept the file
+    callback(null, true);
+  } else {
+    // Reject the file
+    callback(new Error('Invalid file type'), false);
+  }
+};
+export const setMulterConfig = multer({
   storage: storage,
+  fileFilter: fileFilter,
   limits: {
     fieldSize: 1024 * 512,
     fieldNameSize: 200,
   },
-}).single("upload");
+}).single('upload');

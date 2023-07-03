@@ -1,14 +1,14 @@
-"use strict";
-const config = require("../config/config").production;
+'use strict';
+const config = require('../config/config').production;
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.addColumn(
       {
-        tableName: "Message",
+        tableName: 'Message',
         schema: config.schema,
       },
-      "read_message",
+      'read_message',
       {
         type: Sequelize.BOOLEAN,
         allowNull: false,
@@ -17,10 +17,10 @@ module.exports = {
     );
     return queryInterface.addColumn(
       {
-        tableName: "Message",
+        tableName: 'Message',
         schema: config.schema,
       },
-      "object",
+      'object',
       {
         type: Sequelize.STRING(255),
         allowNull: false,
@@ -30,17 +30,17 @@ module.exports = {
   async down(queryInterface) {
     await queryInterface.removeColumn(
       {
-        tableName: "Message",
+        tableName: 'Message',
         schema: config.schema,
       },
-      "read_message"
+      'read_message'
     );
     return queryInterface.removeColumn(
       {
-        tableName: "Message",
+        tableName: 'Message',
         schema: config.schema,
       },
-      "object"
+      'object'
     );
   },
 };
