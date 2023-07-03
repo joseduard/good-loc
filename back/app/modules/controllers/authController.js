@@ -59,7 +59,7 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    const user = await logoutUser(req.body.userId, req.models);
+    const user = await logoutUser(req.userId, req.models);
 
     sendResponse(
       res,

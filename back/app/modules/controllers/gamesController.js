@@ -1,8 +1,10 @@
+import { Sequelize } from 'sequelize';
+
 export const getAllGames = async (req, res) => {
-  const { games, categories, mechanicsType, publishers } = req['models'];
+  const { games } = req['models'];
   try {
-    const games = await games.findAll({ limit: 100 });
-    res.status(200).json(games);
+    const gamesRes = await games.findAll({ limit: 100 });
+    res.status(200).json(gamesRes);
   } catch (error) {
     console.error('Erreur lors de la récupération des jeux :', error);
     res.status(500).json({ error: 'Erreur lors de la récupération des jeux' });
@@ -10,11 +12,11 @@ export const getAllGames = async (req, res) => {
 };
 
 export const getGamesByName = async (req, res) => {
-  const { games, categories, mechanicsType, publishers } = req['models'];
+  const { games } = req['models'];
   const gameName = req.params.name;
 
   try {
-    const games = await games.findAll({
+    const gamesRes = await games.findAll({
       where: {
         name: {
           [Sequelize.Op.like]: `%${gameName}%`,
@@ -22,7 +24,7 @@ export const getGamesByName = async (req, res) => {
       },
     });
 
-    res.status(200).json(games);
+    res.status(200).json(gamesRes);
   } catch (error) {
     console.error('Erreur lors de la récupération des jeux :', error);
     res.status(500).json({ error: 'Erreur lors de la récupération des jeux' });

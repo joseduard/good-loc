@@ -1,12 +1,6 @@
 // config.js
 import { config as loadEnv } from 'dotenv';
-import { fileURLToPath } from 'url';
-import path, { dirname } from 'path';
 
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-console.log(path.join("/uploads"));
 loadEnv(); // load environment variables
 
 // setup origin array (accepted url that can hit the endpoints of the api)

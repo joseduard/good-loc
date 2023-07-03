@@ -1,5 +1,5 @@
 export const createRent = async (req, res) => {
-  const { rent, games, rentingOrBuyingGames } = req['models'];
+  const { rents, games, rentingOrBuyingGames } = req['models'];
 
   try {
     const game_id = req.body.game_id;
@@ -21,14 +21,14 @@ export const createRent = async (req, res) => {
         .status(405)
         .send({ message: 'Jeu et propriétaire non trouvés' });
     } else {
-      const checkRent = await rent.findOne({
+      const checkRent = await rents.findOne({
         where: {
           user_game_id: req.body.rental_game_id,
           status: ['reserved', 'rented'],
         },
       });
       if (!checkRent) {
-        const rent = await rent.create({
+        const rent = await rents.create({
           beginning_date: req.body.beginning_date,
           user_id_owner: owner_id,
           user_id_renter: req.body.renter_id,
@@ -57,17 +57,16 @@ export const createRent = async (req, res) => {
 };
 
 export const UpdateRentStatus = async (req, res) => {
-  const { rent } = req['models'];
-
-  const checkRent = await rent.findOne({
+  const { rents } = req['models'];
+  const checkRent = await rents.findOne({
     where: {
       id: req.params.id,
     },
   });
   const userId = req.body.user_id;
-  if (checkRent.user_id_owner === userId) {
+  if (parseInt(checkRent.user_id_owner) === parseInt(userId)) {
     if (checkRent.status === 'reserved') {
-      await rent.update(
+      await rents.update(
         {
           status: req.body.status,
         },
@@ -79,7 +78,7 @@ export const UpdateRentStatus = async (req, res) => {
       );
       res.status(201).json({ checkRent, status: 'rented' });
     } else if (checkRent.status === 'rented') {
-      await rent.update(
+      await rents.update(
         {
           status: req.body.status,
           return_date: Date.now(),
@@ -100,7 +99,7 @@ export const UpdateRentStatus = async (req, res) => {
 };
 
 export const getRentsByUserId = async (req, res) => {
-  const { rent, games, users, rentingOrBuyingGames } = req['models'];
+  const { rents, games, users, rentingOrBuyingGames } = req['models'];
 
   const page = req.query.page;
   const limit = Number(req.query.pageSize) ?? 5;
@@ -108,7 +107,7 @@ export const getRentsByUserId = async (req, res) => {
   const offset = (parseInt(page) - 1) * limit;
 
   try {
-    const { rows, count } = await rent.findAndCountAll({
+    const { rows, count } = await rents.findAndCountAll({
       where: {
         user_id_owner: req.params.idRentOwner,
         status: status ?? null,
@@ -116,13 +115,13 @@ export const getRentsByUserId = async (req, res) => {
       limit,
       offset,
     });
-    const rents = rows;
-    if (rents.length === 0) {
+    const rentsRes = rows;
+    if (rentsRes.length === 0) {
       return res.status(404).json({ message: 'Aucune location en cours' });
     }
 
     const transformedRents = await Promise.all(
-      rents.map(async (rent) => {
+      rentsRes.map(async (rent) => {
         const rentingGame = await rentingOrBuyingGames.findOne({
           where: {
             id: rent.user_game_id,
@@ -131,6 +130,7 @@ export const getRentsByUserId = async (req, res) => {
           include: [
             {
               model: games,
+              as: 'game',
               attributes: [
                 'id',
                 'name',
@@ -182,15 +182,14 @@ export const getRentsByUserId = async (req, res) => {
 };
 
 export const getRentsByRenterId = async (req, res) => {
-  const { rent, games, users, rentingOrBuyingGames } = req['models'];
-
   const page = req.query.page;
   const limit = Number(req.query.pageSize) ?? 5;
   const status = req.params.status;
   const offset = (parseInt(page) - 1) * limit;
+  const { rents, games, users, rentingOrBuyingGames } = req['models'];
 
   try {
-    const { rows, count } = await rent.findAndCountAll({
+    const { rows, count } = await rents.findAndCountAll({
       where: {
         user_id_renter: req.params.idRentRenter,
         status: status ?? null,

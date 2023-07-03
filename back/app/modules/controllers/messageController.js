@@ -4,7 +4,6 @@ export const CreateMessage = (req, res) => {
   const { users, message } = req['models'];
   const receiverPseudo = req.body.receiver_pseudo;
   // add a rate limit to the amount of messages sent per 10 minutes to other users
-
   users
     .findOne({
       where: {

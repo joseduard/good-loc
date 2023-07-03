@@ -78,9 +78,10 @@ export const addRentingGame = async (req, res) => {
 
 export const getRentingGamesByUser = async (req, res) => {
   const { games, rentingOrBuyingGames } = req['models'];
-  const { page, pageSize } = req.query;
+  let { page, pageSize } = req.query;
+  page = req.query.page || 1;
   const limit = parseInt(pageSize) || 10;
-  const offset = (parseInt(page) - 1) * limit;
+  const offset = (parseInt(page) - 1) * limit || 1;
   const userId = req.params.id;
 
   try {
@@ -92,6 +93,7 @@ export const getRentingGamesByUser = async (req, res) => {
         include: [
           {
             model: games,
+            as: 'game',
             attributes: ['id', 'name', 'img'],
           },
         ],
@@ -119,12 +121,12 @@ export const getRentingGamesByUser = async (req, res) => {
 /** récupère une listes de jeux disponible a la location. */
 export const listGames = async (req, res) => {
   const {
-    games,
     users,
     categories,
     mechanicsType,
     publishers,
     rentingOrBuyingGames,
+    games,
   } = req['models'];
   try {
     const page = parseInt(req.query.page, 10) || 1;
@@ -161,6 +163,7 @@ export const listGames = async (req, res) => {
 
     includeCondition.push({
       model: games,
+      as: 'game',
       attributes: [
         'id',
         'img',
@@ -189,7 +192,7 @@ export const listGames = async (req, res) => {
       include: [
         {
           model: users,
-          as: 'User',
+          as: 'owner',
           attributes: [
             'id',
             'firstname',
@@ -212,10 +215,9 @@ export const listGames = async (req, res) => {
       offset: offset,
     });
 
-    const games = await Promise.all(
+    const gamesResponse = await Promise.all(
       rows.map(async (rentedGame) => {
-        const game = rentedGame.Game;
-
+        const game = rentedGame.game;
         const category = game.category_id
           ? await categories.findByPk(game.category_id, {
               attributes: ['id', 'name'],
@@ -251,7 +253,7 @@ export const listGames = async (req, res) => {
       currentPage: page,
       pageSize: limit,
       totalPages: Math.ceil(count / limit),
-      games: games,
+      games: gamesResponse,
     });
   } catch (error) {
     console.error(error);
@@ -269,6 +271,7 @@ export const getRentingGameById = async (req, res) => {
       include: [
         {
           model: games,
+          as: 'game',
           attributes: [
             'id',
             'img',
@@ -293,7 +296,7 @@ export const getRentingGameById = async (req, res) => {
         },
         {
           model: users,
-          as: 'User',
+          as: 'owner',
           attributes: [
             'id',
             'firstname',
@@ -327,6 +330,7 @@ export const getBestGameRenting = async (req, res) => {
       include: [
         {
           model: games,
+          as: 'game',
           attributes: [
             'id',
             'img',
@@ -351,7 +355,7 @@ export const getBestGameRenting = async (req, res) => {
         },
         {
           model: users,
-          as: 'User',
+          as: 'owner',
           attributes: [
             'id',
             'firstname',

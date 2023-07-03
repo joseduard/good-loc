@@ -40,12 +40,12 @@ export const loginUser = async ({ email, password }, models) => {
 
 export const logoutUser = async (userId, models) => {
   const { users } = models;
-
   const user = await users.findByPk(userId);
   if (!user) {
     throw new Error('User not found.');
   }
   await users.update({ isLoggedIn: false }, { where: { id: user.id } });
+  return user;
 };
 
 export const processForgotPassword = async (email, models) => {
