@@ -75,7 +75,6 @@ export default {
         'faUserGroup',
         'faStar',
         'faGears',
-
       ],
       brands: ['faGoogle'],
     },

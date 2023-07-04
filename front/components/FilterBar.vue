@@ -45,10 +45,11 @@
       v-if="selectedFilter === 'Name'"
       v-model="filter"
       :items="name"
-      placeholder="write a game name"
+      placeholder="write a pseudo"
+      outlined
+      background-color="secondary"
       clearable
       class="filter"
-      outlined
       @keydown.enter="emitFiltersChange"
     ></v-text-field>
   </div>
@@ -89,7 +90,7 @@ export default {
       })
     },
     fetchCities() {
-      this.$axios.get('api/cities').then((res) => {
+      this.$axios.get('api/user/cities').then((res) => {
         this.cities = res.data
       })
     },

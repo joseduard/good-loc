@@ -74,11 +74,11 @@ export default {
         const datas = res.data
         this.maxPage = datas.totalPages
         datas.games.map((game) => {
-          game.Game.price_Day_Renting = game.price_Day_Renting
-          game.Game.owner_id = game.User.id
-          game.Game.pseudo = game.User.pseudo
-          game.Game.rental_id = game.id
-          this.games.push(game.Game)
+          game.game.price_Day_Renting = game.price_Day_Renting
+          game.game.owner_id = game.owner.id
+          game.game.pseudo = game.owner.pseudo
+          game.game.rental_id = game.id
+          this.games.push(game.game)
           return game
         })
       })
@@ -87,11 +87,11 @@ export default {
         const datas = res.data
         this.maxPage = datas.totalPages
         datas.games.map((game) => {
-          game.Game.price_Day_Renting = game.price_Day_Renting
-          game.Game.owner_id = game.User.id
-          game.Game.pseudo = game.User.pseudo
-          game.Game.rental_id = game.id
-          this.games.push(game.Game)
+          game.game.price_Day_Renting = game.price_Day_Renting
+          game.game.owner_id = game.owner.id
+          game.game.pseudo = game.owner.pseudo
+          game.game.rental_id = game.id
+          this.games.push(game.game)
           return game
         })
       })
@@ -111,11 +111,11 @@ export default {
           this.games = []
           const datas = res.data
           datas.games.map((game) => {
-            game.Game.price_Day_Renting = game.price_Day_Renting
-            game.Game.owner_id = game.User.id
-            game.Game.pseudo = game.User.pseudo
-            game.Game.rental_id = game.id
-            this.games.push(game.Game)
+            game.game.price_Day_Renting = game.price_Day_Renting
+            game.game.owner_id = game.owner.id
+            game.game.pseudo = game.owner.pseudo
+            game.game.rental_id = game.id
+            this.games.push(game.game)
             return game
           })
         })
@@ -128,11 +128,11 @@ export default {
           const datas = res.data
           this.games = []
           datas.games.map((game) => {
-            game.Game.price_Day_Renting = game.price_Day_Renting
-            game.Game.owner_id = game.User.id
-            game.Game.pseudo = game.User.pseudo
-            game.Game.rental_id = game.id
-            this.games.push(game.Game)
+            game.game.price_Day_Renting = game.price_Day_Renting
+            game.game.owner_id = game.owner.id
+            game.game.pseudo = game.owner.pseudo
+            game.game.rental_id = game.id
+            this.games.push(game.game)
             return game
           })
         })
@@ -174,8 +174,8 @@ export default {
           this.datas = res.data
           this.maxPage = this.datas.totalPages
           this.games = this.datas.games.map((game) => {
-            game.Game.pseudo = game.User.pseudo
-            return game.Game
+            game.game.pseudo = game.owner.pseudo
+            return game.game
           })
         })
       } else {
@@ -200,8 +200,8 @@ export default {
           this.datas = res.data
           this.maxPage = this.datas.totalPages
           this.games = this.datas.games.map((game) => {
-            game.Game.pseudo = game.User.pseudo
-            return game.Game
+            game.game.pseudo = game.owner.pseudo
+            return game.game
           })
         })
       }

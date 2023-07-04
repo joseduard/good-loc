@@ -152,7 +152,7 @@
       <v-row>
         <h2 class="title">Best Rentings</h2>
       </v-row>
-      
+
       <v-row>
         <v-col
           v-for="(presta, index) in gameRents"
@@ -164,11 +164,7 @@
         >
           <a @click="sendGameClean(presta)">
             <v-row class="row_avatar">
-              <v-img
-                cover
-                :src="presta.User.img"
-                class="img_user"
-              ></v-img>
+              <v-img cover :src="presta.User.img" class="img_user"></v-img>
             </v-row>
             <v-row class="row_info">
               <span>Rented by : </span>
@@ -218,10 +214,10 @@ export default {
   methods: {
     sendGameClean(game) {
       this.dialogModal = true
-      game.Game.price_Day_Renting = game.price_day_renting
-      game.Game.owner_id = game.User.id
-      game.Game.rental_id = game.id
-      this.gameModal = game.Game
+      game.game.price_Day_Renting = game.price_day_renting
+      game.game.owner_id = game.owner.id
+      game.game.rental_id = game.id
+      this.gameModal = game.game
     },
   },
 }
@@ -259,7 +255,7 @@ export default {
     margin-bottom: 10px;
     span {
       color: white;
-      font-size:14px ;
+      font-size: 14px;
     }
   }
 }
@@ -300,7 +296,7 @@ img {
   }
   .item {
     max-width: 250px;
-    margin: 20px auto; 
+    margin: 20px auto;
     border: 1px solid $color-primary;
     border-radius: 5px;
     margin: 10px;
@@ -327,7 +323,7 @@ img {
     }
     span {
       color: white;
-      font-size :14px;
+      font-size: 14px;
     }
     a:hover {
       cursor: pointer;

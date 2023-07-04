@@ -13,8 +13,9 @@
       <v-img
         v-else
         class="avatar-img"
-        :src="require(`../../assets/images/avatar.png`)"
+        :src="user.img"
         contain
+        @error="setImgError"
       ></v-img>
     </div>
     <div class="container-input-avatar">
@@ -39,84 +40,88 @@
     />
 
     <v-form ref="formUser" @submit.prevent="save">
-
-    <v-card class="user-info">
-      <v-card-text>
-        <v-card-title class="white--text">
-          <font-awesome-icon :icon="['fas', 'user']" class="primary--text" />
-          <span class="primary--text ml-2"
-            >{{ user.firstname }} {{ user.lastname }}</span
-          >
-        </v-card-title>
-        <v-list-item>
-          <v-list-item-content class="pb-0">
-            <v-list-item-title class="text-uppercase">Email</v-list-item-title>
-            <v-text-field
-              v-model="user.email"
-              dense
-              placeholder="your email"
-              type="text"
-              clearable
-              :rules="[rules.required, rules.emailRules]"
-            />
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-content class="pb-0 pt-0">
-            <v-list-item-title class="text-uppercase">Ville</v-list-item-title>
-            <v-text-field
-              v-model="user.city"
-              dense
-              placeholder="Votre ville"
-              type="text"
-              clearable
-              required
-              :rules="[rules.required]"
-            />
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-content class="pb-0 pt-0">
-            <v-list-item-title class="text-uppercase">Pseudo</v-list-item-title>
-            <v-text-field
-              v-model="user.pseudo"
-              dense
-              placeholder="Your pseudo"
-              type="text"
-              clearable
-              required
-              :rules="[rules.required]"
-            />
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-content class="pb-0 pt-0">
-            <v-list-item-title class="text-uppercase"
-              >Description</v-list-item-title
+      <v-card class="user-info">
+        <v-card-text>
+          <v-card-title class="white--text">
+            <font-awesome-icon :icon="['fas', 'user']" class="primary--text" />
+            <span class="primary--text ml-2"
+              >{{ user.firstname }} {{ user.lastname }}</span
             >
-            <v-textarea
-              v-model="user.description"
-              dense
-              placeholder="your gamer story"
-              clearable
-              required
-              :rules="[rules.required]"
-              :counter="200"
-              rows="3"
-              max-height="200"
-            />
-          </v-list-item-content>
-        </v-list-item>
-      </v-card-text>
-      <v-card-actions class="card-actions">
-        <v-row justify="center">
-          <v-btn color="tertiary" text @click="cancel()"> Cancel</v-btn>
-          <v-btn color="primary" type="submit ">Save my profil</v-btn>
-        </v-row>
-      </v-card-actions>
-    </v-card>
-  </v-form>
-
+          </v-card-title>
+          <v-list-item>
+            <v-list-item-content class="pb-0">
+              <v-list-item-title class="text-uppercase"
+                >Email</v-list-item-title
+              >
+              <v-text-field
+                v-model="user.email"
+                dense
+                placeholder="your email"
+                type="text"
+                clearable
+                :rules="[rules.required, rules.emailRules]"
+              />
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content class="pb-0 pt-0">
+              <v-list-item-title class="text-uppercase"
+                >Ville</v-list-item-title
+              >
+              <v-text-field
+                v-model="user.city"
+                dense
+                placeholder="Votre ville"
+                type="text"
+                clearable
+                required
+                :rules="[rules.required]"
+              />
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content class="pb-0 pt-0">
+              <v-list-item-title class="text-uppercase"
+                >Pseudo</v-list-item-title
+              >
+              <v-text-field
+                v-model="user.pseudo"
+                dense
+                placeholder="Your pseudo"
+                type="text"
+                clearable
+                required
+                :rules="[rules.required]"
+              />
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content class="pb-0 pt-0">
+              <v-list-item-title class="text-uppercase"
+                >Description</v-list-item-title
+              >
+              <v-textarea
+                v-model="user.description"
+                dense
+                placeholder="your gamer story"
+                clearable
+                required
+                :rules="[rules.required]"
+                :counter="200"
+                rows="3"
+                max-height="200"
+              />
+            </v-list-item-content>
+          </v-list-item>
+        </v-card-text>
+        <v-card-actions class="card-actions">
+          <v-row justify="center">
+            <v-btn color="tertiary" text @click="cancel()"> Cancel</v-btn>
+            <v-btn color="primary" type="submit ">Save my profil</v-btn>
+          </v-row>
+        </v-card-actions>
+      </v-card>
+    </v-form>
 
     <v-row>
       <v-col cols="12" md="12">
@@ -147,7 +152,7 @@
           </v-list-item>
           <v-row v-if="rentingGames" dense>
             <v-col v-for="(game, index) in rentingGames" :key="index">
-              <CardGame :game="game.Game"></CardGame>
+              <CardGame :game="game.game"></CardGame>
             </v-col>
           </v-row>
           <v-pagination
@@ -180,14 +185,21 @@ export default {
       test: false,
       rules: {
         required: (value) => !!value || 'Ce champ est requis',
-        emailRules:
-        v => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid',
-        min: v => v.length >= 6 || 'Min 6 characters',
-        noSpecialChar: v => !v || !/[~`!#$%^&*+=\-[\]\\';,/{}|\\":<>?]/g.test(v) || 'No special characters',
+        emailRules: (v) =>
+          !v ||
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          'E-mail must be valid',
+        min: (v) => v.length >= 6 || 'Min 6 characters',
+        noSpecialChar: (v) =>
+          !v ||
+          !/[~`!#$%^&*+=\-[\]\\';,/{}|\\":<>?]/g.test(v) ||
+          'No special characters',
       },
       checkFormatMail: false,
       messageRequired: 'Champ obligatoire',
-      user: {},
+      user: {
+        img: require('@/assets/images/avatar.png'),
+      },
       dialogModal: false,
       rentingGames: [],
       page: 1,
@@ -208,19 +220,7 @@ export default {
     this.$axios.$get('/api/user/' + this.user.id).then((response) => {
       this.user = response
     })
-    this.$axios
-      .$get('api/rentingGames/' + this.user.id + '?page=1&pageSize=3')
-      .then((response) => {
-        this.maxPages = response.totalPages
-        this.rentingGames = response.rentingGames
-        this.rentingGames.map((game) => {
-          this.$axios.get('/api/game/' + game.Game.id).then((response) => {
-            game.Game = response.data
-          })
-          return game
-        })
-        this.maxPages = response.totalPages
-      })
+    this.getUserRentingGames()
     // this.originalUser = JSON.parse(JSON.stringify(this.user)) // Copia profunda del objeto user
   },
   mounted() {
@@ -230,28 +230,46 @@ export default {
     // })
   },
   methods: {
+    async getUserRentingGames() {
+      await this.$axios
+        .$get('api/rentingGames/' + this.user.id + '?page=1&pageSize=3')
+        .then((response) => {
+          this.maxPages = response.totalPages
+          this.rentingGames = response.rentingGames
+          this.rentingGames.map((game) => {
+            this.$axios.get('/api/game/' + game.game.id).then((response) => {
+              game.game = response.data
+            })
+            return game
+          })
+          this.maxPages = response.totalPages
+        })
+    },
     ...mapActions({
       setShowAddGameModal: 'user/setShowAddGameModal',
     }),
+    setImgError() {
+      this.user.img = require('@/assets/images/avatar.png')
+    },
     async save() {
       // this.$awn.alert(this.$refs.form)
-      const isValid = await this.$refs.formUser.validate();
+      const isValid = await this.$refs.formUser.validate()
 
       if (isValid) {
         this.$axios
-        .$put('/api/user/account/user-information', this.user)
-        .then((response) => {
-          this.$awn.success('user updated')
-        })
-        .catch(() => {
-          this.$alert('Something went wrong')
-        })
+          .$put('/api/user/account/user-information', this.user)
+          .then((response) => {
+            this.$awn.success('user updated')
+          })
+          .catch(() => {
+            this.$alert('Something went wrong')
+          })
         // Le formulaire est valide, tu peux envoyer les données ici
       } else {
         this.$awn.alert('Please respect rules')
         // Le formulaire n'est pas valide, gère l'erreur ou empêche l'envoi
       }
-  },
+    },
     // Methods for check mail existing
     cancel() {
       this.user = JSON.parse(JSON.stringify(this.originalUser))

@@ -30,10 +30,14 @@ export function createProductionApp() {
 // setup functions declaration
 function setupMiddlewares(app) {
   app.use(globalRateLimiter);
-  app.use(cors(config.corsOptions));
   app.use(morgan('dev'));
   app.use(helmet());
   app.use(express.json());
+  app.use(cors(config.corsOptions));
+  app.use(function (req, res, next) {
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    next();
+  });
   app.use(express.urlencoded({ extended: true }));
 }
 

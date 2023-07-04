@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="showAddGameModal" persistent>
+    <v-dialog v-model="showAddGameModal" persistent onsubmit="return">
       <v-card>
         <v-btn icon class="close-button" @click="closeModal">
           <v-icon>mdi-close</v-icon>
@@ -20,7 +20,7 @@
           {{ game.name }}
           <v-text-field v-model="pricePerDay" label="price per day">
           </v-text-field>
-          <v-btn @click="addGameRent">Ajouter</v-btn>
+          <v-btn @click.prevent="addGameRent">Ajouter</v-btn>
         </v-card-subtitle>
       </v-card>
     </v-dialog>
@@ -67,8 +67,8 @@ export default {
         this.game = response[0]
       })
     },
-    addGameRent() {
-      this.$axios
+    async addGameRent() {
+      await this.$axios
         .$post('/api/rentingGames/add', {
           id: this.game.id,
           ownerId: this.$auth.$storage.getUniversal('user').id,
@@ -79,9 +79,9 @@ export default {
           cautionPrice: 0,
         })
         .then(
-          (response) => {
+          async (response) => {
             this.$awn.success('game added')
-            this.$parent.$data.rentingGames.push(response)
+            await this.$parent.getUserRentingGames()
             this.setShowAddGameModal(false)
           },
           (error) => {

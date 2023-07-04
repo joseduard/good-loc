@@ -21,7 +21,7 @@ const actions = {
   },
   setGamesList({ commit }) {
     this.$axios
-      .get('api/rentingGames/filter/bla')
+      .get('api/rentingGames')
       .then((response) => {
         commit('SET_GAMES_LIST', response)
         return Promise.resolve(response)

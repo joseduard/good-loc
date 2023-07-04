@@ -8,6 +8,7 @@ const origin = ['http://localhost:3000'];
 if (process.env.CORS_ORIGIN) {
   origin.push(process.env.CORS_ORIGIN);
 }
+console.log('origin', origin);
 export const config = {
   port: process.env.PORT || 8080,
   corsOptions: { origin: origin },
