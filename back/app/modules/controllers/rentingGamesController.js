@@ -141,7 +141,7 @@ export const listGames = async (req, res) => {
 
     // Filtrer par ville
     if (city) {
-      whereCondition['$User.city$'] = { [Op.like]: `%${city}%` };
+      whereCondition['$owner.city$'] = { [Op.like]: `%${city}%` };
     }
 
     // Récupérer l'ID de la catégorie en fonction du nom
@@ -152,13 +152,13 @@ export const listGames = async (req, res) => {
       });
 
       if (category) {
-        whereCondition['$Game.category_id$'] = category.id;
+        whereCondition['$game.category_id$'] = category.id;
       }
     }
 
     // Filtre par nom de jeu
     if (gameName) {
-      whereCondition['$Game.name$'] = { [Op.like]: `%${gameName}%` };
+      whereCondition['$game.name$'] = { [Op.like]: `%${gameName}%` };
     }
 
     includeCondition.push({
@@ -185,7 +185,7 @@ export const listGames = async (req, res) => {
         'average_price_location',
         'upc',
       ],
-      where: whereCondition ?? null,
+      where: whereCondition ? whereCondition : null,
     });
 
     const { rows, count } = await rentingOrBuyingGames.findAndCountAll({
