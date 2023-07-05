@@ -122,3 +122,86 @@ export const deleteMessage = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
+
+export const markMessageIsRead = (req, res) => {
+  const { message } = req['models'];
+  const messageId = req.params.messageId;
+  const userId = req.params.userId;
+
+  message
+    .findOne({
+      where: { id: messageId, receiver_id: userId },
+    })
+    .then((message) => {
+      if (!message) {
+        return res.send({ message: 'Message not found or unauthorized' });
+      }
+      if (message.read_message === 1) {
+        message
+          .update({ read_message: 0 })
+          .then(() => {
+            res.send({ message: 'Message marked as unread' });
+          })
+          .catch((err) => {
+            res.status(500).send({ message: err.message });
+          });
+      } else {
+        message
+          .update({ read_message: 1 })
+          .then(() => {
+            res.send({ message: 'Message marked as read' });
+          })
+          .catch((err) => {
+            res.status(500).send({ message: err.message });
+          });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
+export const countUnreadMessages = (req, res) => {
+  const { message } = req['models'];
+  const userId = req.params.userId;
+
+  message
+    .count({
+      where: {
+        receiver_id: userId,
+        read_message: 0,
+      },
+    })
+    .then((count) => {
+      res.send({ count });
+    })
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
+export const getUnreadMessagesForUser = (req, res) => {
+  const { users, message } = req['models'];
+  const userId = req.params.userId;
+
+  message
+    .findAll({
+      where: {
+        receiver_id: userId,
+        read_message: 0,
+      },
+      include: [
+        {
+          model: users,
+          as: 'sender',
+          attributes: ['id', 'pseudo', 'img'],
+        },
+      ],
+    })
+    .then((messages) => {
+      res.send(messages);
+    })
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+};

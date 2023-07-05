@@ -1,13 +1,47 @@
 <template>
   <div>
-    <ListMessageByUser
-      :messages="getMessagesList"
-      :pseudo-list="getPseudoList"
-      @pseudo="setPseudo"
-      @deleteThis="deleteMsg"
-    />
+    <div>
+      <ListMessageByUser
+        :messages="getMessagesList"
+        :pseudo-list="getPseudoList"
+        @pseudo="setPseudo"
+        @deleteThis="deleteMsg"
+      />
+    </div>
+  
+    <div class="unread">
+      <h2>UNREAD MESSAGES</h2>
+      <v-list>
+        <v-list-item v-for="unreadmessage in unreadListMessage" :key="unreadmessage.id">
+          <v-list-item-avatar>
+            <v-badge left overlap>
+              <template v-slot:badge>
+                <v-avatar size="30">
+                  <img :src="unreadmessage.sender.img" alt="Sender Avatar" />
+                </v-avatar>
+              </template>
+            </v-badge>
+          </v-list-item-avatar>
+          <v-list-item-content class="rowMessage">
+            <v-list-item-title>{{ unreadmessage.sender.pseudo }}</v-list-item-title>
+            <v-list-item-subtitle>Object : {{ unreadmessage.object }}</v-list-item-subtitle>
+            <v-list-item-subtitle>Send date :{{ unreadmessage.sent_date }}</v-list-item-subtitle>
+            <v-list-item-subtitle>Mess : {{ unreadmessage.message_content }}</v-list-item-subtitle>
+            <v-list-item-subtitle>
+              <v-btn class="deleteBtn" color="transparent" @click="deleteMessage(unreadmessage)">
+                <img src="../../../assets/images/deleteBtn.png" alt="Delete" />
+              </v-btn>
+              <v-btn color="green" @click="markAsChecked(unreadmessage)">
+                read? 
+              </v-btn>
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </div>
+  
     <v-card elevation="0" class="br-5px white">
-      <v-card-title class="quaternary--text">Nouveau Message</v-card-title>
+      <H2>SEND A MESSAGE</H2>
       <v-card-text class="card-msg secondary pt-4">
         <v-form ref="valid_form_message" v-model="validFormMessage">
           <v-autocomplete
@@ -72,6 +106,8 @@ export default {
         messageId: null,
         userId: null,
       },
+      unreadListMessage: [],
+
     }
   },
   computed: {
@@ -107,6 +143,14 @@ export default {
   mounted() {
     this.loadMessages()
     this.fetchPseudoList() // Appel pour récupérer la liste des pseudos
+    this.$axios
+      .get('/api/user/account/message/unread/' + this.$auth.$storage.getUniversal('user').id)
+      .then((response) => {
+        this.unreadListMessage = response.data;
+      })
+      .catch((error) => {
+        console.error('Error fetching unread messages:', error);
+      });
   },
   methods: {
     ...mapActions({
@@ -172,6 +216,43 @@ export default {
         this.pseudoList = response
       })
     },
+    markAsChecked(unreadmessage) {
+      const userId = this.currentUserId;
+      const messageId = unreadmessage.id;
+
+      this.$axios
+        .put(`/api/user/account/message/new-status/${userId}/${messageId}`)
+        .then(() => {
+          this.$awn.success('Message marqué comme lu');
+          location.reload()
+        })
+        .catch((error) => {
+          console.error('Erreur lors du marquage du message comme lu :', error);
+          this.$awn.alert('Erreur lors du marquage du message comme lu');
+        });
+    },
+
+    deleteMessage(unreadmessage) {
+      const unreadId = unreadmessage.id;
+      const ownerId = this.currentUserId;
+      
+      this.$axios
+        .delete('/api/user/account/message', {
+          params: {
+            messageId: unreadId,
+            userId: ownerId
+          }
+        })
+        .then(() => {
+          this.setMessagesList(this.currentUserId);
+          this.$awn.success('Message supprimé');
+          location.reload()
+        })
+        .catch((error) => {
+          console.error('Erreur lors de la suppression du message :', error);
+          this.$awn.alert('Erreur lors de la suppression du message');
+        });
+    }
   },
   components: { ListMessageByUser },
 }
@@ -180,8 +261,10 @@ export default {
 <style lang="scss" scoped>
 @import '@/design/_colors.scss';
 
-#messages {
+h2 {
+  margin-top: 40px !important;
   background-color: white;
+  color: $color-primary;
   // .theme--dark.v-input input,
   // .theme--dark.v-input textarea {
   //   color: $color-quinary;
@@ -191,6 +274,21 @@ export default {
   }
   .card-msg {
     border-radius: 15px;
+  }
+}
+.rowMessage{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+.deleteBtn{
+  width:30px;
+  height:30px;
+  
+  img{
+    width:30px;
+    height:30px;
   }
 }
 </style>

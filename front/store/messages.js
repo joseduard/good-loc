@@ -30,7 +30,6 @@ const mutations = {
 const actions = {
   // get message by id
   setMessageById({ commit }, messageId) {
-    console.log('prout')
     return this.$axios
       .get(`/user/account/message/${messageId}`)
       .then((response) => {

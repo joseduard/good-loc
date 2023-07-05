@@ -39,7 +39,7 @@
       /></v-toolbar-title>
       <v-spacer />
       <v-btn text color="tertiary" :to="{ name: 'game-list' }">
-        <span>Liste des jeux</span>
+        <span>Games List</span>
       </v-btn>
       <!--
       <v-btn text color="tertiary" :to="{ name: 'game-master-list' }">
@@ -48,16 +48,24 @@
 
    -->
       <v-btn v-if="!$auth.loggedIn" text color="tertiary ">
-        <span @click="setShowSingUpModal">Se connecter</span>
+        <span @click="setShowSingUpModal">Login</span>
       </v-btn>
-      <v-btn
-        v-if="$auth.loggedIn"
-        text
-        color="tertiary"
-        :to="'/users/' + $auth.$storage.getUniversal('user').id"
-      >
+      
+        <v-btn
+          v-if="$auth.loggedIn"
+          text
+          color="tertiary"
+          :to="'/users/' + $auth.$storage.getUniversal('user').id"
+        >
+        <v-badge >
+        <template v-if="unreadMessageCount >0" #badge>
+          {{ unreadMessageCount }}
+        </template>
         <font-awesome-icon :icon="['fas', 'user']" />
-      </v-btn>
+        
+      </v-badge>
+        </v-btn>
+      
       <v-btn
         v-if="$auth.loggedIn"
         text
@@ -120,12 +128,16 @@ export default {
       right: false,
       rightDrawer: false,
       title: 'Good Lock',
+      unreadMessageCount: 0,
     }
   },
   computed: {
     ...mapGetters({}),
   },
   mounted() {
+    if (this.$auth.loggedIn) {
+      this.fetchUnreadMessageCount()
+    }
     // this.$vuetify.theme.dark = true
   },
   methods: {
@@ -133,6 +145,17 @@ export default {
       setShowSingInModal: 'authentications/setShowSignInModal',
       setShowSingUpModal: 'authentications/setShowSignUpModal',
     }),
+    async fetchUnreadMessageCount() {
+      try {
+        const userId = this.$auth.$storage.getUniversal('user').id
+        console.log('userId :', userId);
+        const response = await this.$axios.get(`api/user/account/message/unread/count/${userId}`)
+        this.unreadMessageCount = response.data.count
+        console.log('Nombre de messages non lus :', this.unreadMessageCount)
+      } catch (error) {
+        console.error('Erreur lors de la récupération du nombre de messages non lus :', error)
+      }
+    },
     async logout() {
       try {
         const user = this.$auth.$storage.getUniversal('user')
