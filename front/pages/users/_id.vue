@@ -171,8 +171,8 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import CardGame from '~/components/CardGame.vue'
-import ModalUserAddGame from '~/components/modals/ModalUserAddGame.vue'
+import CardGame from '@/components/CardGame.vue'
+import ModalUserAddGame from '@/components/modals/ModalUserAddGame.vue'
 export default {
   name: 'User',
   components: {

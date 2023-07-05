@@ -185,7 +185,7 @@
   </div>
 </template>
 <script>
-import ModalGameList from '~/components/modals/ModalGameList.vue'
+import ModalGameList from '@/components/modals/ModalGameList.vue'
 export default {
   name: 'Game',
   components: {

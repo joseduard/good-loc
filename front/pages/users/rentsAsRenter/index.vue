@@ -99,9 +99,10 @@
   </div>
 </template>
 <script>
-import CardGame from '~/components/CardGame.vue'
+import CardGame from '@/components/CardGame.vue'
 export default {
   name: 'Purchases',
+  middleware: 'auth',
   components: {
     CardGame,
   },

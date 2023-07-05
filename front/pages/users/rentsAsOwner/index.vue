@@ -114,13 +114,14 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import CardGame from '~/components/CardGame.vue'
-import ConfirmationModal from '~/components/modals/ConfirmationModal.vue'
+import CardGame from '@/components/CardGame.vue'
+import ConfirmationModal from '@/components/modals/ConfirmationModal.vue'
 export default {
   components: {
     CardGame,
     ConfirmationModal,
   },
+  middleware: 'auth',
   data() {
     return {
       reserved: { rents: {} },

@@ -84,9 +84,10 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import ListMessageByUser from '~/components/lists/ListMessageByUser.vue'
+import ListMessageByUser from '@/components/lists/ListMessageByUser.vue'
 export default {
   name: 'MessagesPage',
+  middleware: 'auth',
   data() {
     return {
       rules: {
