@@ -232,7 +232,7 @@ export default {
   methods: {
     async getUserRentingGames() {
       await this.$axios
-        .$get('api/rentingGames/' + this.user.id + '?page=1&pageSize=3')
+        .$get('api/rentingGames/' + this.user.id + '?page=1&pageSize=5')
         .then((response) => {
           this.maxPages = response.totalPages
           this.rentingGames = response.rentingGames

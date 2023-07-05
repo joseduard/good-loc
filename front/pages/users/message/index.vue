@@ -107,6 +107,7 @@ export default {
         userId: null,
       },
       unreadListMessage: [],
+      pseudoList: [],
 
     }
   },
@@ -142,7 +143,6 @@ export default {
   },
   mounted() {
     this.loadMessages()
-    this.fetchPseudoList() // Appel pour récupérer la liste des pseudos
     this.$axios
       .get('/api/user/account/message/unread/' + this.$auth.$storage.getUniversal('user').id)
       .then((response) => {
@@ -224,7 +224,8 @@ export default {
         .put(`/api/user/account/message/new-status/${userId}/${messageId}`)
         .then(() => {
           this.$awn.success('Message marqué comme lu');
-          location.reload()
+          this.unreadListMessage.splice(this.unreadListMessage.indexOf(unreadmessage), 1);
+          // splicethis.unreadListMessage[unreadmessage.id]=null;
         })
         .catch((error) => {
           console.error('Erreur lors du marquage du message comme lu :', error);

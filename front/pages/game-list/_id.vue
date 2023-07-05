@@ -153,7 +153,7 @@
         <h2 class="title">Best Rentings</h2>
       </v-row>
 
-      <v-row>
+      <v-row v-if="gameRents">
         <v-col
           v-for="(presta, index) in gameRents"
           :key="index"
@@ -164,15 +164,15 @@
         >
           <a @click="sendGameClean(presta)">
             <v-row class="row_avatar">
-              <v-img cover :src="presta.User.img" class="img_user"></v-img>
+              <v-img cover :src="presta.owner.img" class="img_user"></v-img>
             </v-row>
             <v-row class="row_info">
               <span>Rented by : </span>
-              <span class="value"> {{ presta.User.pseudo }} </span>
+              <span class="value"> {{ presta.owner.pseudo }} </span>
             </v-row>
             <v-row class="row_info">
               <span>City : </span>
-              <span class="value"> {{ presta.User.city }} </span>
+              <span class="value"> {{ presta.owner.city }} </span>
             </v-row>
             <v-row class="row_info">
               <span>Price per Day : </span>

@@ -55,7 +55,8 @@
           v-if="$auth.loggedIn"
           text
           color="tertiary"
-          :to="'/users/' + $auth.$storage.getUniversal('user').id"
+          @click="drawer = !drawer"
+         
         >
         <v-badge >
         <template v-if="unreadMessageCount >0" #badge>
