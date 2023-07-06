@@ -149,10 +149,8 @@ export default {
     async fetchUnreadMessageCount() {
       try {
         const userId = this.$auth.$storage.getUniversal('user').id
-        console.log('userId :', userId);
         const response = await this.$axios.get(`api/user/account/message/unread/count/${userId}`)
         this.unreadMessageCount = response.data.count
-        console.log('Nombre de messages non lus :', this.unreadMessageCount)
       } catch (error) {
         console.error('Erreur lors de la récupération du nombre de messages non lus :', error)
       }

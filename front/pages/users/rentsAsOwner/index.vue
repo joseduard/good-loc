@@ -7,7 +7,7 @@
       <v-row>
         <v-col sm="12" md="12">
           <h2>Rents who need validation</h2>
-          <v-card v-if="getReserved.rents[0] " class="gamesList br-5px white">
+          <v-card v-if="getReserved.rents" class="gamesList br-5px white">
             <v-card-title class="orange--text"> </v-card-title>
             <v-card-subtitle align="center">
               <v-row>
@@ -48,7 +48,7 @@
         </v-col>
         <v-col sm="12" md="12">
           <h2>Running Rent 🦄</h2>
-          <v-card v-if="rented.rents.id" class="gamesList br-5px white">
+          <v-card v-if="rented.rents" class="gamesList br-5px white">
             <v-card-title class="orange--text"> </v-card-title>
             <v-card-subtitle align="center">
               <v-row>
@@ -87,7 +87,7 @@
         </v-col>
         <v-col sm="12" md="12">
           <h2>Finished Rents</h2>
-          <v-card v-if="closed.rents.id" class="gamesList br-5px white">
+          <v-card v-if="closed.rents" class="gamesList br-5px white">
             <v-card-title class="orange--text"> </v-card-title>
             <v-card-subtitle align="center">
               <v-row>
@@ -158,7 +158,6 @@ export default {
       },
   mounted() {
     this.loadRents()
-    console.log(this.reserved)
   },
   methods: {
     ...mapActions({
@@ -179,7 +178,6 @@ export default {
 
     },
     validateReservation( id, status) {
-      console.log(this.selected)
       this.$axios
         .put(`api/rent/${id}/updateStatus`, {
           user_id: this.$auth.$storage.getUniversal('user').id,

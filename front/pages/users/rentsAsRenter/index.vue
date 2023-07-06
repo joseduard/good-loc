@@ -130,7 +130,6 @@ export default {
       )
       .then((res) => {
         this.reserving = res.data
-        console.log(this.reserving);
         this.maxPageReserved = res.data.totalPages
       })
     this.$axios

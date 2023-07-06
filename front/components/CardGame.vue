@@ -52,8 +52,9 @@
       </v-card-subtitle>
       <v-card-subtitle
         v-if="
-          $nuxt.$route.path === '/users/rentsAsOwner' ||
-          $nuxt.$route.path === '/users/rentsAsRenter'
+          ($nuxt.$route.path === '/users/rentsAsOwner' ||
+          $nuxt.$route.path === '/users/rentsAsRenter')
+          && user
         "
         id="subtitle"
       >

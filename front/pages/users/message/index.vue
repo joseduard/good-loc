@@ -191,7 +191,6 @@ export default {
             this.$refs.valid_form_message.reset()
             this.$refs.valid_form_message.resetValidation()
             this.$awn.success('Message envoyé')
-            console.log(this.$refs)
             this.loadMessages()
           })
           .catch((error) => {
