@@ -2,12 +2,12 @@
   <div>
     <v-card class="card br-5px white">
       <v-card-title class="justify-center orange--text">
-        <h1>MY RENTS</h1></v-card-title
+        <h1>MY OWNER RENTS</h1></v-card-title
       >
       <v-row>
         <v-col sm="12" md="12">
           <h2>Rents who need validation</h2>
-          <v-card v-if="reserved" class="gamesList br-5px white">
+          <v-card v-if="getReserved.rents[0] " class="gamesList br-5px white">
             <v-card-title class="orange--text"> </v-card-title>
             <v-card-subtitle align="center">
               <v-row>
@@ -41,10 +41,14 @@
               ></v-pagination>
             </v-card-subtitle>
           </v-card>
+          <v-card v-else  class="noGamesList">
+            <span>No rent in running</span>
+          </v-card>
+       
         </v-col>
         <v-col sm="12" md="12">
           <h2>Running Rent 🦄</h2>
-          <v-card class="gamesList br-5px white">
+          <v-card v-if="rented.rents.id" class="gamesList br-5px white">
             <v-card-title class="orange--text"> </v-card-title>
             <v-card-subtitle align="center">
               <v-row>
@@ -77,10 +81,13 @@
               ></v-pagination>
             </v-card-subtitle>
           </v-card>
+          <v-card v-else  class="noGamesList">
+            <span>No rent in running</span>
+          </v-card>
         </v-col>
         <v-col sm="12" md="12">
           <h2>Finished Rents</h2>
-          <v-card v-if="closed.rents" class="gamesList br-5px white">
+          <v-card v-if="closed.rents.id" class="gamesList br-5px white">
             <v-card-title class="orange--text"> </v-card-title>
             <v-card-subtitle align="center">
               <v-row>
@@ -106,6 +113,9 @@
                 @input="updatepageClosed"
               ></v-pagination>
             </v-card-subtitle>
+          </v-card>
+          <v-card v-else  class="noGamesList">
+            <span>No rent closed</span>
           </v-card>
         </v-col>
       </v-row>
@@ -148,6 +158,7 @@ export default {
       },
   mounted() {
     this.loadRents()
+    console.log(this.reserved)
   },
   methods: {
     ...mapActions({
@@ -221,5 +232,19 @@ h2 {
   &:hover {
     background-color: $color-secondary !important;
   }
+}
+.noGamesList{
+  background-color: white !important;
+  border-radius: 5px !important;
+  border: 1px solid $color-primary !important;
+  padding: 30px;
+  text-align: center;
+  margin-bottom: 10px;
+  color: $color-secondary;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 20px;
+  font-style: italic;
+
 }
 </style>

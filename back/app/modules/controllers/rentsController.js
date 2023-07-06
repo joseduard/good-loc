@@ -117,7 +117,7 @@ export const getRentsByUserId = async (req, res) => {
     });
     const rentsRes = rows;
     if (rentsRes.length === 0) {
-      return res.status(404).json({ message: 'Aucune location en cours' });
+      return res.status(201).json({ message: 'Aucune location en cours' });
     }
 
     const transformedRents = await Promise.all(
@@ -142,7 +142,7 @@ export const getRentsByUserId = async (req, res) => {
             },
           ],
         });
-        const associatedGame = rentingGame.Game;
+        const associatedGame = rentingGame ? rentingGame.game : null;
 
         const associatedUser = await users.findOne({
           where: {
@@ -199,7 +199,7 @@ export const getRentsByRenterId = async (req, res) => {
     });
     const rentsRes = rows;
     if (rentsRes.length === 0) {
-      return res.status(404).json({ message: 'Aucune location en cours' });
+      return res.status(401).json({ message: 'Aucune location en cours' });
     }
 
     const transformedRents = await Promise.all(
@@ -224,7 +224,7 @@ export const getRentsByRenterId = async (req, res) => {
             },
           ],
         });
-        const associatedGame = rentingGame.Game;
+        const associatedGame = rentingGame ? rentingGame.game : null;
 
         const associatedUser = await users.findOne({
           where: {

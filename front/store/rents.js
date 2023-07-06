@@ -53,7 +53,7 @@ const getters= {
       // Faites votre appel API pour récupérer les données de fermeture
       // Utilisez commit pour appeler la mutation appropriée et mettre à jour l'état
       // Exemple :
-      this.$axios.get(`api/user/account/rent/${this.$auth.$storage.getUniversal('user').id}/rented?pageSize=8&page=${page}}`)
+      this.$axios.get(`api/user/account/rent/${this.$auth.$storage.getUniversal('user').id}/rented?pageSize=8&page=${page}`)
         .then((res) => {
           commit('setRented', res.data);
         });
