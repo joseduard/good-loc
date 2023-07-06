@@ -28,7 +28,7 @@
             <v-list-item-subtitle>Send date :{{ unreadmessage.sent_date }}</v-list-item-subtitle>
             <v-list-item-subtitle>Mess : {{ unreadmessage.message_content }}</v-list-item-subtitle>
             <v-list-item-subtitle>
-              <v-btn class="deleteBtn" color="transparent" @click="deleteMessage(unreadmessage)">
+              <v-btn class="deleteBtn" color="transparent" @click="deleteUnreadMessage(unreadmessage)">
                 <img src="../../../assets/images/deleteBtn.png" alt="Delete" />
               </v-btn>
               <v-btn color="green" @click="markAsChecked(unreadmessage)">
@@ -234,7 +234,7 @@ export default {
         });
     },
 
-    deleteMessage(unreadmessage) {
+    deleteUnreadMessage(unreadmessage) {
       const unreadId = unreadmessage.id;
       const ownerId = this.currentUserId;
       
