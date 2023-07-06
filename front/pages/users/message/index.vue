@@ -143,6 +143,7 @@ export default {
     },
   },
   mounted() {
+    this.fetchPseudoList();
     this.loadMessages()
     this.$axios
       .get('/api/user/account/message/unread/' + this.$auth.$storage.getUniversal('user').id)
