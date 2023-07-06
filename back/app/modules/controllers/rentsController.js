@@ -262,3 +262,64 @@ export const getRentsByRenterId = async (req, res) => {
       .json({ error: 'Erreur lors de la récupération des locations' });
   }
 };
+export const deleteByOwner = async (req, res) => {
+  const { rents } = req['models'];
+
+  try {
+    const rent = await rents.findOne({
+      where: {
+        id: req.params.idRent,
+        user_id_owner: req.params.idOwner,
+      },
+    });
+
+    if (!rent) {
+      return res.status(404).json({ message: 'Location non trouvée' });
+    }
+
+    await rents.destroy({
+      where: {
+        id: req.params.idRent,
+        user_id_owner: req.params.idOwner,
+      },
+    });
+
+    res.status(200).json({ message: 'Location supprimée avec succès' });
+  } catch (error) {
+    console.error('Erreur lors de la suppression de la location:', error);
+    res
+      .status(500)
+      .json({ error: 'Erreur lors de la suppression de la location' });
+  }
+};
+
+export const deleteByRenter = async (req, res) => {
+  const { rents } = req['models'];
+
+  try {
+    const rent = await rents.findOne({
+      where: {
+        id: req.params.idRent,
+        user_id_renter: req.params.idRenter,
+      },
+    });
+
+    if (!rent) {
+      return res.status(404).json({ message: 'Location non trouvée' });
+    }
+
+    await rents.destroy({
+      where: {
+        id: req.params.idRent,
+        user_id_renter: req.params.idRenter,
+      },
+    });
+
+    res.status(200).json({ message: 'Location supprimée avec succès' });
+  } catch (error) {
+    console.error('Erreur lors de la suppression de la location:', error);
+    res
+      .status(500)
+      .json({ error: 'Erreur lors de la suppression de la location' });
+  }
+};

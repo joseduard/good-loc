@@ -5,6 +5,8 @@ import {
   UpdateRentStatus,
   getRentsByUserId,
   getRentsByRenterId,
+  deleteByOwner,
+  deleteByRenter,
 } from '../controllers/rentsController.js';
 
 const router = Router();
@@ -21,5 +23,14 @@ router.get(
   isValidJwt,
   getRentsByRenterId
 );
+router.delete(
+  '/rent/owner/:idOwner/:idRent',
+  isValidJwt,
+  deleteByOwner
+);
+router.delete(
+  '/rent/renter/:idRenter/:idRent',
+  isValidJwt,
+  deleteByRenter);
 
 export default router;
