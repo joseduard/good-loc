@@ -127,6 +127,7 @@ export const listGames = async (req, res) => {
     publishers,
     rentingOrBuyingGames,
     games,
+    rents,
   } = req['models'];
   try {
     const page = parseInt(req.query.page, 10) || 1;
@@ -135,6 +136,7 @@ export const listGames = async (req, res) => {
     const city = req.query.city;
     const categoryName = req.query.category;
     const gameName = req.query.name;
+    const userId = req.query.userId;
 
     let whereCondition = {};
     let includeCondition = [];
@@ -247,13 +249,32 @@ export const listGames = async (req, res) => {
         };
       })
     );
+    // ad filter by UserId to do not purpose the rent of his own games
+    const filteredGamesResponse = gamesResponse.filter(
+      (gameResponse) => gameResponse.owner.id != userId
+    );
 
+    const finalGamesResponse = await Promise.all(
+      filteredGamesResponse.map(async (gameResponse) => {
+        const rent = await rents.findOne({
+          where: { user_game_id: gameResponse.id },
+        });
+        if (rent) {
+          return null;
+        }
+
+        return gameResponse;
+      })
+    );
+    const superFinalGamesResponse = finalGamesResponse.filter(
+      (gameResponse) => gameResponse !== null
+    );
     res.json({
       totalItems: count,
       currentPage: page,
       pageSize: limit,
       totalPages: Math.ceil(count / limit),
-      games: gamesResponse,
+      games: superFinalGamesResponse,
     });
   } catch (error) {
     console.error(error);

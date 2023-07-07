@@ -144,36 +144,40 @@ export default {
     }
   },
   methods: {
-    closeModal() {
-      this.$parent.dialogModal = false
-    },
-    createRent() {
-      this.$axios
-        .post('api/rent/create', {
-          game_id: this.game.id,
-          owner_id: this.game.owner_id,
-          beginning_date: new Date().toISOString().slice(0, 10),
-          renter_id: this.$auth.$storage.getUniversal('user').id,
-          rental_game_id: this.game.rental_id,
-          status: 'reserved',
-          price: this.game.price_Day_Renting,
-        })
-        .then(() => {
-          this.$awn.success('Location created !')
-          const pseudo = this.game.pseudo
-          this.$axios.post('api/user/account/message/create', {
-            receiver_pseudo: pseudo,
-            sender_id: this.$auth.$storage.getUniversal('user').id,
-            object: 'Message de location',
-            message_content: "Bonjour, je suis " + this.$auth.$storage.getUniversal('user').id + " et j'aimerais louer votre jeu. Merci de me contacter.",
-          })
-          this.$router.push({ path: 'users/message' })
-        })
-        .catch((err) => {
-          this.$awn.alert(err.response.data)
-        })
-    },
+  closeModal() {
+    this.$parent.dialogModal = false;
   },
+  createRent() {
+    this.$axios
+      .post('api/rent/create', {
+        game_id: this.game.id,
+        owner_id: this.game.owner_id,
+        beginning_date: new Date().toISOString().slice(0, 10),
+        renter_id: this.$auth.$storage.getUniversal('user').id,
+        rental_game_id: this.game.rental_id,
+        status: 'reserved',
+        price: this.game.price_Day_Renting,
+      })
+      .then((response) => {
+        const rentalResponse= response.data; // Utilisation de response.data pour obtenir les données de la réponse
+        this.$awn.success('Location created !');
+        const pseudo = rentalResponse.renter.pseudo;
+        this.$axios.post('api/user/account/message/create', {
+          receiver_pseudo: pseudo,
+          sender_id: this.$auth.$storage.getUniversal('user').id,
+          object: 'Message de location',
+          message_content:
+            "Bonjour, je suis " +
+            pseudo +
+            " et j'aimerais louer votre jeu. Merci de me contacter.",
+        });
+        this.$router.push({ path: 'users/message' });
+      })
+      .catch((err) => {
+        this.$awn.alert(err.response.data);
+      });
+  },
+},
 }
 </script>
 

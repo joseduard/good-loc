@@ -54,6 +54,7 @@ export default {
       search: '',
       page: 1,
       maxPage: false,
+      userId: null,
     }
   },
   computed: {
@@ -69,21 +70,23 @@ export default {
   },
 
   mounted() {
+    this.userId = this.$auth.$storage.getUniversal('user')?.id;
     if (this.$route.name === 'game-list') {
-      this.$axios.get(`/api/rentingGames?page=1&pageSize=24`).then((res) => {
-        const datas = res.data
-        this.maxPage = datas.totalPages
+      this.$axios.get(`/api/rentingGames?page=1&pageSize=24&userId=${this.userId}`).then((res) => {
+        const datas = res.data;
+        this.maxPage = datas.totalPages;
         datas.games.map((game) => {
-          game.game.price_Day_Renting = game.price_Day_Renting
-          game.game.owner_id = game.owner.id
-          game.game.pseudo = game.owner.pseudo
-          game.game.rental_id = game.id
-          this.games.push(game.game)
-          return game
-        })
-      })
-    } else {
-      this.$axios.get(`/api/rentingGames?page=1&pageSize=8`).then((res) => {
+          game.game.price_Day_Renting = game.price_Day_Renting;
+          game.game.owner_id = game.owner.id;
+          game.game.pseudo = game.owner.pseudo;
+          game.game.rental_id = game.id;
+          this.games.push(game.game);
+          return game;
+        });
+      });
+    }
+    else {
+      this.$axios.get(`/api/rentingGames?page=1&pageSize=8&userId=${this.userId}`).then((res) => {
         const datas = res.data
         this.maxPage = datas.totalPages
         datas.games.map((game) => {
@@ -106,7 +109,7 @@ export default {
     next() {
       this.page++
       this.$axios
-        .get(`/api/rentingGames/?page=${this.page}&pageSize=8`)
+        .get(`/api/rentingGames/?page=${this.page}&pageSize=8&userId=${this.userId}`)
         .then((res) => {
           this.games = []
           const datas = res.data
@@ -123,7 +126,7 @@ export default {
     prev() {
       this.page--
       this.$axios
-        .get(`/api/rentingGames/?page=${this.page}&pageSize=8`)
+        .get(`/api/rentingGames/?page=${this.page}&pageSize=8&userId=${this.userId}`)
         .then((res) => {
           const datas = res.data
           this.games = []
@@ -153,7 +156,7 @@ export default {
 
     fetchGames(page, filter, selectedFilter) {
       if (this.$route.name === 'game-list') {
-        let apiUrl = `/api/rentingGames?page=${page}&pageSize=24`
+        let apiUrl = `/api/rentingGames?page=${page}&pageSize=24&userId=${this.userId}`
         switch (selectedFilter) {
           case 'City':
             apiUrl += `&city=${filter}`
@@ -179,7 +182,7 @@ export default {
           })
         })
       } else {
-        let apiUrl = `/api/rentingGames?page=${page}&pageSize=8`
+        let apiUrl = `/api/rentingGames?page=${page}&pageSize=8&userId=${this.userId}`
         switch (selectedFilter) {
           case 'City':
             apiUrl += `&city=${filter}`

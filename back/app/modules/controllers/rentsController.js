@@ -1,5 +1,5 @@
 export const createRent = async (req, res) => {
-  const { rents, games, rentingOrBuyingGames } = req['models'];
+  const { rents, games, rentingOrBuyingGames, users } = req['models'];
 
   try {
     const game_id = req.body.game_id;
@@ -42,8 +42,12 @@ export const createRent = async (req, res) => {
             id: game_id,
           },
         });
-
-        res.status(201).json({ rent, game });
+        const renter = await users.findOne({
+          where: {
+            id: req.body.renter_id,
+          },
+        });
+        res.status(201).json({ rent, game, renter });
       } else {
         return res.status(405).json({ message: 'Jeu déjà loué' });
       }
