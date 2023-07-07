@@ -165,8 +165,7 @@ export default {
             receiver_pseudo: pseudo,
             sender_id: this.$auth.$storage.getUniversal('user').id,
             object: 'Message de location',
-            message_content:
-              'Bonjour, vous vener de louer un jeu, veuillez contacter le propriétaire pour fixer un rendez-vous',
+            message_content: "Bonjour, je suis " + this.$auth.$storage.getUniversal('user').id + " et j'aimerais louer votre jeu. Merci de me contacter.",
           })
           this.$router.push({ path: 'users/message' })
         })

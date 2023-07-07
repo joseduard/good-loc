@@ -6,7 +6,7 @@ export const createRent = async (req, res) => {
     const owner_id = req.body.owner_id;
 
     if (!game_id || !owner_id) {
-      return res.status(400).send({ message: 'game_id ou owner_id invalide' });
+      return res.status(400).send({ message: 'game_id ou owner_id not valid' });
     }
 
     const rentalGame = await rentingOrBuyingGames.findOne({
@@ -93,7 +93,7 @@ export const UpdateRentStatus = async (req, res) => {
     } else {
       return res
         .status(405)
-        .json({ message: "Vous n'êtes pas le propriétaire de cette location" });
+        .json({ message: "You are not the owner of this rent" });
     }
   }
 };
@@ -117,7 +117,7 @@ export const getRentsByUserId = async (req, res) => {
     });
     const rentsRes = rows;
     if (rentsRes.length === 0) {
-      return res.status(201).json({ message: 'Aucune location en cours' });
+      return res.status(201).json({ message: 'No rent in running' });
     }
 
     const transformedRents = await Promise.all(
@@ -174,10 +174,9 @@ export const getRentsByUserId = async (req, res) => {
       rents: transformedRents,
     });
   } catch (error) {
-    console.error('Erreur lors de la récupération des locations:', error);
-    res
-      .status(500)
-      .json({ error: 'Erreur lors de la récupération des locations' });
+    console.error('Error retrieving rentals:', error);
+    res.status(500)
+      .json({ error: 'Error retrieving rentals' });
   }
 };
 
@@ -199,7 +198,7 @@ export const getRentsByRenterId = async (req, res) => {
     });
     const rentsRes = rows;
     if (rentsRes.length === 0) {
-      return res.status(401).json({ message: 'Aucune location en cours' });
+      return res.status(401).json({ message: 'No rent in running' });
     }
 
     const transformedRents = await Promise.all(
@@ -270,11 +269,16 @@ export const deleteByOwner = async (req, res) => {
       where: {
         id: req.params.idRent,
         user_id_owner: req.params.idOwner,
+        status: 'reserved',
       },
     });
 
     if (!rent) {
-      return res.status(404).json({ message: 'Location non trouvée' });
+      return res
+        .status(404)
+        .json({
+          message: 'Location not found or the status is not "reserved"',
+        });
     }
 
     await rents.destroy({
@@ -284,12 +288,12 @@ export const deleteByOwner = async (req, res) => {
       },
     });
 
-    res.status(200).json({ message: 'Location supprimée avec succès' });
+    res.status(200).json({ message: 'Location deleted successfully' });
   } catch (error) {
-    console.error('Erreur lors de la suppression de la location:', error);
+    console.error('Error deleting the rental:', error);
     res
       .status(500)
-      .json({ error: 'Erreur lors de la suppression de la location' });
+      .json({ error: 'Error deleting the rental' });
   }
 };
 
@@ -301,11 +305,16 @@ export const deleteByRenter = async (req, res) => {
       where: {
         id: req.params.idRent,
         user_id_renter: req.params.idRenter,
+        status: 'reserved',
       },
     });
 
     if (!rent) {
-      return res.status(404).json({ message: 'Location non trouvée' });
+      return res
+        .status(404)
+        .json({
+          message: 'Location not found or the status is not "reserved"',
+        });
     }
 
     await rents.destroy({
@@ -315,11 +324,11 @@ export const deleteByRenter = async (req, res) => {
       },
     });
 
-    res.status(200).json({ message: 'Location supprimée avec succès' });
+    res.status(200).json({ message: 'Location deleted successfully' });
   } catch (error) {
-    console.error('Erreur lors de la suppression de la location:', error);
+    console.error('Error deleting the rental:', error);
     res
       .status(500)
-      .json({ error: 'Erreur lors de la suppression de la location' });
+      .json({ error: 'Error deleting the rental' });
   }
 };

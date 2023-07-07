@@ -23,12 +23,23 @@
                     :user="game.associatedUser"
                     :date-resa="game.beginning_date"
                   />
+                  <v-row class="cancel">
+                        <v-btn
+                          color="red"
+                          text
+                          class="cancel-button"
+                          @click="cancelRent(game.id)"
+                        >
+                          Cancel
+                        </v-btn>
+                  </v-row>
                   <ConfirmationModal
                     :name="'Validate'"
                     @dateSelected="dateSelected"
                     :nameDate="'Select a start date'"
                     @confirmation="validateReservation(game.id, 'rented')"
                   />
+                  
                 </v-col>
               </v-row>
               <v-pagination
@@ -69,6 +80,7 @@
                     @dateSelected="dateSelected"
                     @confirmation="validateReservation(game.id, 'closed')"
                   />
+                  
                 </v-col>
               </v-row>
               <v-pagination
@@ -197,6 +209,19 @@ export default {
     updatepageClosed() {
         this.fetchClosed(this.pageClosed)
     },
+    cancelRent(rentId) {
+      console.log(rentId);
+      const userId = this.$auth.$storage.getUniversal('user').id;
+      this.$axios
+        .delete(`api/rent/owner/${userId}/${rentId}`)
+        .then((res) => {
+          this.$awn.success('Rent cancelled');
+          this.loadRents();
+        })
+        .catch((error) => {
+          this.$awn.alert(error.response.data.message);
+        });
+    },
   },
 }
 </script>
@@ -244,5 +269,24 @@ h2 {
   font-size: 20px;
   font-style: italic;
 
+}
+.cancel-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.cancel-button {
+  background-color: $color-secondary!important;
+  margin : 10px auto 30px;
+  padding: 5px 15px ;
+  border-radius: 5px;
+  color: $color-primary !important;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.cancel-button:hover {
+  background-color: red !important;
+  color: black !important;
 }
 </style>

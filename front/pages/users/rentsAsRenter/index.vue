@@ -17,6 +17,16 @@
               :user="game.associatedUser"
               :date-resa="game.beginning_date"
             />
+            <v-row class="cancel">
+              <v-btn
+                color="red"
+                text
+                class="cancel-button"
+                @click="cancelRent(game.id)"
+                >
+                Cancel
+              </v-btn>
+            </v-row>
           </v-col>
         </v-row>
         <v-pagination
@@ -195,6 +205,17 @@ export default {
           break
       }
     },
+    cancelRent(rentId) {
+      const userId = this.$auth.$storage.getUniversal('user').id;
+      this.$axios
+        .delete(`api/rent/renter/${userId}/${rentId}`)
+        .then((res) => {
+          this.$awn.success('Rent cancelled');
+        })
+        .catch((error) => {
+          this.$awn.alert(error.response.data.message);
+        });
+    },
   },
 }
 </script>
@@ -242,5 +263,25 @@ h2 {
   font-size: 20px;
   font-style: italic;
 
+}
+
+.cancel-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.cancel-button {
+  background-color: $color-secondary!important;
+  margin : 10px auto 30px;
+  padding: 5px 15px ;
+  border-radius: 5px;
+  color: $color-primary !important;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.cancel-button:hover {
+  background-color: red !important;
+  color: black !important;
 }
 </style>
