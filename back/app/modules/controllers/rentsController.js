@@ -47,7 +47,13 @@ export const createRent = async (req, res) => {
             id: req.body.renter_id,
           },
         });
-        res.status(201).json({ rent, game, renter });
+        const owner = await users.findOne({
+          where: {
+            id: req.body.owner_id,
+          },
+        });
+        console.log(rent, game, renter, owner);
+        res.status(201).json({ rent, game, renter, owner });
       } else {
         return res.status(405).json({ message: 'Jeu déjà loué' });
       }

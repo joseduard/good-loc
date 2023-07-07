@@ -162,8 +162,10 @@ export default {
         const rentalResponse= response.data; // Utilisation de response.data pour obtenir les données de la réponse
         this.$awn.success('Location created !');
         const pseudo = rentalResponse.renter.pseudo;
+        const pseudoOwner = rentalResponse.owner.pseudo;
+        
         this.$axios.post('api/user/account/message/create', {
-          receiver_pseudo: pseudo,
+          receiver_pseudo: pseudoOwner,
           sender_id: this.$auth.$storage.getUniversal('user').id,
           object: 'Message de location',
           message_content:
