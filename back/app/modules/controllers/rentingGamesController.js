@@ -257,7 +257,10 @@ export const listGames = async (req, res) => {
     const finalGamesResponse = await Promise.all(
       filteredGamesResponse.map(async (gameResponse) => {
         const rent = await rents.findOne({
-          where: { user_game_id: gameResponse.id },
+          where: {
+            user_game_id: gameResponse.id,
+            status: 'reserved' || 'rented',
+          },
         });
         if (rent) {
           return null;
