@@ -33,7 +33,7 @@ export class MessageService {
 
   static async toggleMessageReadStatus(messageId, userId) {
     let message = await MessageRepository.findMessageById(messageId);
-    if (!message || message.receiver_id !== userId) {
+    if (!message || String(message.receiver_id) !== String(userId)) {
       throw new Error('Message not found or unauthorized');
     }
     const newReadStatus = message.read_message === 1 ? 0 : 1;
