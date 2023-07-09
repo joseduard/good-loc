@@ -76,11 +76,11 @@ export default {
         const datas = res.data;
         this.maxPage = datas.totalPages;
         datas.games.map((game) => {
-          game.game.price_Day_Renting = game.price_Day_Renting;
-          game.game.owner_id = game.owner.id;
-          game.game.pseudo = game.owner.pseudo;
-          game.game.rental_id = game.id;
-          this.games.push(game.game);
+          game.Game.price_Day_Renting = game.price_Day_Renting;
+          game.Game.owner_id = game.owner.id;
+          game.Game.pseudo = game.owner.pseudo;
+          game.Game.rental_id = game.id;
+          this.games.push(game.Game);
           return game;
         });
       });
@@ -90,11 +90,11 @@ export default {
         const datas = res.data
         this.maxPage = datas.totalPages
         datas.games.map((game) => {
-          game.game.price_Day_Renting = game.price_Day_Renting
-          game.game.owner_id = game.owner.id
-          game.game.pseudo = game.owner.pseudo
-          game.game.rental_id = game.id
-          this.games.push(game.game)
+          game.Game.price_Day_Renting = game.price_Day_Renting
+          game.Game.owner_id = game.owner.id
+          game.Game.pseudo = game.owner.pseudo
+          game.Game.rental_id = game.id
+          this.games.push(game.Game)
           return game
         })
       })
@@ -106,40 +106,6 @@ export default {
       setShowSingInModal: 'authentications/setShowSignInModal',
       fetchGames: 'games/fetchGames',
     }),
-    next() {
-      this.page++
-      this.$axios
-        .get(`/api/rentingGames/?page=${this.page}&pageSize=8&userId=${this.userId}`)
-        .then((res) => {
-          this.games = []
-          const datas = res.data
-          datas.games.map((game) => {
-            game.game.price_Day_Renting = game.price_Day_Renting
-            game.game.owner_id = game.owner.id
-            game.game.pseudo = game.owner.pseudo
-            game.game.rental_id = game.id
-            this.games.push(game.game)
-            return game
-          })
-        })
-    },
-    prev() {
-      this.page--
-      this.$axios
-        .get(`/api/rentingGames/?page=${this.page}&pageSize=8&userId=${this.userId}`)
-        .then((res) => {
-          const datas = res.data
-          this.games = []
-          datas.games.map((game) => {
-            game.game.price_Day_Renting = game.price_Day_Renting
-            game.game.owner_id = game.owner.id
-            game.game.pseudo = game.owner.pseudo
-            game.game.rental_id = game.id
-            this.games.push(game.game)
-            return game
-          })
-        })
-    },
     updatePage(newPage) {
       this.page = newPage
       if (this.filter && this.selectedFilter) {
@@ -176,11 +142,15 @@ export default {
         this.$axios.get(apiUrl).then((res) => {
           this.datas = res.data
           this.maxPage = this.datas.totalPages
-          this.games = this.datas.games.map((game) => {
-            game.game.pseudo = game.owner.pseudo
-            return game.game
-          })
-        })
+          this.games = []
+          res.data.games.map((game) => {
+          game.Game.price_Day_Renting = game.price_Day_Renting
+          game.Game.owner_id = game.owner.id
+          game.Game.pseudo = game.owner.pseudo
+          game.Game.rental_id = game.id
+          this.games.push(game.Game)
+          return game
+        })})
       } else {
         let apiUrl = `/api/rentingGames?page=${page}&pageSize=8&userId=${this.userId}`
         switch (selectedFilter) {
@@ -202,11 +172,15 @@ export default {
         this.$axios.get(apiUrl).then((res) => {
           this.datas = res.data
           this.maxPage = this.datas.totalPages
-          this.games = this.datas.games.map((game) => {
-            game.game.pseudo = game.owner.pseudo
-            return game.game
-          })
-        })
+          this.games = []
+          res.data.games.map((game) => {
+          game.Game.price_Day_Renting = game.price_Day_Renting
+          game.Game.owner_id = game.owner.id
+          game.Game.pseudo = game.owner.pseudo
+          game.Game.rental_id = game.id
+          this.games.push(game.Game)
+          return game
+        })})
       }
     },
   },

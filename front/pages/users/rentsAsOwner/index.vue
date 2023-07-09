@@ -59,7 +59,7 @@
         </v-col>
         <v-col sm="12" md="12">
           <h2>Running Rent 🦄</h2>
-          <v-card v-if="rented.rents" class="gamesList br-5px white">
+          <v-card v-if="rented.rents[0]" class="gamesList br-5px white">
             <v-card-title class="orange--text"> </v-card-title>
             <v-card-subtitle align="center">
               <v-row>
@@ -99,7 +99,7 @@
         </v-col>
         <v-col sm="12" md="12">
           <h2>Finished Rents</h2>
-          <v-card v-if="closed.rents" class="gamesList br-5px white">
+          <v-card v-if="closed.rents[0]" class="gamesList br-5px white">
             <v-card-title class="orange--text"> </v-card-title>
             <v-card-subtitle align="center">
               <v-row>
