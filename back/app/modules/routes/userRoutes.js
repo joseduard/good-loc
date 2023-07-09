@@ -1,17 +1,19 @@
 import { Router } from 'express';
-import {
-  getUserProfil,
-  updateUserInformation,
-  getAllPseudo,
-  getAllCities,
-} from '../controllers/userController.js';
+import { UserController } from '../controllers/userController.js';
 import { isValidJwt } from '../../utils/middlewares/validation/auth/verifJwt.js';
 
 const router = Router();
 
-router.put('/account/user-information', isValidJwt, updateUserInformation);
-router.get('/pseudo', getAllPseudo);
-router.get('/cities', getAllCities);
-router.get('/:id', isValidJwt, getUserProfil);
+// auth required routes
+router.get('/pseudo', UserController.getAllPseudo);
+router.get('/cities', UserController.getAllCities);
+
+// non auth required routes
+router.put(
+  '/account/user-information',
+  isValidJwt,
+  UserController.updateUserInformation
+);
+router.get('/:id', isValidJwt, UserController.getUserProfil);
 
 export default router;
