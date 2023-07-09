@@ -1,15 +1,11 @@
 import models from '../../database/models/init-models.js';
 import { withErrorHandling } from '../../utils/helpers/errorHandler.js';
 
-export class MechanicsRepository {
-  static mechanics = models.mechanicsType;
-
-  static findAllMechanics = withErrorHandling(async () => {
-    return this.mechanics.findAll({ limit: 200 });
-  });
+export class PublishersRepository {
+  static publishers = models.publishers;
 
   static findById = withErrorHandling(async (id) => {
-    return this.mechanics.findByPk(id, {
+    return this.publishers.findByPk(id, {
       attributes: ['id', 'name'],
     });
   });

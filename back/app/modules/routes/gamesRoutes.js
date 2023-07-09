@@ -1,17 +1,12 @@
 import { Router } from 'express';
-import {
-  getAllGames,
-  getGamesByName,
-  getGameById,
-  getAllGamesName,
-} from '../controllers/gamesController.js';
+import { GamesController } from '../controllers/gamesController.js';
 import { isValidJwt } from '../../utils/middlewares/validation/auth/verifJwt.js';
 
 const router = Router();
 
-router.get('/games', isValidJwt, getAllGames);
-router.get('/gamesByName/:name', isValidJwt, getGamesByName);
-router.get('/game/:id', isValidJwt, getGameById);
-router.get('/gamesName', isValidJwt, getAllGamesName);
+router.get('/games', isValidJwt, GamesController.getAllGames);
+router.get('/gamesByName/:name', isValidJwt, GamesController.getGamesByName);
+router.get('/game/:id', isValidJwt, GamesController.getGameById);
+router.get('/gamesName', isValidJwt, GamesController.getAllGamesName);
 
 export default router;

@@ -8,4 +8,10 @@ export class CategoriesRepository {
       limit: 200,
     });
   });
+  static findById = withErrorHandling(async (id) => {
+    const { categories } = models;
+    return categories.findByPk(id, {
+      attributes: ['id', 'name'],
+    });
+  });
 }
