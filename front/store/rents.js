@@ -1,6 +1,6 @@
 const state = () => ({
   reserved: { rents: {} },
-  rented: {},
+  rented: {rents : {}},
   closed: { rents: {} },
   maxPageClosed: null,
   maxPageRented: null,

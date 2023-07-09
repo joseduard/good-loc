@@ -35,7 +35,7 @@
     <v-app-bar id="header" :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon color="primary" @click.stop="drawer = !drawer" />
       <v-toolbar-title>
-        <img class="logo" :src="logo" :alt="item.title"
+        <img class="logo" :src="logo" :alt="item.title" v-if="mobile"
       /></v-toolbar-title>
       <v-spacer />
       <v-btn text color="tertiary" :to="{ name: 'game-list' }">
@@ -132,6 +132,9 @@ export default {
   },
   computed: {
     ...mapGetters({}),
+    mobile() {
+    return this.$vuetify.breakpoint.sm
+  },
   },
   mounted() {
     if (this.$auth.loggedIn) {
