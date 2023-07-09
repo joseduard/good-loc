@@ -9,9 +9,9 @@
       />
     </div>
 
-    <div class="unread">
+    <div class="unread" v-if="unreadListMessage[0]">
       <h2>UNREAD MESSAGES</h2>
-      <v-list>
+      <v-list id="scrollable">
         <v-list-item
           v-for="unreadmessage in unreadListMessage"
           :key="unreadmessage.id"
@@ -312,5 +312,9 @@ h2 {
     width: 30px;
     height: 30px;
   }
+}
+#scrollable {
+  overflow-y: scroll; 
+  height:400px;
 }
 </style>

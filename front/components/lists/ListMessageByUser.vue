@@ -13,8 +13,8 @@
           ></v-autocomplete>
         </v-list-item>
       </v-list>
-      <v-list>
-        <div v-for="(message, index) in messages" :key="index">
+      <v-list id="scrollable" v-if="pseudo">
+        <div v-for="(message, index) in messages" :key="index" class="element">
           <div
             v-if="
               pseudo == message.sender.pseudo ||
@@ -143,5 +143,12 @@ h2 {
     rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px,
     rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
     rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+#scrollable{
+  overflow-y: scroll;
+  height:30em;
+}
+.element {
+  width:80%;
 }
 </style>
