@@ -23,7 +23,7 @@
                 text
                 class="cancel-button"
                 @click="cancelRent(game.id)"
-                >
+              >
                 Cancel
               </v-btn>
             </v-row>
@@ -39,15 +39,15 @@
         ></v-pagination>
       </v-card-subtitle>
     </v-card>
-    <v-card v-else  class="noGamesList">
-            <span>No rent to validate</span>
-          </v-card>
+    <v-card v-else class="noGamesList">
+      <span>No rent to validate</span>
+    </v-card>
     <v-col sm="12" md="12">
       <h2>Active Rent 🦄</h2>
       <v-card v-if="closing.rents[0]" class="gamesList br-5px white">
         <v-card-title class="orange--text"> </v-card-title>
         <v-card-subtitle align="center">
-          <v-row >
+          <v-row>
             <v-col
               v-for="(game, index) in closing.rents"
               :key="index"
@@ -71,8 +71,8 @@
           ></v-pagination>
         </v-card-subtitle>
       </v-card>
-      <v-card v-else  class="noGamesList">
-            <span>No rent in running</span>
+      <v-card v-else class="noGamesList">
+        <span>No rent in running</span>
       </v-card>
     </v-col>
     <v-col sm="12" md="12">
@@ -104,9 +104,9 @@
           ></v-pagination>
         </v-card-subtitle>
       </v-card>
-      <v-card v-else  class="noGamesList">
-            <span>No rent closed</span>
-          </v-card>
+      <v-card v-else class="noGamesList">
+        <span>No rent closed</span>
+      </v-card>
     </v-col>
   </div>
 </template>
@@ -114,10 +114,10 @@
 import CardGame from '@/components/CardGame.vue'
 export default {
   name: 'Purchases',
-  middleware: 'auth',
   components: {
     CardGame,
   },
+  middleware: 'auth',
   data() {
     return {
       reserving: { rents: {} },
@@ -162,7 +162,6 @@ export default {
         this.closing = res.data
         this.maxPageClosing = res.data.totalPages
       })
-      
   },
   methods: {
     updatePage(status) {
@@ -206,15 +205,15 @@ export default {
       }
     },
     cancelRent(rentId) {
-      const userId = this.$auth.$storage.getUniversal('user').id;
+      const userId = this.$auth.$storage.getUniversal('user').id
       this.$axios
         .delete(`api/rent/renter/${userId}/${rentId}`)
         .then((res) => {
-          this.$awn.success('Rent cancelled');
+          this.$awn.success('Rent cancelled')
         })
         .catch((error) => {
-          this.$awn.alert(error.response.data.message);
-        });
+          this.$awn.alert(error.response.data.message)
+        })
     },
   },
 }
@@ -250,7 +249,7 @@ h2 {
     background-color: $color-secondary !important;
   }
 }
-.noGamesList{
+.noGamesList {
   background-color: white !important;
   border-radius: 5px !important;
   border: 1px solid $color-primary !important;
@@ -262,7 +261,6 @@ h2 {
   font-weight: bold;
   font-size: 20px;
   font-style: italic;
-
 }
 
 .cancel-row {
@@ -272,9 +270,9 @@ h2 {
 }
 
 .cancel-button {
-  background-color: $color-secondary!important;
-  margin : 10px auto 30px;
-  padding: 5px 15px ;
+  background-color: $color-secondary !important;
+  margin: 10px auto 30px;
+  padding: 5px 15px;
   border-radius: 5px;
   color: $color-primary !important;
   transition: background-color 0.3s, color 0.3s;

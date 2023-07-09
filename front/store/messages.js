@@ -54,16 +54,18 @@ const actions = {
   },
   setPseudoList({ commit }, userId) {
     return this.$axios
-    .get(`api/user/account/message/list/${userId}`)
-    .then((response) => {
+      .get(`api/user/account/message/list/${userId}`)
+      .then((response) => {
         this.messages = response.data
-        const pseudoList=response.data.map((message) => {
-          if(message.sender_id!==this.$auth.$storage.getUniversal('user').id){
-          return message.sender.pseudo
-      }else{
-          return message.receiver.pseudo
-        }
-      })
+        const pseudoList = response.data.map((message) => {
+          if (
+            message.sender_id !== this.$auth.$storage.getUniversal('user').id
+          ) {
+            return message.sender.pseudo
+          } else {
+            return message.receiver.pseudo
+          }
+        })
         commit('SET_PSEUDO_LIST', pseudoList)
         return Promise.resolve(response)
       })

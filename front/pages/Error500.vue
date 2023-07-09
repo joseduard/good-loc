@@ -5,11 +5,16 @@
       <v-col cols="12" md="6" lg="6">
         <img class="img-error" src="../assets/404.png" alt="" />
       </v-col>
-      <v-col class="d-flex justify-center" cols="12" md="6" lg="6"> 
+      <v-col class="d-flex justify-center" cols="12" md="6" lg="6">
         <p class="quote">
-          <span class="quote-text">"Même les licornes les plus pures se trompent des fois de chemin"</span>
+          <span class="quote-text"
+            >"Même les licornes les plus pures se trompent des fois de
+            chemin"</span
+          >
           <br />
-          <span class="quote-author">Licorne Kenobi - Licornus Maxima Book- verset 3</span>
+          <span class="quote-author"
+            >Licorne Kenobi - Licornus Maxima Book- verset 3</span
+          >
         </p>
       </v-col>
     </v-row>
@@ -49,4 +54,3 @@ export default {
   },
 }
 </script>
-

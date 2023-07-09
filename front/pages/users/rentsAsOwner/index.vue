@@ -24,22 +24,21 @@
                     :date-resa="game.beginning_date"
                   />
                   <v-row class="cancel">
-                        <v-btn
-                          color="red"
-                          text
-                          class="cancel-button"
-                          @click="cancelRent(game.id)"
-                        >
-                          Cancel
-                        </v-btn>
+                    <v-btn
+                      color="red"
+                      text
+                      class="cancel-button"
+                      @click="cancelRent(game.id)"
+                    >
+                      Cancel
+                    </v-btn>
                   </v-row>
                   <ConfirmationModal
                     :name="'Validate'"
+                    :name-date="'Select a start date'"
                     @dateSelected="dateSelected"
-                    :nameDate="'Select a start date'"
                     @confirmation="validateReservation(game.id, 'rented')"
                   />
-                  
                 </v-col>
               </v-row>
               <v-pagination
@@ -52,10 +51,9 @@
               ></v-pagination>
             </v-card-subtitle>
           </v-card>
-          <v-card v-else  class="noGamesList">
+          <v-card v-else class="noGamesList">
             <span>No rent in running</span>
           </v-card>
-       
         </v-col>
         <v-col sm="12" md="12">
           <h2>Running Rent 🦄</h2>
@@ -76,11 +74,10 @@
                   />
                   <ConfirmationModal
                     :name="'Close'"
-                    :nameDate="'Select a closing date'"
+                    :name-date="'Select a closing date'"
                     @dateSelected="dateSelected"
                     @confirmation="validateReservation(game.id, 'closed')"
                   />
-                  
                 </v-col>
               </v-row>
               <v-pagination
@@ -93,7 +90,7 @@
               ></v-pagination>
             </v-card-subtitle>
           </v-card>
-          <v-card v-else  class="noGamesList">
+          <v-card v-else class="noGamesList">
             <span>No rent in running</span>
           </v-card>
         </v-col>
@@ -126,7 +123,7 @@
               ></v-pagination>
             </v-card-subtitle>
           </v-card>
-          <v-card v-else  class="noGamesList">
+          <v-card v-else class="noGamesList">
             <span>No rent closed</span>
           </v-card>
         </v-col>
@@ -136,8 +133,9 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import CardGame from '@/components/CardGame.vue'
-import ConfirmationModal from '@/components/modals/ConfirmationModal.vue'
+import CardGame from '@/components/CardGame'
+import ConfirmationModal from '@/components/modals/ConfirmationModal'
+
 export default {
   components: {
     CardGame,
@@ -158,38 +156,37 @@ export default {
       dataHolder: null,
       indexRent: null,
       selectedGame: null,
-      selected:null,
+      selected: null,
     }
   },
   computed: {
-        ...mapGetters({
-            getRented : 'rents/getRented',
-            getReserved : 'rents/getReserved',
-            getClosed : 'rents/getClosed',
-        }),
-      },
+    ...mapGetters({
+      getRented: 'rents/getRented',
+      getReserved: 'rents/getReserved',
+      getClosed: 'rents/getClosed',
+    }),
+  },
   mounted() {
     this.loadRents()
   },
   methods: {
     ...mapActions({
-      fetchRented : 'rents/fetchRented',
-      fetchReserved : 'rents/fetchReserved',
-      fetchClosed : 'rents/fetchClosed',
-        }),
-    dateSelected(picker){
-      this.selected=picker
+      fetchRented: 'rents/fetchRented',
+      fetchReserved: 'rents/fetchReserved',
+      fetchClosed: 'rents/fetchClosed',
+    }),
+    dateSelected(picker) {
+      this.selected = picker
     },
     loadRents() {
       this.fetchRented(this.pageRented)
       this.fetchClosed(this.pageClosed)
       this.fetchReserved(this.pageReserved)
-      this.maxPageClosed=this.getClosed.totalPages
-      this.maxPageRented=this.getRented.totalPages
-      this.maxPageReserved=this.getReserved.totalPages
-
+      this.maxPageClosed = this.getClosed.totalPages
+      this.maxPageRented = this.getRented.totalPages
+      this.maxPageReserved = this.getReserved.totalPages
     },
-    validateReservation( id, status) {
+    validateReservation(id, status) {
       this.$axios
         .put(`api/rent/${id}/updateStatus`, {
           user_id: this.$auth.$storage.getUniversal('user').id,
@@ -198,7 +195,7 @@ export default {
         .then((res) => {
           this.$awn.success('Reservation closed')
           this.loadRents()
-                })
+        })
     },
     updatePageReserved() {
       this.fetchReserved(this.pageReserved)
@@ -207,20 +204,19 @@ export default {
       this.fetchRented(this.pageRented)
     },
     updatepageClosed() {
-        this.fetchClosed(this.pageClosed)
+      this.fetchClosed(this.pageClosed)
     },
     cancelRent(rentId) {
-      console.log(rentId);
-      const userId = this.$auth.$storage.getUniversal('user').id;
+      const userId = this.$auth.$storage.getUniversal('user').id
       this.$axios
         .delete(`api/rent/owner/${userId}/${rentId}`)
         .then((res) => {
-          this.$awn.success('Rent cancelled');
-          this.loadRents();
+          this.$awn.success('Rent cancelled')
+          this.loadRents()
         })
         .catch((error) => {
-          this.$awn.alert(error.response.data.message);
-        });
+          this.$awn.alert(error.response.data.message)
+        })
     },
   },
 }
@@ -256,7 +252,7 @@ h2 {
     background-color: $color-secondary !important;
   }
 }
-.noGamesList{
+.noGamesList {
   background-color: white !important;
   border-radius: 5px !important;
   border: 1px solid $color-primary !important;
@@ -268,7 +264,6 @@ h2 {
   font-weight: bold;
   font-size: 20px;
   font-style: italic;
-
 }
 .cancel-row {
   display: flex;
@@ -277,9 +272,9 @@ h2 {
 }
 
 .cancel-button {
-  background-color: $color-secondary!important;
-  margin : 10px auto 30px;
-  padding: 5px 15px ;
+  background-color: $color-secondary !important;
+  margin: 10px auto 30px;
+  padding: 5px 15px;
   border-radius: 5px;
   color: $color-primary !important;
   transition: background-color 0.3s, color 0.3s;

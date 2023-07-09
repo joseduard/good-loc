@@ -5,7 +5,7 @@
         class="unicorn_button"
         :src="require(`../.././assets/images/unicorn_prout.png`)"
         contain
-        >
+      >
       </v-img>
       <span>{{ name }} </span>
       <v-dialog v-model="dialog" activator="parent" max-width="500px">
@@ -13,20 +13,24 @@
           <v-card-title>Confirmation</v-card-title>
           <v-card-text>
             <p>{{ nameDate }}</p>
-            <v-date-picker v-model="picker" @change="$emit('dateSelected',picker)"></v-date-picker>
+            <v-date-picker
+              v-model="picker"
+              @change="$emit('dateSelected', picker)"
+            ></v-date-picker>
           </v-card-text>
           <v-card-actions>
-            <v-btn class="confirmation-button"
+            <v-btn
+              class="confirmation-button"
               @click="
-              $emit('confirmation', picker)
-              dialog = false
+                $emit('confirmation', picker)
+                dialog = false
               "
-              >
+            >
               <v-img
                 class="unicorn_button"
                 :src="require(`../.././assets/images/unicorn_skating.png`)"
                 contain
-                >
+              >
               </v-img>
               <span>Confirm</span></v-btn
             >
@@ -35,7 +39,7 @@
                 class="unicorn_button"
                 :src="require(`../.././assets/images/unicorn_cry.png`)"
                 contain
-                >
+              >
               </v-img>
               <span>Cancel</span>
             </v-btn>
@@ -58,7 +62,9 @@ export default {
   data() {
     return {
       dialog: false,
-      picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      picker: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
     }
   },
 }
@@ -66,17 +72,17 @@ export default {
 <style scoped lang="scss">
 @import '@/design/_colors';
 
-.v-picker{
-  width:100%;
-  padding-bottom:20px;
+.v-picker {
+  width: 100%;
+  padding-bottom: 20px;
 }
 .v-card__actions {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    margin: 0 20px 0 ;
-    padding: 8px 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  margin: 0 20px 0;
+  padding: 8px 16px;
 }
 .container_rent {
   max-width: 375px;

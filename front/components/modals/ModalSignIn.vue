@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="showSignInModal" persistent width="50em">
-    <v-card id="cardModal">
+    <v-card v-if="!forgotten" id="cardModal">
       <v-btn icon class="close-button" @click="closeModal">
         <v-icon>mdi-close</v-icon>
       </v-btn>
@@ -27,11 +27,43 @@
               </v-img>
               GOOOOO !
             </v-btn>
+            <v-btn class="button_login" @click="forgotten = true">
+              <v-img
+                class="unicorn_button"
+                :src="require(`../.././assets/images/succes_unicorn.png`)"
+                contain
+              >
+              </v-img>
+              Forgot password ?
+            </v-btn>
+
             <!-- <v-btn @click="logout">logout</v-btn> -->
           </form>
           <!-- {{ $auth.$storage.getUniversal('user') }} -->
         </div>
       </v-card>
+    </v-card>
+    <v-card v-if="forgotten" id="cardModal">
+      <v-btn icon class="close-button" @click="forgotten = false">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+      <v-card-title>Forgotten password</v-card-title>
+      <v-card-subtitle>
+        <v-text-field
+          v-model="emailForgot"
+          required
+          label="Email"
+        ></v-text-field>
+        <v-btn class="button_login" @click="forgottenPass">
+          <v-img
+            class="unicorn_button"
+            :src="require(`../.././assets/images/succes_unicorn.png`)"
+            contain
+          >
+          </v-img>
+          Send Email
+        </v-btn>
+      </v-card-subtitle>
     </v-card>
   </v-dialog>
 </template>
@@ -46,6 +78,8 @@ export default {
       email: '',
       password: '',
       show1: false,
+      forgotten: false,
+      emailForgot: '',
     }
   },
   computed: {
@@ -63,32 +97,32 @@ export default {
     }),
     async userLogin() {
       try {
-        const email = this.email;
-        const password = this.password;
+        const email = this.email
+        const password = this.password
 
         await this.$auth.loginWith('local', { data: { email, password } }).then(
           (response) => {
-            const user = response.data.data;
-            this.$auth.setUser(user);
-            this.$auth.$storage.setUniversal('user', user);
-            this.$auth.$storage.setUniversal('loggedIn', true);
-            this.setAuthUser(user);
-            this.setShowSignInModal(false);
-            this.$awn.success('Vous êtes connecté !');
-            
+            const user = response.data.data
+            this.$auth.setUser(user)
+            this.$auth.$storage.setUniversal('user', user)
+            this.$auth.$storage.setUniversal('loggedIn', true)
+            this.setAuthUser(user)
+            this.setShowSignInModal(false)
+            this.$awn.success('Vous êtes connecté !')
+
             this.$axios.get(`/api/user/${user.id}`).then((res) => {
-              const loggedUser = res.data;
+              const loggedUser = res.data
               if (loggedUser.city === null || loggedUser.city === '') {
-                this.$router.push(`/users/${user.id}`);
+                this.$router.push(`/users/${user.id}`)
               } else {
-                this.$router.push('/game-list');
+                this.$router.push('/game-list')
               }
-            });
+            })
           },
           (error) => {
-            this.$awn.alert(error);
+            this.$awn.alert(error.response.data.message)
           }
-        );
+        )
       } catch (err) {}
     },
 
@@ -104,6 +138,17 @@ export default {
       } catch (error) {
         this.$awn.alert(error.response.data.message)
       }
+    },
+    forgottenPass() {
+      this.$axios
+        .post('/api/forgot-password', { usermail: this.emailForgot })
+        .then((res) => {
+          this.$awn.success(res.data.message)
+          this.forgotten = false
+        })
+        .catch((err) => {
+          this.$awn.alert(err.response.data.message)
+        })
     },
   },
 }

@@ -1,51 +1,76 @@
 <template>
   <v-row>
-    <v-col  sm="12">
-      <h2>ALL MY MESSAGES BY UNICORN'S  CONTACT</h2>
+    <v-col sm="12">
+      <h2>ALL MY MESSAGES BY UNICORN'S CONTACT</h2>
       <v-list>
-        <v-list-item >
+        <v-list-item>
           <v-autocomplete
             v-model="pseudo"
             label="Pseudo"
             :items="pseudoList"
             item-text="name"
-            @change="$emit('pseudo', {pseudo})"
+            @change="$emit('pseudo', { pseudo })"
           ></v-autocomplete>
         </v-list-item>
       </v-list>
-      <v-list >
-        <div v-for="(message,index) in messages" :key="index">
-          <div v-if="pseudo==message.sender.pseudo || pseudo==message.receiver.pseudo">
+      <v-list>
+        <div v-for="(message, index) in messages" :key="index">
+          <div
+            v-if="
+              pseudo == message.sender.pseudo ||
+              pseudo == message.receiver.pseudo
+            "
+          >
             <v-row>
               <v-col sm="12" md="11">
-                <v-list-item  id="messageSent" v-if="message.sender_id==$auth.$storage.getUniversal('user').id" >
+                <v-list-item
+                  v-if="
+                    message.sender_id == $auth.$storage.getUniversal('user').id
+                  "
+                  id="messageSent"
+                >
                   <!-- <v-img :src="message.sender.img"> -->
                   <v-col sm="2" md="2">
-                      <v-img :src="message.sender.img" class="rounded-image"
-                        :max-width="60" 
-                        :height="60"
-                      ></v-img>
+                    <v-img
+                      :src="message.sender.img"
+                      class="rounded-image"
+                      :max-width="60"
+                      :height="60"
+                    ></v-img>
                   </v-col>
                   <v-col sm="10" md="9">
-                    {{message.message_content}}  
-                  </v-col>     
-                  <v-btn class="deleteBtn2" @click="$emit('deleteThis',message.id)">
-                      <img src="../../assets/images/DeleteBtn2.png"
-                      :max-width="40" 
-                      :height="40" alt="Delete" />
+                    {{ message.message_content }}
+                  </v-col>
+                  <v-btn
+                    class="deleteBtn2"
+                    @click="$emit('deleteThis', message.id)"
+                  >
+                    <img
+                      src="../../assets/images/DeleteBtn2.png"
+                      :max-width="40"
+                      :height="40"
+                      alt="Delete"
+                    />
                   </v-btn>
                 </v-list-item>
               </v-col>
             </v-row>
-            <v-list-item id="response" v-if="message.sender_id!==$auth.$storage.getUniversal('user').id" >
+            <v-list-item
+              v-if="
+                message.sender_id !== $auth.$storage.getUniversal('user').id
+              "
+              id="response"
+            >
               <v-col sm="10" md="10">
-                {{message.message_content}}
+                {{ message.message_content }}
               </v-col>
               <v-col sm="2" md="2">
                 <!-- <v-img :src="message.receiver.img"> -->
-                  <v-img :src= "message.receiver.img" class="rounded-image"
-                    :max-width="60" 
-                    :height="60"
+                <v-img
+                  :src="message.receiver.img"
+                  class="rounded-image"
+                  :max-width="60"
+                  :height="60"
                 ></v-img>
               </v-col>
             </v-list-item>
@@ -53,81 +78,70 @@
         </div>
       </v-list>
     </v-col>
-  </v-row>          
+  </v-row>
 </template>
-  
+
 <script>
-  
-  export default {
-    name: 'MessagesPage',
-    props: {
-      pseudoList: {
-        type: Array,
-        required: true,
-      },
-      messages: {
-        type: Array,
-        required: true,
-      },
+export default {
+  name: 'MessagesPage',
+  props: {
+    pseudoList: {
+      type: Array,
+      required: true,
     },
-    data() {
-      return {
-        pseudo: null,
-      }
+    messages: {
+      type: Array,
+      required: true,
     },
-  mounted() {
-        // this.$axios.get('api/user/account/message/list/'+this.$auth.$storage.getUniversal('user').id)
-        // .then((response) => {
-        //   this.messages = response.data
-        //   this.pseudoList= response.data.map((message) => {
-        //     if(message.sender_id!==this.$auth.$storage.getUniversal('user').id){
-        //     return message.sender.pseudo
-        // }else{
-        //     return message.receiver.pseudo
-        //   }
-        // },
-        // )})
-    },
-    methods: {
-    },
-  }
+  },
+  data() {
+    return {
+      pseudo: null,
+    }
+  },
+  mounted() {},
+  methods: {},
+}
 </script>
-  
+
 <style lang="scss" scoped>
-  @import '@/design/_colors';
-  h2{
-    color: $color-primary;
-    font-size: 25px;
-    margin-top: 20px;
-  }
-  #messageSent{
-    color: black;
-    background-color: $color-tertiary;
-    margin-right: 50%;
-    border-radius: 0% 20px 20px 0%;
-    .deleteBtn2{
+@import '@/design/_colors';
+h2 {
+  color: $color-primary;
+  font-size: 25px;
+  margin-top: 20px;
+}
+#messageSent {
+  color: black;
+  background-color: $color-tertiary;
+  margin-right: 50%;
+  border-radius: 0% 20px 20px 0%;
+  .deleteBtn2 {
     background-color: transparent !important;
     border: none !important;
     box-shadow: none !important;
     margin-left: -10px;
-    }
-    .deleteBtn2:hover{
-      background-color: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-    }
-    
   }
+  .deleteBtn2:hover {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
 
-  #response{
-    color: white;
-    background-color: $color-primary;
-    margin-left: 50%;
-    border-radius: 20px 0% 0% 20px;
-  }
-  .rounded-image {
-    border-radius: 50%;
-    border: 1px solid black ;
-    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
-  }
+#response {
+  color: white;
+  background-color: $color-primary;
+  margin-left: 50%;
+  border-radius: 20px 0% 0% 20px;
+}
+.rounded-image {
+  border-radius: 50%;
+  border: 1px solid black;
+  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+    rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+    rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px,
+    rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
+    rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
 </style>

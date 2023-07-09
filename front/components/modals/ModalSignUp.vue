@@ -57,9 +57,9 @@
                 :rules="[rules.required, rules.min, rules.specialChar]"
                 label="Password"
                 :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="show1 ? 'text' : 'password'"
-              required
-              @click:append="show1 = !show1"
+                :type="show1 ? 'text' : 'password'"
+                required
+                @click:append="show1 = !show1"
               ></v-text-field>
               <v-text-field
                 v-model="pseudo"
@@ -98,12 +98,19 @@ export default {
       show1: false,
       rules: {
         required: (value) => !!value || 'Ce champ est requis',
-        emailRules:
-        v => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid',
-        min: v => v.length >= 6 || 'Min 6 characters',
-        noSpecialChar: v => !v || !/[~`!#$%^&*+=\-[\]\\';,/{}|\\":<>?]/g.test(v) || 'No special characters',
-        specialChar: v => !v || /[~`!#$%^&*+=\-[\]\\';,/{}|\\":<>?]/g.test(v) || 'At least one special character is required',
-
+        emailRules: (v) =>
+          !v ||
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          'E-mail must be valid',
+        min: (v) => v.length >= 6 || 'Min 6 characters',
+        noSpecialChar: (v) =>
+          !v ||
+          !/[~`!#$%^&*+=\-[\]\\';,/{}|\\":<>?]/g.test(v) ||
+          'No special characters',
+        specialChar: (v) =>
+          !v ||
+          /[~`!#$%^&*+=\-[\]\\';,/{}|\\":<>?]/g.test(v) ||
+          'At least one special character is required',
       },
     }
   },
@@ -127,30 +134,30 @@ export default {
       setShowSingInModal: 'authentications/setShowSignInModal',
     }),
     async sendRegister() {
-      const isValid = await this.$refs.formUser.validate();
+      const isValid = await this.$refs.formUser.validate()
 
-if (isValid) {
-      await this.$axios
-        .post('api/auth/register', {
-          name: this.name,
-          firstname: this.firstname,
-          email: this.email,
-          password: this.password,
-          pseudo: this.pseudo,
-        })
-        .then((response) => {
-          this.setShowSignUpModal(false)
-          this.setShowSingInModal(true)
-          this.$awn.success('Inscription réussi !', {
-            durations: {
-              success: 1000,
-            },
+      if (isValid) {
+        await this.$axios
+          .post('api/auth/register', {
+            name: this.name,
+            firstname: this.firstname,
+            email: this.email,
+            password: this.password,
+            pseudo: this.pseudo,
           })
-        })
-    }else {
-      this.$awn.alert('Please respect rules')
-    }
-  }
+          .then((response) => {
+            this.setShowSignUpModal(false)
+            this.setShowSingInModal(true)
+            this.$awn.success('Inscription réussi !', {
+              durations: {
+                success: 1000,
+              },
+            })
+          })
+      } else {
+        this.$awn.alert('Please respect rules')
+      }
+    },
   },
 }
 </script>

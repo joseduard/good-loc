@@ -50,23 +50,21 @@
       <v-btn v-if="!$auth.loggedIn" text color="tertiary ">
         <span @click="setShowSingUpModal">Login</span>
       </v-btn>
-      
-        <v-btn
-          v-if="$auth.loggedIn"
-          text
-          color="tertiary"
-          @click="drawer = !drawer"
-         
-        >
-        <v-badge >
-        <template v-if="unreadMessageCount >0" #badge>
-          {{ unreadMessageCount }}
-        </template>
-        <font-awesome-icon :icon="['fas', 'user']" />
-        
-      </v-badge>
-        </v-btn>
-      
+
+      <v-btn
+        v-if="$auth.loggedIn"
+        text
+        color="tertiary"
+        @click="drawer = !drawer"
+      >
+        <v-badge>
+          <template v-if="unreadMessageCount > 0" #badge>
+            {{ unreadMessageCount }}
+          </template>
+          <font-awesome-icon :icon="['fas', 'user']" />
+        </v-badge>
+      </v-btn>
+
       <v-btn
         v-if="$auth.loggedIn"
         text
@@ -149,10 +147,15 @@ export default {
     async fetchUnreadMessageCount() {
       try {
         const userId = this.$auth.$storage.getUniversal('user').id
-        const response = await this.$axios.get(`api/user/account/message/unread/count/${userId}`)
+        const response = await this.$axios.get(
+          `api/user/account/message/unread/count/${userId}`
+        )
         this.unreadMessageCount = response.data.count
       } catch (error) {
-        console.error('Erreur lors de la récupération du nombre de messages non lus :', error)
+        this.$awn.error(
+          'Erreur lors de la récupération du nombre de messages non lus :',
+          error
+        )
       }
     },
     async logout() {

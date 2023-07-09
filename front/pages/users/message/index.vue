@@ -8,14 +8,17 @@
         @deleteThis="deleteMsg"
       />
     </div>
-  
+
     <div class="unread">
       <h2>UNREAD MESSAGES</h2>
       <v-list>
-        <v-list-item v-for="unreadmessage in unreadListMessage" :key="unreadmessage.id">
+        <v-list-item
+          v-for="unreadmessage in unreadListMessage"
+          :key="unreadmessage.id"
+        >
           <v-list-item-avatar>
             <v-badge left overlap>
-              <template v-slot:badge>
+              <template #badge>
                 <v-avatar size="30">
                   <img :src="unreadmessage.sender.img" alt="Sender Avatar" />
                 </v-avatar>
@@ -23,23 +26,35 @@
             </v-badge>
           </v-list-item-avatar>
           <v-list-item-content class="rowMessage">
-            <v-list-item-title>{{ unreadmessage.sender.pseudo }}</v-list-item-title>
-            <v-list-item-subtitle>Object : {{ unreadmessage.object }}</v-list-item-subtitle>
-            <v-list-item-subtitle>Send date :{{ unreadmessage.sent_date }}</v-list-item-subtitle>
-            <v-list-item-subtitle>Mess : {{ unreadmessage.message_content }}</v-list-item-subtitle>
+            <v-list-item-title>{{
+              unreadmessage.sender.pseudo
+            }}</v-list-item-title>
+            <v-list-item-subtitle
+              >Object : {{ unreadmessage.object }}</v-list-item-subtitle
+            >
+            <v-list-item-subtitle
+              >Send date :{{ unreadmessage.sent_date }}</v-list-item-subtitle
+            >
+            <v-list-item-subtitle
+              >Mess : {{ unreadmessage.message_content }}</v-list-item-subtitle
+            >
             <v-list-item-subtitle>
-              <v-btn class="deleteBtn" color="transparent" @click="deleteUnreadMessage(unreadmessage)">
+              <v-btn
+                class="deleteBtn"
+                color="transparent"
+                @click="deleteUnreadMessage(unreadmessage)"
+              >
                 <img src="../../../assets/images/deleteBtn.png" alt="Delete" />
               </v-btn>
               <v-btn color="green" @click="markAsChecked(unreadmessage)">
-                read? 
+                read?
               </v-btn>
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
     </div>
-  
+
     <v-card elevation="0" class="br-5px white">
       <H2>SEND A MESSAGE</H2>
       <v-card-text class="card-msg secondary pt-4">
@@ -85,8 +100,12 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import ListMessageByUser from '@/components/lists/ListMessageByUser.vue'
+
 export default {
   name: 'MessagesPage',
+  components: {
+    ListMessageByUser,
+  },
   middleware: 'auth',
   data() {
     return {
@@ -109,7 +128,6 @@ export default {
       },
       unreadListMessage: [],
       pseudoList: [],
-
     }
   },
   computed: {
@@ -143,16 +161,19 @@ export default {
     },
   },
   mounted() {
-    this.fetchPseudoList();
+    this.fetchPseudoList()
     this.loadMessages()
     this.$axios
-      .get('/api/user/account/message/unread/' + this.$auth.$storage.getUniversal('user').id)
+      .get(
+        '/api/user/account/message/unread/' +
+          this.$auth.$storage.getUniversal('user').id
+      )
       .then((response) => {
-        this.unreadListMessage = response.data;
+        this.unreadListMessage = response.data
       })
       .catch((error) => {
-        console.error('Error fetching unread messages:', error);
-      });
+        this.$awn.alert(error.response.data.message)
+      })
   },
   methods: {
     ...mapActions({
@@ -207,8 +228,7 @@ export default {
             this.$debugLog(response)
           })
           .catch((error) => {
-            this.$awn.alert('Erreur lors du chargement des messages')
-            this.$debugLog(error)
+            this.$awn.alert(error.response.data.message)
           })
       }
     },
@@ -218,45 +238,45 @@ export default {
       })
     },
     markAsChecked(unreadmessage) {
-      const userId = this.currentUserId;
-      const messageId = unreadmessage.id;
+      const userId = this.currentUserId
+      const messageId = unreadmessage.id
 
       this.$axios
         .put(`/api/user/account/message/new-status/${userId}/${messageId}`)
         .then(() => {
-          this.$awn.success('Message marqué comme lu');
-          this.unreadListMessage.splice(this.unreadListMessage.indexOf(unreadmessage), 1);
+          this.$awn.success('Message marqué comme lu')
+          this.unreadListMessage.splice(
+            this.unreadListMessage.indexOf(unreadmessage),
+            1
+          )
           // splicethis.unreadListMessage[unreadmessage.id]=null;
         })
         .catch((error) => {
-          console.error('Erreur lors du marquage du message comme lu :', error);
-          this.$awn.alert('Erreur lors du marquage du message comme lu');
-        });
+          this.$awn.alert(error)
+        })
     },
 
     deleteUnreadMessage(unreadmessage) {
-      const unreadId = unreadmessage.id;
-      const ownerId = this.currentUserId;
-      
+      const unreadId = unreadmessage.id
+      const ownerId = this.currentUserId
+
       this.$axios
         .delete('/api/user/account/message', {
           params: {
             messageId: unreadId,
-            userId: ownerId
-          }
+            userId: ownerId,
+          },
         })
         .then(() => {
-          this.setMessagesList(this.currentUserId);
-          this.$awn.success('Message supprimé');
+          this.setMessagesList(this.currentUserId)
+          this.$awn.success('Message supprimé')
           location.reload()
         })
         .catch((error) => {
-          console.error('Erreur lors de la suppression du message :', error);
-          this.$awn.alert('Erreur lors de la suppression du message');
-        });
-    }
+          this.$awn.alert(error)
+        })
+    },
   },
-  components: { ListMessageByUser },
 }
 </script>
 
@@ -278,19 +298,19 @@ h2 {
     border-radius: 15px;
   }
 }
-.rowMessage{
+.rowMessage {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: nowrap;
 }
-.deleteBtn{
-  width:30px;
-  height:30px;
-  
-  img{
-    width:30px;
-    height:30px;
+.deleteBtn {
+  width: 30px;
+  height: 30px;
+
+  img {
+    width: 30px;
+    height: 30px;
   }
 }
 </style>

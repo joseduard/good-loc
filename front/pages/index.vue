@@ -23,7 +23,6 @@
 import { mapGetters, mapActions } from 'vuex'
 import HomePres from '~/components/HomePres.vue'
 import ListGamesVue from '~/components/lists/ListGames.vue'
-
 export default {
   name: 'Home',
   components: { HomePres, ListGamesVue },

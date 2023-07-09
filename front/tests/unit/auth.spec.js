@@ -5,8 +5,8 @@ import rentsAsRenter from '@/pages/users/rentsAsRenter/index.vue'
 import game from '@/pages/game-list/_id.vue'
 
 it('auth', () => {
-  const pages= [userPage, message, rentsAsOwner, rentsAsRenter, game]
+  const pages = [userPage, message, rentsAsOwner, rentsAsRenter, game]
   pages.map((page) => {
-      expect(page.middleware).toBe('auth')
+    expect(page.middleware).toBe('auth')
   })
 })
