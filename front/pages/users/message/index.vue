@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ isMobile }}
     <div>
       <ListMessageByUser
         :messages="getMessagesList"
@@ -8,8 +9,7 @@
         @deleteThis="deleteMsg"
       />
     </div>
-
-    <div class="unread" v-if="unreadListMessage[0]">
+    <div v-if="unreadListMessage[0]" class="unread">
       <h2>UNREAD MESSAGES</h2>
       <v-list id="scrollable">
         <v-list-item
@@ -29,13 +29,14 @@
             <v-list-item-title>{{
               unreadmessage.sender.pseudo
             }}</v-list-item-title>
-            <v-list-item-subtitle
+
+            <v-list-item-subtitle v-if="!isMobile"
               >Object : {{ unreadmessage.object }}</v-list-item-subtitle
             >
-            <v-list-item-subtitle
+            <v-list-item-subtitle v-if="!isMobile"
               >Send date :{{ unreadmessage.sent_date }}</v-list-item-subtitle
             >
-            <v-list-item-subtitle
+            <v-list-item-subtitle v-if="!isMobile"
               >Mess : {{ unreadmessage.message_content }}</v-list-item-subtitle
             >
             <v-list-item-subtitle>
@@ -143,6 +144,9 @@ export default {
       } else {
         return null
       }
+    },
+    isMobile() {
+      return this.$vuetify.breakpoint.xs
     },
     displayedMessages() {
       if (this.messagesList) {
@@ -313,8 +317,9 @@ h2 {
     height: 30px;
   }
 }
+
 #scrollable {
-  overflow-y: scroll; 
-  height:400px;
+  overflow-y: scroll;
+  height: 400px;
 }
 </style>

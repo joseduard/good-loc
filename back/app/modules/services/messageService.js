@@ -9,6 +9,7 @@ export class MessageService {
     return MessageRepository.createMessage({
       receiver_pseudo: receiver.pseudo,
       sender_id: senderId,
+      receiver_id: receiver.id,
       object,
       message_content: messageContent,
     });
