@@ -1,6 +1,6 @@
 <template>
   <v-dialog id="all" v-model="dialog" persistent width="50em">
-    <div class="container_rent">
+    <div v-if="!rented" class="container_rent">
       <v-btn icon class="close-button" @click="closeModal">
         <v-icon>mdi-close</v-icon>
       </v-btn>
@@ -118,6 +118,22 @@
         </div>
       </v-card>
     </div>
+    <v-card v-if="rented" id="cardConfirm">
+      <v-btn icon class="close-button" @click="closeModal">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+      <v-card-title id="title">
+        {{ game.name }}
+        </v-card-title>
+        <v-card-subtitle >
+
+          <p>you just rented {{ game.name }} from {{ game.pseudo }} for {{ game.price_Day_Renting }}/j.</p>
+
+          <p>You must wait for the owner to accept your request. You can see it  <NuxtLink to="/users/rentsAsRenter/">there</NuxtLink></p>
+
+          <p>Or contact directly the owner ({{game.pseudo}}) <NuxtLink to="/users/message/">there</NuxtLink></p>
+        </v-card-subtitle>
+    </v-card>
   </v-dialog>
 </template>
 <script>
@@ -141,6 +157,7 @@ export default {
     return {
       showDesc: false,
       dialog: this.dialogModal,
+      rented: false,
     }
   },
   methods: {
@@ -173,7 +190,8 @@ export default {
             pseudo +
             " et j'aimerais louer votre jeu. Merci de me contacter.",
         });
-        this.$router.push({ path: 'users/message' });
+        this.rented=true;
+        // this.$router.push({ path: 'users/message' });
       })
       .catch((err) => {
         this.$awn.alert(err.response.data);
@@ -340,5 +358,4 @@ export default {
 .rent_action_button .confirmation-button:hover .unicorn_button {
   opacity: 1;
 }
-
 </style>

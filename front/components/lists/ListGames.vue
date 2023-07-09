@@ -72,7 +72,7 @@ export default {
 
   mounted() {
     this.userId = this.$auth.$storage.getUniversal('user')?.id
-    if (this.$route.name === 'game-list') {
+    if (this.$route.name === 'game-list' || this.$route.name === 'index') {
       this.$axios
         .get(`/api/rentingGames?page=1&pageSize=24&userId=${this.userId}`)
         .then((res) => {

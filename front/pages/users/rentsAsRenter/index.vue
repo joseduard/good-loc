@@ -166,7 +166,7 @@ export default {
   methods: {
     updatePage(status) {
       switch (status) {
-        case 'reserved':
+        case 'reserving':
           this.$axios
             .get(
               `api/user/account/renting/${
@@ -210,6 +210,9 @@ export default {
         .delete(`api/rent/renter/${userId}/${rentId}`)
         .then((res) => {
           this.$awn.success('Rent cancelled')
+          this.reserving.rents = this.reserving.rents.filter(
+            (rent) => rent.id !== rentId
+          )
         })
         .catch((error) => {
           this.$awn.alert(error.response.data.message)
