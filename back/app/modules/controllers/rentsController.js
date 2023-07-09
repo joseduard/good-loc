@@ -52,7 +52,6 @@ export const createRent = async (req, res) => {
             id: req.body.owner_id,
           },
         });
-        console.log(rent, game, renter, owner);
         res.status(201).json({ rent, game, renter, owner });
       } else {
         return res.status(405).json({ message: 'Jeu déjà loué' });
@@ -103,7 +102,7 @@ export const UpdateRentStatus = async (req, res) => {
     } else {
       return res
         .status(405)
-        .json({ message: "You are not the owner of this rent" });
+        .json({ message: 'You are not the owner of this rent' });
     }
   }
 };
@@ -185,8 +184,7 @@ export const getRentsByUserId = async (req, res) => {
     });
   } catch (error) {
     console.error('Error retrieving rentals:', error);
-    res.status(500)
-      .json({ error: 'Error retrieving rentals' });
+    res.status(500).json({ error: 'Error retrieving rentals' });
   }
 };
 
@@ -284,11 +282,9 @@ export const deleteByOwner = async (req, res) => {
     });
 
     if (!rent) {
-      return res
-        .status(404)
-        .json({
-          message: 'Location not found or the status is not "reserved"',
-        });
+      return res.status(404).json({
+        message: 'Location not found or the status is not "reserved"',
+      });
     }
 
     await rents.destroy({
@@ -301,9 +297,7 @@ export const deleteByOwner = async (req, res) => {
     res.status(200).json({ message: 'Location deleted successfully' });
   } catch (error) {
     console.error('Error deleting the rental:', error);
-    res
-      .status(500)
-      .json({ error: 'Error deleting the rental' });
+    res.status(500).json({ error: 'Error deleting the rental' });
   }
 };
 
@@ -320,11 +314,9 @@ export const deleteByRenter = async (req, res) => {
     });
 
     if (!rent) {
-      return res
-        .status(404)
-        .json({
-          message: 'Location not found or the status is not "reserved"',
-        });
+      return res.status(404).json({
+        message: 'Location not found or the status is not "reserved"',
+      });
     }
 
     await rents.destroy({
@@ -337,8 +329,6 @@ export const deleteByRenter = async (req, res) => {
     res.status(200).json({ message: 'Location deleted successfully' });
   } catch (error) {
     console.error('Error deleting the rental:', error);
-    res
-      .status(500)
-      .json({ error: 'Error deleting the rental' });
+    res.status(500).json({ error: 'Error deleting the rental' });
   }
 };

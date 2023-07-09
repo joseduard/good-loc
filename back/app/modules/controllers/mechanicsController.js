@@ -1,12 +1,13 @@
-export const getAllMechanics = async (req, res) => {
-  const { mechanicsType } = req['models'];
-  try {
-    const mechanics = await mechanicsType.findAll({ limit: 200 });
-    res.status(200).json(mechanics);
-  } catch (error) {
-    console.error('Erreur lors de la récupération des mécaniques :', error);
-    res
-      .status(500)
-      .json({ error: 'Erreur lors de la récupération des mécaniques' });
+import { MechanicsService } from '../services/mechanicsService.js';
+
+export class MechanicsController {
+  static async getAllMechanics(req, res) {
+    try {
+      const mechanics = await MechanicsService.getAllMechanics();
+      res.status(200).json(mechanics);
+    } catch (error) {
+      console.error('Error retrieving mechanics :', error);
+      res.status(500).json({ error: 'Error retrieving mechanics' });
+    }
   }
-};
+}

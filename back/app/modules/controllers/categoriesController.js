@@ -1,12 +1,13 @@
-export const getAllCategories = async (req, res) => {
-  const { categories } = req['models'];
-  try {
-    const categoriesRes = await categories.findAll({ limit: 200 });
-    res.status(200).json(categoriesRes);
-  } catch (error) {
-    console.error('Erreur lors de la récupération des catégories :', error);
-    res
-      .status(500)
-      .json({ error: 'Erreur lors de la récupération des catégories' });
-  }
-};
+import { CategoriesService } from '../services/categoriesService.js';
+
+export class CategoriesController {
+  static getAllCategories = async (req, res) => {
+    try {
+      const categoriesRes = await CategoriesService.getAllCategories();
+      res.status(200).json(categoriesRes);
+    } catch (error) {
+      console.error('Error retrieving categories :', error);
+      res.status(500).json({ error: 'Error retrieving categories' });
+    }
+  };
+}

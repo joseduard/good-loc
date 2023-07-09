@@ -1,6 +1,8 @@
+import { getUserFromRequest } from '../../utils/utils/middlewareUtils.js';
+
 export async function upload(req, res) {
   if (req) {
-    const user = req.user;
+    const user = getUserFromRequest(req);
     const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${
       user.pseudo
     }/${req.file.filename}`;
@@ -14,7 +16,6 @@ export async function upload(req, res) {
         },
       }
     );
-    console.log(x);
     req.res.status(200).json({
       message: 'Image upload successfully',
       url: imageUrl,

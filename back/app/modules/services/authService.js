@@ -1,60 +1,56 @@
 import bcrypt from 'bcryptjs';
 import { generateToken } from '../../utils/utils/jwtUtils.js';
 import { TOKEN_EXPIRY_TIME } from '../../utils/core/genericConstants.js';
+import { AuthRepository } from '../repository/authRepository.js';
 
-export const registerUser = async (
-  { email, lastname, firstname, password, pseudo },
-  models
-) => {
-  const { users } = models;
-
-  const hashedPassword = bcrypt.hashSync(password, 8);
-  return await users.create({
-    email,
-    lastname,
-    firstname,
-    password: hashedPassword,
-    pseudo,
-  });
-};
-
-export const loginUser = async ({ email, password }, models) => {
-  const { users } = models;
-
-  const user = await users.findOne({ where: { email } });
-  if (!user) {
-    throw new Error('User not found.');
+export class AuthService {
+  static async registerUser({ email, lastname, firstname, password, pseudo }) {
+    const hashedPassword = bcrypt.hashSync(password, 8);
+    return await AuthRepository.createUser({
+      email,
+      lastname,
+      firstname,
+      password: hashedPassword,
+      pseudo,
+    });
   }
-  const passwordIsValid = bcrypt.compareSync(password, user.password);
-  if (!passwordIsValid) {
-    throw new Error('Incorrect password!');
-  }
-  await users.update({ isLoggedIn: true }, { where: { id: user.id } });
-  return {
-    id: user.id,
-    firstname: user.firstname,
-    lastname: user.lastname,
-    email: user.email,
-  };
-};
 
-export const logoutUser = async (userId, models) => {
-  const { users } = models;
-  const user = await users.findByPk(userId);
-  if (!user) {
-    throw new Error('User not found.');
-  }
-  await users.update({ isLoggedIn: false }, { where: { id: user.id } });
-  return user;
-};
+  static async loginUser({ email, password }) {
+    const user = await AuthRepository.findUserByEmail(email);
+    if (!user) {
+      throw new Error('User not found.');
+    }
 
-export const processForgotPassword = async (email, models) => {
-  const { users } = models;
+    const passwordIsValid = bcrypt.compareSync(password, user.password);
+    if (!passwordIsValid) {
+      throw new Error('Incorrect password!');
+    }
 
-  const user = await users.findOne({ where: { email } });
-  if (!user) {
-    throw new Error('User not found.');
+    await AuthRepository.updateUserById(user.id, { isLoggedIn: true });
+    return {
+      id: user.id,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+    };
   }
-  const token = generateToken({ id: user.id }, TOKEN_EXPIRY_TIME); // expires in 1 hour
-  return { user, token };
-};
+
+  static async logoutUser(userId) {
+    const user = await AuthRepository.updateUserById(userId, {
+      isLoggedIn: false,
+    });
+    if (!user) {
+      throw new Error('User not found.');
+    }
+    return user;
+  }
+
+  static async processForgotPassword(email) {
+    const user = await AuthRepository.findUserByEmail(email);
+    if (!user) {
+      throw new Error('User not found.');
+    }
+    const token = generateToken({ id: user.id }, TOKEN_EXPIRY_TIME); // expires in 1 hour
+    return { user, token };
+  }
+}

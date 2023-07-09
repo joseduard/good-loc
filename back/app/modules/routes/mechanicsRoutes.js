@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { getAllMechanics } from '../controllers/mechanicsController.js';
+import { MechanicsController } from '../controllers/mechanicsController.js';
 
 const router = Router();
 
-router.get('/mechanics', getAllMechanics);
+router.get('/mechanics', MechanicsController.getAllMechanics);
 export default router;

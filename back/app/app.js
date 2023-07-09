@@ -7,6 +7,7 @@ import { config } from './config/app.config.js';
 import { globalRateLimiter } from './utils/middlewares/rate-limit/setGlobalRateLimit.js';
 import { setupRoutes } from './modules/routes/index.js';
 import { injectModelsInRequest } from './utils/middlewares/injectModelsInRequest.js';
+
 // apps declaration
 export function createTestingApp() {
   const app = express();

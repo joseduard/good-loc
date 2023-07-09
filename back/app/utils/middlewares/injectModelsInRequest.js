@@ -1,7 +1,6 @@
-import { initModels } from '../../database/models/init-models.js';
-import db from '../../config/db.config.js';
+import models from '../../database/models/init-models.js';
 
 export async function injectModelsInRequest(req, res, next) {
-  req['models'] = await initModels(db.sequelize);
+  req['models'] = models;
   next();
 }
