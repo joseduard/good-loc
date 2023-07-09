@@ -63,7 +63,7 @@ export class MessageController {
   static countUnreadMessages = async (req, res) => {
     try {
       const userId = req.params.userId;
-      const count = await MessageService.countUnreadMessages(userId);
+      const count = await MessageService.countUserUnreadMessages(userId);
       res.send({ count });
     } catch (error) {
       res.status(500).send({ message: error.message });
@@ -73,7 +73,7 @@ export class MessageController {
   static getUnreadMessagesForUser = async (req, res) => {
     try {
       const userId = req.params.userId;
-      const messages = await MessageService.countUserUnreadMessages(userId);
+      const messages = await MessageService.getUserUnreadMessages(userId);
       res.send(messages);
     } catch (error) {
       res.status(500).send({ message: error.message });

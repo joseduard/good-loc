@@ -42,7 +42,7 @@
     <v-card v-else class="noGamesList">
       <span>No rent to validate</span>
     </v-card>
-    <h2>Active Rent 🦄</h2>
+      <h2>Active Rent 🦄</h2>
       <v-card v-if="closing.rents[0]" class="gamesList br-5px white">
         <v-card-title class="orange--text"> </v-card-title>
         <v-card-subtitle align="center">
@@ -73,7 +73,6 @@
       <v-card v-else class="noGamesList">
         <span>No rent in running</span>
       </v-card>
-    </v-col>
     <v-col sm="12" md="12">
       <h2>Finished Rents</h2>
       <v-card v-if="closed.rents[0]" class="gamesList br-5px white">

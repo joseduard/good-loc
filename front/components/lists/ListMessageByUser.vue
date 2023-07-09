@@ -22,7 +22,7 @@
             "
           >
             <v-row>
-              <v-col sm="12" md="11">
+              <v-col sm="12" md="12">
                 <v-list-item
                   v-if="
                     message.sender_id == $auth.$storage.getUniversal('user').id
@@ -30,15 +30,15 @@
                   id="messageSent"
                 >
                   <!-- <v-img :src="message.sender.img"> -->
-                  <v-col sm="2" md="2">
+                  <v-col sm="1" md="1">
                     <v-img
                       :src="message.sender.img"
                       class="rounded-image"
-                      :max-width="60"
-                      :height="60"
+                      :max-width="30"
+                      :height="30"
                     ></v-img>
                   </v-col>
-                  <v-col sm="10" md="9">
+                  <v-col sm="10" md="10">
                     {{ message.message_content }}
                   </v-col>
                   <v-btn
@@ -61,10 +61,10 @@
               "
               id="response"
             >
-              <v-col sm="10" md="10">
+              <v-col sm="10" md="11">
                 {{ message.message_content }}
               </v-col>
-              <v-col sm="2" md="2">
+              <v-col sm="1" md="1">
                 <!-- <v-img :src="message.receiver.img"> -->
                 <v-img
                   :src="message.receiver.img"
@@ -114,7 +114,7 @@ h2 {
 #messageSent {
   color: black;
   background-color: $color-tertiary;
-  margin-right: 50%;
+  margin-right: 20%;
   border-radius: 0% 20px 20px 0%;
   .deleteBtn2 {
     background-color: transparent !important;
@@ -132,7 +132,7 @@ h2 {
 #response {
   color: white;
   background-color: $color-primary;
-  margin-left: 50%;
+  margin-left: 20%;
   border-radius: 20px 0% 0% 20px;
 }
 .rounded-image {
