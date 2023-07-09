@@ -1,10 +1,11 @@
 <template>
   <div>
+    <v-row>
     <v-card class="card br-5px white">
       <v-card-title class="justify-center orange--text">
         <h1>MY OWNER RENTS</h1></v-card-title
       >
-      <v-row>
+      
         <v-col sm="12" md="12">
           <h2>Rents who need validation</h2>
           <v-card v-if="getReserved.rents" class="gamesList br-5px white">
@@ -127,8 +128,8 @@
             <span>No rent closed</span>
           </v-card>
         </v-col>
-      </v-row>
     </v-card>
+  </v-row>
   </div>
 </template>
 <script>
