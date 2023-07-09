@@ -6,7 +6,7 @@ export async function upload(req, res) {
     const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${
       user.pseudo
     }/${req.file.filename}`;
-    const x = await user.update(
+    await user.update(
       {
         img: imageUrl,
       },

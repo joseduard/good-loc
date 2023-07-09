@@ -23,14 +23,7 @@ router.get(
   isValidJwt,
   getRentsByRenterId
 );
-router.delete(
-  '/rent/owner/:idOwner/:idRent',
-  isValidJwt,
-  deleteByOwner
-);
-router.delete(
-  '/rent/renter/:idRenter/:idRent',
-  isValidJwt,
-  deleteByRenter);
+router.delete('/rent/owner/:idOwner/:idRent', isValidJwt, deleteByOwner);
+router.delete('/rent/renter/:idRenter/:idRent', isValidJwt, deleteByRenter);
 
 export default router;

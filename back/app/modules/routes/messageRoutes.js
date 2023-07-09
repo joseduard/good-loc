@@ -1,23 +1,27 @@
 import { Router } from 'express';
-import {
-  CreateMessage,
-  getAllUserMessages,
-  findOneMessage,
-  deleteMessage,
-  markMessageIsRead,
-  getUnreadMessagesForUser,
-  countUnreadMessages,
-} from '../controllers/messageController.js';
+import { MessageController } from '../controllers/messageController.js';
 import { isValidJwt } from '../../utils/middlewares/validation/auth/verifJwt.js';
 
 const router = Router();
 
-router.post('/create', isValidJwt, CreateMessage);
-router.get('/list/:userId', isValidJwt, getAllUserMessages);
-router.get('/:messageId', isValidJwt, findOneMessage);
-router.delete('/', isValidJwt, deleteMessage);
-router.put('/new-status/:userId/:messageId', isValidJwt, markMessageIsRead);
-router.get('/unread/:userId', isValidJwt, getUnreadMessagesForUser);
-router.get('/unread/count/:userId', isValidJwt, countUnreadMessages);
+router.post('/create', isValidJwt, MessageController.CreateMessage);
+router.get('/list/:userId', isValidJwt, MessageController.getAllUserMessages);
+router.get('/:messageId', isValidJwt, MessageController.findOneMessage);
+router.delete('/', isValidJwt, MessageController.deleteMessage);
+router.put(
+  '/new-status/:userId/:messageId',
+  isValidJwt,
+  MessageController.markMessageIsRead
+);
+router.get(
+  '/unread/:userId',
+  isValidJwt,
+  MessageController.getUnreadMessagesForUser
+);
+router.get(
+  '/unread/count/:userId',
+  isValidJwt,
+  MessageController.countUnreadMessages
+);
 
 export default router;

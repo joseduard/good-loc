@@ -104,7 +104,7 @@ export const getRentingGamesByUser = async (req, res) => {
     return res.status(200).json({
       totalItems: count,
       currentPage: parseInt(page),
-      totalPages: Math.floor(count / limit),
+      totalPages: Math.ceil(count / limit),
       rentingGames,
     });
   } catch (error) {
