@@ -28,7 +28,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 export default {
-  name: 'DefaultLayout',
+  name: 'UserSidebar',
   data() {
     return {
       items: [

@@ -139,6 +139,7 @@ import CardGame from '@/components/CardGame'
 import ConfirmationModal from '@/components/modals/ConfirmationModal'
 
 export default {
+  name: 'rebtsAsOwner',
   components: {
     CardGame,
     ConfirmationModal,

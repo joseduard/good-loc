@@ -36,7 +36,7 @@
             <v-list-item-subtitle v-if="!isMobile"
               >Send date :{{ unreadmessage.sent_date }}</v-list-item-subtitle
             >
-            <v-list-item-subtitle id="contentMess" v-if="!isMobile"  @click="detailsMessage = unreadmessage.id"
+            <v-list-item-subtitle id="contentMess"   @click="detailsMessage = unreadmessage.id"
               >Mess : {{ unreadmessage.message_content }}</v-list-item-subtitle
             >
             <v-dialog v-model="detailsMessage" v-if="detailsMessage == unreadmessage.id" class="container_rent" >
@@ -45,26 +45,33 @@
               unreadmessage.sender.pseudo
             }}</v-card-title>
             <v-spacer></v-spacer>
-            <v-card-subtitle v-if="!isMobile"
+            <v-card-subtitle 
               >Object : {{ unreadmessage.object }}</v-card-subtitle
             >
-            <v-card-subtitle v-if="!isMobile"
+            <v-card-subtitle
               >Send date :{{ unreadmessage.sent_date }}</v-card-subtitle
             >
-            <v-card-subtitle id="contentMess" v-if="!isMobile" 
+            <v-card-subtitle id="contentMess" 
               >Mess : {{ unreadmessage.message_content }}</v-card-subtitle
             >
-          </v-card>
-            </v-dialog>
-            <v-list-item-subtitle>
-              <v-btn
+            <v-btn  v-if="isMobile"
                 class="deleteBtn"
                 color="transparent"
                 @click="deleteUnreadMessage(unreadmessage)"
               >
                 <img src="../../../assets/images/deleteBtn.png" alt="Delete" />
               </v-btn>
-              <v-btn color="green" @click="markAsChecked(unreadmessage)">
+          </v-card>
+            </v-dialog>
+            <v-list-item-subtitle>
+              <v-btn  v-if="!isMobile"
+                class="deleteBtn"
+                color="transparent"
+                @click="deleteUnreadMessage(unreadmessage)"
+              >
+                <img src="../../../assets/images/deleteBtn.png" alt="Delete" />
+              </v-btn>
+              <v-btn color="green" @click="markAsChecked(unreadmessage)" >
                 read?
               </v-btn>
             </v-list-item-subtitle>
@@ -283,7 +290,10 @@ export default {
         .then(() => {
           this.setMessagesList(this.currentUserId)
           this.$awn.success('Message supprimé')
-          location.reload()
+          this.unreadListMessage.splice(
+            this.unreadListMessage.indexOf(unreadmessage),
+            1
+          )
         })
         .catch((error) => {
           this.$awn.alert(error)

@@ -84,7 +84,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import 'vue-awesome-notifications/dist/styles/style.css'
 export default {
   name: 'ModalSignUp',
   data() {

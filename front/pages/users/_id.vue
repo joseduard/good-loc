@@ -26,12 +26,10 @@
         accept="image/png, image/jpeg, image/bmp"
         placeholder="Pick an avatar"
         prepend-icon="mdi-camera"
-        label="Avatar"
-        hide-input
-        @change="uploadAvatar"
-      >
+        label="Your avatar"
+        @change="uploadAvatar"      >
       </v-file-input>
-      <span class="text-avatar">Your avatar</span>
+      <!-- <span class="text-avatar">Your avatar</span> -->
     </div>
     <ModalUserAddGame
       v-if="dialogModal"
@@ -337,7 +335,7 @@ export default {
   flex-direction: row;
   background-color: black;
   flex-wrap: nowrap;
-  width: fit-content;
+  max-width: 20em;
   height: fit-content;
   padding: 10px;
   border-radius: 5px;

@@ -57,6 +57,7 @@
 
 <script>
 export default {
+  name: 'FilterBar',
   data() {
     return {
       filter: null,

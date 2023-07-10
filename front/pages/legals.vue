@@ -59,7 +59,9 @@
   </div>
 </template>
 <script>
-export default {}
+export default {
+  name: 'Legals',
+}
 </script>
 <style lang="scss" scoped>
 @import '@/design/_colors.scss';

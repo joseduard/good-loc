@@ -21,6 +21,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 export default {
+  name: 'ModalForgottenPassword',
   computed: {
     ...mapGetters({
       getShowForgotPasswordModal: 'authentications/getShowForgotPasswordModal',

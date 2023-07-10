@@ -11,7 +11,7 @@
   </div>
 </template>
 <script>
-import listGames from '~/components/lists/ListGames.vue'
+import listGames from '@/components/lists/ListGames.vue'
 export default {
   name: 'GameList',
   components: {

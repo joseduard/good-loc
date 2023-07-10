@@ -30,6 +30,7 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+  name: 'ModalUserAddGame',
   data() {
     return {
       search: '',

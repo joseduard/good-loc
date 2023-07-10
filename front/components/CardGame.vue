@@ -110,6 +110,7 @@
 </template>
 <script>
 export default {
+  name: 'CardGame',
   props: {
     game: {
       type: Object,

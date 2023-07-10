@@ -51,6 +51,7 @@
 </template>
 <script>
 export default {
+  name:"ConfirmationModal",
   props: {
     name: {
       type: String,
