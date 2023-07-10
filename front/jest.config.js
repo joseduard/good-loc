@@ -8,7 +8,7 @@ module.exports = {
     '^.+\\.js$': 'babel-jest',
     '.*\\.(vue)$': 'vue-jest',
   },
-  collectCoverage: true,
+  collectCoverage: false,
   collectCoverageFrom: [
     'components/**/*.{js,vue}',
     'layouts/**/*.{js,vue}',

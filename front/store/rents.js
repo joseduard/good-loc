@@ -1,6 +1,6 @@
 const state = () => ({
   reserved: { rents: {} },
-  rented: {rents : {}},
+  rented: { rents: {} },
   closed: { rents: {} },
   maxPageClosed: null,
   maxPageRented: null,
@@ -50,6 +50,7 @@ const actions = {
         }/reserved?pageSize=8&page=${page}`
       )
       .then((res) => {
+        console.log(res.data)
         commit('setReserved', res.data)
       })
   },

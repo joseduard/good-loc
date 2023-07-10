@@ -5,7 +5,7 @@
       <v-card-title class="justify-center orange--text">
         <h1>MY OWNER RENTS</h1></v-card-title
       >
-      
+
         <v-col sm="12" md="12">
           <h2>Rents who need validation</h2>
           <v-card v-if="getReserved.rents" class="gamesList br-5px white">

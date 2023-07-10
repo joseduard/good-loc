@@ -7,7 +7,7 @@
     "build": "nuxt build",
     "start": "nuxt start --hostname 0.0.0.0 --port 3000",
     "generate": "nuxt generate",
-    "test:unit": "jest",
+    "test:unit": "node --experimental-vm-modules --no-warnings  node_modules/.bin/jest --verbose tests/unit",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint:style": "stylelint \"**/*.{css,scss,sass,html,vue}\" --ignore-path .gitignore",
     "lint:prettier": "prettier --check .",

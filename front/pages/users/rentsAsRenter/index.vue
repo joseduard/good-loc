@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Waiting for validation</h2>
-    <v-card v-if="reserving.rents[0]" class="gamesList br-5px white">
+    <v-card v-if="reserving.rents?.[0]" class="gamesList br-5px white">
       <v-card-title class="orange--text"> </v-card-title>
       <v-card-subtitle align="center">
         <v-row>
@@ -42,40 +42,40 @@
     <v-card v-else class="noGamesList">
       <span>No rent to validate</span>
     </v-card>
-      <h2>Active Rent 🦄</h2>
-      <v-card v-if="closing.rents[0]" class="gamesList br-5px white">
-        <v-card-title class="orange--text"> </v-card-title>
-        <v-card-subtitle align="center">
-          <v-row>
-            <v-col
-              v-for="(game, index) in closing.rents"
-              :key="index"
-              md="6"
-              lg="3"
-            >
-              <CardGame
-                :game="game.associatedGame"
-                :user="game.associatedUser"
-                :date-resa="game.beginning_date"
-              />
-            </v-col>
-          </v-row>
-          <v-pagination
-            v-model="pageClosing"
-            :length="maxPageClosing"
-            :total-visible="4"
-            prev-icon="mdi-menu-left"
-            next-icon="mdi-menu-right"
-            @input="updatePage('closing')"
-          ></v-pagination>
-        </v-card-subtitle>
-      </v-card>
-      <v-card v-else class="noGamesList">
-        <span>No rent in running</span>
-      </v-card>
+    <h2>Active Rent 🦄</h2>
+    <v-card v-if="closing.rents?.[0]" class="gamesList br-5px white">
+      <v-card-title class="orange--text"> </v-card-title>
+      <v-card-subtitle align="center">
+        <v-row>
+          <v-col
+            v-for="(game, index) in closing.rents"
+            :key="index"
+            md="6"
+            lg="3"
+          >
+            <CardGame
+              :game="game.associatedGame"
+              :user="game.associatedUser"
+              :date-resa="game.beginning_date"
+            />
+          </v-col>
+        </v-row>
+        <v-pagination
+          v-model="pageClosing"
+          :length="maxPageClosing"
+          :total-visible="4"
+          prev-icon="mdi-menu-left"
+          next-icon="mdi-menu-right"
+          @input="updatePage('closing')"
+        ></v-pagination>
+      </v-card-subtitle>
+    </v-card>
+    <v-card v-else class="noGamesList">
+      <span>No rent in running</span>
+    </v-card>
     <v-col sm="12" md="12">
       <h2>Finished Rents</h2>
-      <v-card v-if="closed.rents[0]" class="gamesList br-5px white">
+      <v-card v-if="closed.rents?.[0]" class="gamesList br-5px white">
         <v-card-title class="orange--text"> </v-card-title>
         <v-card-subtitle align="center">
           <v-row>
@@ -111,7 +111,6 @@
 <script>
 import CardGame from '@/components/CardGame.vue'
 export default {
-  name: 'Purchases',
   components: {
     CardGame,
   },

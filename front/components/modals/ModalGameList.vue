@@ -110,9 +110,8 @@
               ><span>Description</span>
             </v-btn>
             <!--TODO: change to router-link -->
-            <ConfirmationModal  :name="'rent'" @confirmation="createRent">
-                
-            </ConfirmationModal> 
+            <ConfirmationModal :name="'rent'" @confirmation="createRent">
+            </ConfirmationModal>
             <!-- TODO: change to router-link -->
           </v-row>
         </div>
@@ -124,15 +123,23 @@
       </v-btn>
       <v-card-title id="title">
         {{ game.name }}
-        </v-card-title>
-        <v-card-subtitle >
+      </v-card-title>
+      <v-card-subtitle>
+        <p>
+          you just rented {{ game.name }} from {{ game.pseudo }} for
+          {{ game.price_Day_Renting }}/j.
+        </p>
 
-          <p>you just rented {{ game.name }} from {{ game.pseudo }} for {{ game.price_Day_Renting }}/j.</p>
+        <p>
+          You must wait for the owner to accept your request. You can see it
+          <NuxtLink to="/users/rentsAsRenter/">there</NuxtLink>
+        </p>
 
-          <p>You must wait for the owner to accept your request. You can see it  <NuxtLink to="/users/rentsAsRenter/">there</NuxtLink></p>
-
-          <p>Or contact directly the owner ({{game.pseudo}}) <NuxtLink to="/users/message/">there</NuxtLink></p>
-        </v-card-subtitle>
+        <p>
+          Or contact directly the owner ({{ game.pseudo }})
+          <NuxtLink to="/users/message/">there</NuxtLink>
+        </p>
+      </v-card-subtitle>
     </v-card>
   </v-dialog>
 </template>
@@ -161,43 +168,43 @@ export default {
     }
   },
   methods: {
-  closeModal() {
-    this.$parent.dialogModal = false;
+    closeModal() {
+      this.$parent.dialogModal = false
+    },
+    createRent() {
+      this.$axios
+        .post('api/rent/create', {
+          game_id: this.game.id,
+          owner_id: this.game.owner_id,
+          beginning_date: new Date().toISOString().slice(0, 10),
+          renter_id: this.$auth.$storage.getUniversal('user').id,
+          rental_game_id: this.game.rental_id,
+          status: 'reserved',
+          price: this.game.price_Day_Renting,
+        })
+        .then((response) => {
+          const rentalResponse = response.data // Utilisation de response.data pour obtenir les données de la réponse
+          this.$awn.success('Location created !')
+          const pseudo = rentalResponse.renter.pseudo
+          const pseudoOwner = rentalResponse.owner.pseudo
+
+          this.$axios.post('api/user/account/message/create', {
+            receiver_pseudo: pseudoOwner,
+            sender_id: this.$auth.$storage.getUniversal('user').id,
+            object: 'Message de location',
+            message_content:
+              'Bonjour, je suis ' +
+              pseudo +
+              " et j'aimerais louer votre jeu. Merci de me contacter.",
+          })
+          this.rented = true
+          // this.$router.push({ path: 'users/message' });
+        })
+        .catch((err) => {
+          this.$awn.alert(err.response.data)
+        })
+    },
   },
-  createRent() {
-    this.$axios
-      .post('api/rent/create', {
-        game_id: this.game.id,
-        owner_id: this.game.owner_id,
-        beginning_date: new Date().toISOString().slice(0, 10),
-        renter_id: this.$auth.$storage.getUniversal('user').id,
-        rental_game_id: this.game.rental_id,
-        status: 'reserved',
-        price: this.game.price_Day_Renting,
-      })
-      .then((response) => {
-        const rentalResponse= response.data; // Utilisation de response.data pour obtenir les données de la réponse
-        this.$awn.success('Location created !');
-        const pseudo = rentalResponse.renter.pseudo;
-        const pseudoOwner = rentalResponse.owner.pseudo;
-        
-        this.$axios.post('api/user/account/message/create', {
-          receiver_pseudo: pseudoOwner,
-          sender_id: this.$auth.$storage.getUniversal('user').id,
-          object: 'Message de location',
-          message_content:
-            "Bonjour, je suis " +
-            pseudo +
-            " et j'aimerais louer votre jeu. Merci de me contacter.",
-        });
-        this.rented=true;
-        // this.$router.push({ path: 'users/message' });
-      })
-      .catch((err) => {
-        this.$awn.alert(err.response.data);
-      });
-  },
-},
 }
 </script>
 
