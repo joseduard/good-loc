@@ -9,6 +9,7 @@ export class UserRepository {
       where: {
         id: userId,
       },
+      attributes: { exclude: ['password', 'isLoggedIn'] },
     });
   });
 
