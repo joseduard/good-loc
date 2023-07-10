@@ -97,7 +97,6 @@ export default {
 }
 
 .confirmation-button {
-  margin-right: 20px;
   background-color: $color-primary !important;
   color: white;
   min-width: 130px !important;

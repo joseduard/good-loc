@@ -99,7 +99,8 @@
             </v-row>
           </v-card-subtitle>
           <v-row class="rent_action_button">
-            <p v-if="showDesc">{{ game.description }}</p>
+            <v-col class="d-flex justify-center" cols="12" md="6" lg="6">
+              <p v-if="showDesc">{{ game.description }}</p>
             <v-btn :to="`/game-list/${game.id}`">
               <v-img
                 class="unicorn_button"
@@ -109,10 +110,11 @@
               </v-img
               ><span>Description</span>
             </v-btn>
-            <!--TODO: change to router-link -->
-            <ConfirmationModal :name="'rent'" @confirmation="createRent">
-            </ConfirmationModal>
-            <!-- TODO: change to router-link -->
+            </v-col>
+            <v-col class="d-flex justify-center" cols="12" md="6" lg="6">
+                <!--TODO: change to router-link -->
+                  <ConfirmationModal :name="'rent'" @confirmation="createRent"/>
+            </v-col>
           </v-row>
         </div>
       </v-card>
@@ -299,7 +301,6 @@ export default {
 }
 
 .rent_action_button .v-btn {
-  margin-right: 30px;
   background-color: $color-primary;
   color: white;
   min-width: 150px;

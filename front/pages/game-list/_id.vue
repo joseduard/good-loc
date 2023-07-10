@@ -1,5 +1,6 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
-  <div id="all">
+  <div id="all" class="mt-8">
     <ModalGameList
       v-if="dialogModal"
       :dialog-modal="dialogModal"
