@@ -12,7 +12,29 @@
       fixed
       app
     > -->
-    <v-menu v-model="drawer" transition="scroll-y-transition">
+    <v-navigation-drawer
+      v-if="!isMobile"
+      app fixed mini-variant expand-on-hover left
+      >
+      <!-- Sidebar List -->
+      <v-list>
+        <v-list-item :to="item.to" router exact>
+          <!-- eslint-disable vue/first-attribute-linebreak -->
+          <v-list-item-action>
+            <font-awesome-icon :icon="['fas', 'home']" class="primary--text" />
+          </v-list-item-action>
+          <!-- eslint-enable vue/first-attribute-linebreak -->
+          <v-list-item-content>
+            <v-list-item-title class="text-uppercase tertiary--text">{{
+              item.title
+            }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <UnauthenticatedUserSidebar v-if="!$auth.loggedIn" />
+      <UserSidebar v-if="$auth.loggedIn" />
+    </v-navigation-drawer>
+    <v-menu v-if="isMobile" v-model="drawer" transition="scroll-y-transition">
       <!-- Sidebar List -->
       <v-list>
         <v-list-item :to="item.to" router exact>
@@ -31,11 +53,12 @@
       <UnauthenticatedUserSidebar v-if="!$auth.loggedIn" />
       <UserSidebar v-if="$auth.loggedIn" />
     </v-menu>
+    
     <!-- Header -->
     <v-app-bar id="header" :clipped-left="clipped" fixed app>
-      <v-app-bar-nav-icon color="primary" @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon color="primary" @click.stop="drawer = !drawer" v-if="isMobile" />
       <v-toolbar-title>
-        <img v-if="mobile" class="logo" :src="logo" :alt="item.title"
+        <img class="logo" :src="logo" :alt="item.title"
       /></v-toolbar-title>
       <v-spacer />
       <v-btn text color="tertiary" :to="{ name: 'game-list' }">
@@ -48,14 +71,14 @@
 
    -->
       <v-btn v-if="!$auth.loggedIn" text color="tertiary ">
-        <span @click="setShowSignUpModal">Login</span>
+        <span @click="setShowSingUpModal">Login</span>
       </v-btn>
 
       <v-btn
         v-if="$auth.loggedIn"
         text
         color="tertiary"
-        @click="drawer = !drawer"
+        :to="'/users/'"
       >
         <v-badge>
           <template v-if="unreadMessageCount > 0" #badge>
@@ -75,13 +98,17 @@
         <span>Logout</span>
         <!-- <span @click="setShowSingUpModal">Bouton Dev</span> -->
       </v-btn>
+      
     </v-app-bar>
+
     <!-- main content -->
     <v-main>
+      
       <v-container>
         <Nuxt />
       </v-container>
     </v-main>
+    
     <!-- footer -->
     <v-footer :absolute="!fixed" app>
       <v-spacer />
@@ -128,24 +155,27 @@ export default {
       rightDrawer: false,
       title: 'Good Lock',
       unreadMessageCount: 0,
+      mobile: false,
     }
   },
   computed: {
     ...mapGetters({}),
-    mobile() {
-      return this.$vuetify.breakpoint.sm
+    isMobile() {
+      return this.$vuetify.breakpoint.xs
     },
   },
   mounted() {
     if (this.$auth.loggedIn) {
       this.fetchUnreadMessageCount()
-    }
-    // this.$vuetify.theme.dark = true
+    };
+  },
+  created() {
+    
   },
   methods: {
     ...mapActions({
       setShowSingInModal: 'authentications/setShowSignInModal',
-      setShowSignUpModal: 'authentications/setShowSignUpModal',
+      setShowSingUpModal: 'authentications/setShowSignUpModal',
     }),
     async fetchUnreadMessageCount() {
       try {
@@ -155,7 +185,7 @@ export default {
         )
         this.unreadMessageCount = response.data.count
       } catch (error) {
-        this.$awn.error(
+        console.error(
           'Erreur lors de la récupération du nombre de messages non lus :',
           error
         )

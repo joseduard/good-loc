@@ -36,9 +36,26 @@
             <v-list-item-subtitle v-if="!isMobile"
               >Send date :{{ unreadmessage.sent_date }}</v-list-item-subtitle
             >
-            <v-list-item-subtitle v-if="!isMobile"
+            <v-list-item-subtitle id="contentMess" v-if="!isMobile"  @click="detailsMessage = unreadmessage.id"
               >Mess : {{ unreadmessage.message_content }}</v-list-item-subtitle
             >
+            <v-dialog v-model="detailsMessage" v-if="detailsMessage == unreadmessage.id" class="container_rent" >
+              <v-card class="text-center">
+              <v-card-title class="text-center justify-center">{{
+              unreadmessage.sender.pseudo
+            }}</v-card-title>
+            <v-spacer></v-spacer>
+            <v-card-subtitle v-if="!isMobile"
+              >Object : {{ unreadmessage.object }}</v-card-subtitle
+            >
+            <v-card-subtitle v-if="!isMobile"
+              >Send date :{{ unreadmessage.sent_date }}</v-card-subtitle
+            >
+            <v-card-subtitle id="contentMess" v-if="!isMobile" 
+              >Mess : {{ unreadmessage.message_content }}</v-card-subtitle
+            >
+          </v-card>
+            </v-dialog>
             <v-list-item-subtitle>
               <v-btn
                 class="deleteBtn"
@@ -129,6 +146,7 @@ export default {
       },
       unreadListMessage: [],
       pseudoList: [],
+      detailsMessage  : false,
     }
   },
   computed: {
@@ -147,15 +165,6 @@ export default {
     },
     isMobile() {
       return this.$vuetify.breakpoint.xs
-    },
-    displayedMessages() {
-      if (this.messagesList) {
-        const startIndex = (this.currentPage - 1) * this.itemsPerPage
-        const endIndex = startIndex + this.itemsPerPage
-        return this.messagesList.slice(startIndex, endIndex)
-      } else {
-        return null
-      }
     },
     currentUserId() {
       return this.$auth.$storage.getUniversal('user').id
@@ -320,5 +329,14 @@ h2 {
 #scrollable {
   overflow-y: scroll;
   max-height: 400px;
+}
+.container_rent {
+  width: 100%;
+  height: 100%;
+  border: 2px solid $color-primary;
+  border-radius: 5px;
+  box-shadow: rgba(255, 129, 2, 0.25) 0px 30px 60px -12px inset !important;
+  background-color: black !important;
+  overflow: auto;
 }
 </style>
