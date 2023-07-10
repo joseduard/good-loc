@@ -146,7 +146,7 @@ h2 {
 }
 #scrollable{
   overflow-y: scroll;
-  height:30em;
+  max-height:30em;
 }
 .element {
   width:80%;

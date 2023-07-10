@@ -317,9 +317,8 @@ h2 {
     height: 30px;
   }
 }
-
 #scrollable {
   overflow-y: scroll;
-  height: 400px;
+  max-height: 400px;
 }
 </style>

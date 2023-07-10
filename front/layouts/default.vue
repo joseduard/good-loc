@@ -48,7 +48,7 @@
 
    -->
       <v-btn v-if="!$auth.loggedIn" text color="tertiary ">
-        <span @click="setShowSingUpModal">Login</span>
+        <span @click="setShowSignUpModal">Login</span>
       </v-btn>
 
       <v-btn
@@ -145,7 +145,7 @@ export default {
   methods: {
     ...mapActions({
       setShowSingInModal: 'authentications/setShowSignInModal',
-      setShowSingUpModal: 'authentications/setShowSignUpModal',
+      setShowSignUpModal: 'authentications/setShowSignUpModal',
     }),
     async fetchUnreadMessageCount() {
       try {
