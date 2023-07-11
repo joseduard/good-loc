@@ -135,6 +135,12 @@ export default {
   components: {
     ListMessageByUser,
   },
+  props: {
+    dialogModal: {
+      required: true,
+      type: Boolean,
+    },
+  },
   middleware: 'auth',
   data() {
     return {
@@ -207,6 +213,9 @@ export default {
       deleteMessage: 'messages/deleteMessage',
       fetchUserById: 'user/fetchUserById',
     }),
+    closeModal() {
+      this.detailsMessage = false;
+    },
     setPseudo(pseudo) {
       this.newMessage.receiver_pseudo = pseudo.pseudo
     },
