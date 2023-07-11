@@ -25,43 +25,47 @@
               </template>
             </v-badge>
           </v-list-item-avatar>
+
           <v-list-item-content class="rowMessage">
-            <v-list-item-title>{{
+            <v-list-item-title @click="detailsMessage = unreadmessage.id">{{
               unreadmessage.sender.pseudo
             }}</v-list-item-title>
 
-            <v-list-item-subtitle v-if="!isMobile"
+            <v-list-item-subtitle v-if="!isMobile" @click="detailsMessage = unreadmessage.id"
               >Object : {{ unreadmessage.object }}</v-list-item-subtitle
             >
-            <v-list-item-subtitle v-if="!isMobile"
+            <v-list-item-subtitle v-if="!isMobile" @click="detailsMessage = unreadmessage.id"
               >Send date :{{ unreadmessage.sent_date }}</v-list-item-subtitle
             >
             <v-list-item-subtitle id="contentMess"   @click="detailsMessage = unreadmessage.id"
               >Mess : {{ unreadmessage.message_content }}</v-list-item-subtitle
             >
             <v-dialog v-model="detailsMessage" v-if="detailsMessage == unreadmessage.id" class="container_rent" >
-              <v-card class="text-center">
-              <v-card-title class="text-center justify-center">{{
-              unreadmessage.sender.pseudo
-            }}</v-card-title>
-            <v-spacer></v-spacer>
-            <v-card-subtitle 
-              >Object : {{ unreadmessage.object }}</v-card-subtitle
-            >
-            <v-card-subtitle
-              >Send date :{{ unreadmessage.sent_date }}</v-card-subtitle
-            >
-            <v-card-subtitle id="contentMess" 
-              >Mess : {{ unreadmessage.message_content }}</v-card-subtitle
-            >
-            <v-btn  v-if="isMobile"
-                class="deleteBtn"
-                color="transparent"
-                @click="deleteUnreadMessage(unreadmessage)"
-              >
-                <img src="../../../assets/images/deleteBtn.png" alt="Delete" />
-              </v-btn>
-          </v-card>
+              <v-card >
+                <v-btn icon class="close-button" @click="closeModal">
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-card-title class="text-center justify-center">
+                  {{unreadmessage.sender.pseudo}}
+                </v-card-title>
+                <v-spacer></v-spacer>
+                <v-card-subtitle class="text-center justify-center">
+                  Object : {{ unreadmessage.object }}
+                </v-card-subtitle>
+                <v-card-subtitle class="text-center justify-center">
+                  Send date :{{ unreadmessage.sent_date }}
+                </v-card-subtitle>
+                <v-card-subtitle id="contentMess"  class="text-center justify-center">
+                  Message : {{ unreadmessage.message_content }}
+                </v-card-subtitle>
+                <v-btn  v-if="isMobile"
+                    class="deleteBtn"
+                    color="transparent"
+                    @click="deleteUnreadMessage(unreadmessage)"
+                  >
+                    <img src="../../../assets/images/deleteBtn.png" alt="Delete" />
+                </v-btn>
+              </v-card>
             </v-dialog>
             <v-list-item-subtitle>
               <v-btn  v-if="!isMobile"

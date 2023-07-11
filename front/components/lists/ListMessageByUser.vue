@@ -29,7 +29,6 @@
                   "
                   id="messageSent"
                 >
-                  <!-- <v-img :src="message.sender.img"> -->
                   <v-col sm="1" md="1">
                     <v-img
                       :src="message.sender.img"
@@ -65,12 +64,11 @@
                 {{ message.message_content }}
               </v-col>
               <v-col sm="1" md="1">
-                <!-- <v-img :src="message.receiver.img"> -->
                 <v-img
-                  :src="message.receiver.img"
+                  :src="message.sender.img"
                   class="rounded-image"
-                  :max-width="60"
-                  :height="60"
+                  :max-width="40"
+                  :height="40"
                 ></v-img>
               </v-col>
             </v-list-item>
@@ -99,7 +97,8 @@ export default {
       pseudo: null,
     }
   },
-  mounted() {},
+  mounted() {
+  },
   methods: {},
 }
 </script>
@@ -114,8 +113,8 @@ h2 {
 #messageSent {
   color: black;
   background-color: $color-tertiary;
-  margin-right: 20%;
   border-radius: 0% 20px 20px 0%;
+  margin-bottom : 20px;
   .deleteBtn2 {
     background-color: transparent !important;
     border: none !important;
@@ -127,13 +126,21 @@ h2 {
     border: none !important;
     box-shadow: none !important;
   }
+  .rounded-image{
+    height: 40px !important;
+    max-width: 40px !important;
+  }
 }
 
 #response {
   color: white;
-  background-color: $color-primary;
+  border: 1px solid $color-primary;
   margin-left: 20%;
+  margin-right : -10%;
   border-radius: 20px 0% 0% 20px;
+  margin-bottom: 20px;
+  font-size:12px;
+  height : 60px;
 }
 .rounded-image {
   border-radius: 50%;
@@ -149,6 +156,6 @@ h2 {
   max-height:30em;
 }
 .element {
-  width:80%;
+  width:90%;
 }
 </style>
