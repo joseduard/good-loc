@@ -6,40 +6,29 @@
       </v-btn>
       <v-card id="cardConnexion" class="mx-auto">
         <v-card-title class="justify-center"> Login : </v-card-title>
-
         <div id="rowForm">
           <form @submit.prevent="userLogin">
             <v-text-field v-model="email" required label="Email"></v-text-field>
             <v-text-field
-              v-model="password"
-              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="show1 ? 'text' : 'password'"
-              required
-              label="Password"
-              @click:append="show1 = !show1"
-            ></v-text-field>
-            <v-btn class="button_login" type="submit">
-              <v-img
-                class="unicorn_button"
-                :src="require(`../.././assets/images/succes_unicorn.png`)"
-                contain
-              >
-              </v-img>
-              GOOOOO !
-            </v-btn>
-            <v-btn class="button_login" @click="forgotten = true">
-              <v-img
-                class="unicorn_button"
-                :src="require(`../.././assets/images/succes_unicorn.png`)"
-                contain
-              >
-              </v-img>
-              Forgot password ?
-            </v-btn>
-
-            <!-- <v-btn @click="logout">logout</v-btn> -->
+              v-model="password" :append-icon=" isModalVisible ? 'mdi-eye' : 'mdi-eye-off'"
+              :type=" isModalVisible ? 'text' : 'password'" required label="Password" @click:append=" isModalVisible = ! isModalVisible"></v-text-field>
+            <v-row>
+              <v-col cols="12" md="6" lg="6">
+                <v-btn :x-small="isMobile" class="button_login" type="submit">
+                  <v-img class="unicorn_button" :src="require(`../.././assets/images/succes_unicorn.png`)" contain>
+                  </v-img>
+                  GOOOOO !
+                </v-btn>
+              </v-col>
+              <v-col cols="12" md="6" lg="6">
+                <v-btn  :width="isMobile ? '211': '' " :x-small=isMobile class="button_login" @click="forgotten = true">
+                  <v-img class="unicorn_button" :src="require(`../.././assets/images/succes_unicorn.png`)" contain>
+                  </v-img>
+                  Forgot password ?
+                </v-btn>
+              </v-col>
+            </v-row>
           </form>
-          <!-- {{ $auth.$storage.getUniversal('user') }} -->
         </div>
       </v-card>
     </v-card>
@@ -49,17 +38,9 @@
       </v-btn>
       <v-card-title>Forgotten password</v-card-title>
       <v-card-subtitle>
-        <v-text-field
-          v-model="emailForgot"
-          required
-          label="Email"
-        ></v-text-field>
+        <v-text-field v-model="emailForgot" required label="Email"></v-text-field>
         <v-btn class="button_login" @click="forgottenPass">
-          <v-img
-            class="unicorn_button"
-            :src="require(`../.././assets/images/succes_unicorn.png`)"
-            contain
-          >
+          <v-img class="unicorn_button" :src="require(`../.././assets/images/succes_unicorn.png`)" contain>
           </v-img>
           Send Email
         </v-btn>
@@ -67,6 +48,7 @@
     </v-card>
   </v-dialog>
 </template>
+
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
@@ -77,29 +59,31 @@ export default {
     return {
       email: '',
       password: '',
-      show1: false,
+      isModalVisible: false,
       forgotten: false,
-      emailForgot: '',
+      emailForgot: ''
     }
   },
   computed: {
     ...mapGetters({
-      getShowSignInModal: 'authentications/getShowSignInModal',
+      getShowSignInModal: 'authentications/getShowSignInModal'
     }),
     showSignInModal() {
       return this.getShowSignInModal
+    },
+    isMobile() {
+      return this.$vuetify.breakpoint.xs
     },
   },
   methods: {
     ...mapActions({
       setShowSignInModal: 'authentications/setShowSignInModal',
-      setAuthUser: 'authentications/setAuthUser',
+      setAuthUser: 'authentications/setAuthUser'
     }),
     async userLogin() {
       try {
         const email = this.email
         const password = this.password
-
         await this.$auth.loginWith('local', { data: { email, password } }).then(
           (response) => {
             const user = response.data.data
@@ -109,7 +93,6 @@ export default {
             this.setAuthUser(user)
             this.setShowSignInModal(false)
             this.$awn.success('Vous êtes connecté !')
-
             this.$axios.get(`/api/user/${user.id}`).then((res) => {
               const loggedUser = res.data
               if (loggedUser.city === null || loggedUser.city === '') {
@@ -123,9 +106,10 @@ export default {
             this.$awn.alert(error.response.data.message)
           }
         )
-      } catch (err) {}
+      } catch (err) {
+        this.$debug.error(err)
+      }
     },
-
     closeModal() {
       this.setShowSignInModal(false)
     },
@@ -149,16 +133,16 @@ export default {
         .catch((err) => {
           this.$awn.alert(err.response.data.message)
         })
-    },
-  },
+    }
+  }
 }
 </script>
-
 <style scoped lang="scss">
 @import '@/design/_colors';
 
 #cardModal {
   text-align: center;
+
   #cardConnexion {
     width: 80%;
     margin-left: 10%;
@@ -172,7 +156,6 @@ export default {
   padding-bottom: 40px;
   padding-top: 40px;
 }
-
 .close-button {
   position: absolute;
   top: 0;
@@ -183,7 +166,6 @@ export default {
   height: 70px;
   width: 70px;
 }
-
 .button_login {
   border-radius: 20px 70px 35px 70px;
   background-color: $color-primary !important;
@@ -195,3 +177,6 @@ export default {
   border: 2px solid rgba(96, 93, 93, 0.41);
 }
 </style>
+
+
+

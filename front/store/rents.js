@@ -50,7 +50,6 @@ const actions = {
         }/reserved?pageSize=8&page=${page}`
       )
       .then((res) => {
-        console.log(res.data)
         commit('setReserved', res.data)
       })
   },
