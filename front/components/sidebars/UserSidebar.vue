@@ -45,7 +45,6 @@ export default {
       sidebarUser: 'sidebarsItems/getSidebarUser',
     }),
   },
-  mounted() {},
   methods: {
     ...mapActions({}),
   },

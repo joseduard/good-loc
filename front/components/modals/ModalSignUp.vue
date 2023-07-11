@@ -125,8 +125,6 @@ export default {
       return this.getShowSignInModal
     },
   },
-  watch: {},
-  mounted() {},
   methods: {
     ...mapActions({
       setShowSignUpModal: 'authentications/setShowSignUpModal',

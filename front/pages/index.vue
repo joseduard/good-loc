@@ -43,7 +43,6 @@ export default {
     }),
   },
   watch: {},
-  created() {},
   mounted() {
     this.fetchGames(this.page)
   },

@@ -6,10 +6,7 @@
         {{ game.name }}
       </v-card-title>
       <v-card-subtitle
-        v-if="
-          $nuxt.$route.path !== '/users/rentsAsOwner' &&
-          $nuxt.$route.path !== '/users/rentsAsRenter'
-        "
+        v-if="pageIsRentsAsRenterOrRentsAsOwner"
         id="subtitle"
       >
         <v-row>
@@ -60,11 +57,7 @@
         </v-row>
       </v-card-subtitle>
       <v-card-subtitle
-        v-if="
-          ($nuxt.$route.path === '/users/rentsAsOwner' ||
-            $nuxt.$route.path === '/users/rentsAsRenter') &&
-          user
-        "
+        v-if="pageIsRentsAsRenterOrRentsAsOwner"
         id="subtitle"
       >
         <v-row>
@@ -126,6 +119,11 @@ export default {
       required: false,
       default: '',
     },
+  },
+  computed: {
+    pageIsRentsAsRenterOrRentsAsOwner() {
+       return this.$nuxt.$route.path !== '/users/rentsAsOwner' && this.$nuxt.$route.path !== '/users/rentsAsRenter'
+    }
   },
 }
 </script>
