@@ -1,11 +1,10 @@
-import Vuetify from 'vuetify'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import CardGame from '../../../components/CardGame.vue'
-
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.component('FontAwesomeIcon', FontAwesomeIcon) // Register component globally
+import { setupTestingVueAndVuetify } from '~/tests/setup'
+import {
+  textExistsInWrapper,
+  transformWrapperToDOM,
+} from '~/tests/test-utils/dom-related'
 
 describe('module', () => {
   // The component to test
@@ -29,21 +28,18 @@ describe('module', () => {
       },
       computed: {
         pageIsRentsAsRenterOrRentsAsOwner() {
-          return false
+          return true
         },
       },
-      localVue,
+      ...setupTestingVueAndVuetify(),
     })
 
     // Assert the rendered text of the component
-    expect(wrapper.text()).toContain(
-      'gameName',
-      'Description',
-      'image',
-      'mechanic_name',
-      'category_name',
-      'price',
-      'id'
-    )
+    // toContain ne prends qu'un seul argument si tu veux check plusieurs trucs, il faut faire plusieurs expect.
+    // Fichier de testes a finir il faut bien mocker et check que les bonne  valeur sont affiché
+    // console.log(wrapper.html()) <- ne pas hesiter a faire un console.log pour voir ce que contient le wrapper et le dom pour mieux comprendre
+
+    const wrapperHTML = transformWrapperToDOM(wrapper)
+    expect(textExistsInWrapper(wrapper, 'gameName')).toBe(true)
   })
 })
