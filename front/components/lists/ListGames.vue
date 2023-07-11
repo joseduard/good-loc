@@ -72,9 +72,9 @@ export default {
 
   mounted() {
     this.userId = this.$auth.$storage.getUniversal('user')?.id
-    if (this.$route.name === 'game-list' || this.$route.name === 'index') {
+    if (this.$route.name === 'game-list') {
       this.$axios
-        .get(`/api/rentingGames?page=1&pageSize=24&userId=${this.userId}`)
+        .get(`/api/rentingGames?page=1&pageSize=40&userId=${this.userId}`)
         .then((res) => {
           const datas = res.data
           this.maxPage = datas.totalPages
@@ -89,7 +89,7 @@ export default {
         })
     } else {
       this.$axios
-        .get(`/api/rentingGames?page=1&pageSize=8&userId=${this.userId}`)
+        .get(`/api/rentingGames?page=1&pageSize=14&userId=${this.userId}`)
         .then((res) => {
           const datas = res.data
           this.maxPage = datas.totalPages

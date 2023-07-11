@@ -200,14 +200,16 @@ export default {
       dialogModal: false,
       gameModal: {},
       test: false,
+      userId: null,
     }
   },
   mounted() {
+    this.userId = this.$auth.$storage.getUniversal('user')?.id
     this.$axios.$get(`api/game/${this.$route.params.id}`).then((res) => {
       this.game = res
     })
     this.$axios
-      .$get(`api/bestRentingGames/${this.$route.params.id}`)
+      .$get(`api/bestRentingGames/${this.$route.params.id}?userId=${this.userId}`)
       .then((res) => {
         this.gameRents = res
       })

@@ -342,64 +342,91 @@ export const getRentingGameById = async (req, res) => {
 };
 
 export const getBestGameRenting = async (req, res) => {
-  const { games, users, rentingOrBuyingGames } = req['models'];
+  const { games, users, rentingOrBuyingGames, rents } = req['models'];
   try {
     const gameId = req.params.id;
-    // Récupérer toutes les rentingGames pour le jeu spécifié
-    const rentingGames = await rentingOrBuyingGames.findAll({
-      where: {
-        game_id: gameId,
+    const userId = req.query.userId;
+
+    const whereCondition = {
+      game_id: gameId,
+      owner_id: { [Op.ne]: userId },
+    };
+
+    const includeCondition = [
+      {
+        model: games,
+        as: 'game',
+        attributes: [
+          'id',
+          'img',
+          'name',
+          'publisher_id',
+          'description',
+          'category_id',
+          'mechanics_type_id',
+          'price',
+          'year_published',
+          'min_players',
+          'max_players',
+          'playtime',
+          'age_min',
+          'average_learning_complexity',
+          'average_strategy_complexity',
+          'average_note',
+          'average_price_buy',
+          'average_price_location',
+          'upc',
+        ],
       },
+      {
+        model: users,
+        as: 'owner',
+        attributes: [
+          'id',
+          'firstname',
+          'lastname',
+          'email',
+          'city',
+          'pseudo',
+          'img',
+        ],
+      },
+    ];
+
+    const rentingGames = await rentingOrBuyingGames.findAll({
+      where: whereCondition,
       order: [['price_day_renting', 'ASC']],
-      include: [
-        {
-          model: games,
-          as: 'game',
-          attributes: [
-            'id',
-            'img',
-            'name',
-            'publisher_id',
-            'description',
-            'category_id',
-            'mechanics_type_id',
-            'price',
-            'year_published',
-            'min_players',
-            'max_players',
-            'playtime',
-            'age_min',
-            'average_learning_complexity',
-            'average_strategy_complexity',
-            'average_note',
-            'average_price_buy',
-            'average_price_location',
-            'upc',
-          ],
-        },
-        {
-          model: users,
-          as: 'owner',
-          attributes: [
-            'id',
-            'firstname',
-            'lastname',
-            'email',
-            'city',
-            'pseudo',
-            'img',
-          ],
-        },
-      ],
+      include: includeCondition,
     });
 
-    if (rentingGames.length === 0) {
+    const filteredRentingGames = await Promise.all(
+      rentingGames.map(async (gameResponse) => {
+        const rent = await rents.findOne({
+          where: {
+            user_game_id: gameResponse.id,
+            status: { [Op.or]: ['reserved', 'rented'] },
+          },
+        });
+
+        if (rent) {
+          return null;
+        }
+
+        return gameResponse;
+      })
+    );
+
+    const finalRentingGames = filteredRentingGames.filter(
+      (gameResponse) => gameResponse !== null
+    );
+
+    if (finalRentingGames.length === 0) {
       return res
         .status(404)
         .json({ error: 'Aucune location trouvée pour ce jeu' });
     }
 
-    res.json(rentingGames);
+    res.json(finalRentingGames);
   } catch (error) {
     console.error(error);
     res.status(500).json({
