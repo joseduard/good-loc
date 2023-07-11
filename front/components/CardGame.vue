@@ -5,12 +5,11 @@
       <v-card-title id="title">
         {{ game.name }}
       </v-card-title>
-      <v-card-subtitle
-        v-if="pageIsRentsAsRenterOrRentsAsOwner"
-        id="subtitle"
-      >
+      <v-card-subtitle v-if="pageIsRentsAsRenterOrRentsAsOwner" id="subtitle">
         <v-row>
-          <span v-if="game.pseudo" class="pseudo">By : {{ game.pseudo }} </span>
+          <span v-if="isDefined(game?.pseudo)" class="pseudo"
+            >By : {{ game.pseudo }}
+          </span>
         </v-row>
         <v-row>
           <!-- <img class="icon" src="../assets/images/007.png" /> -->
@@ -19,7 +18,8 @@
             :icon="['fas', 'user-group']"
           />
 
-          <span v-if="game.min_players !== null"
+          <span
+            v-if="isDefined(game?.min_players) && isDefined(game?.max_players)"
             >Players : {{ game.min_players }} to {{ game.max_players }}</span
           >
           <span v-else> Players : 1 to 10 </span>
@@ -31,14 +31,15 @@
             :icon="['fas', 'star']"
           />
 
-          <span v-if="game.average_note !== null || game.average_note !== 0.0"
+          <span
+            v-if="isDefined(game?.average_note) || game?.average_note !== 0.0"
             >Note : {{ game.average_note }} /5</span
           >
           <span v-else> Note : 3/5 </span>
         </v-row>
         <v-row>
           <img class="icon" src="../assets/images/icon1.png" />
-          <span v-if="game.category_name !== null"
+          <span v-if="isDefined(game?.category_name)"
             >Category: {{ game.category_name }}</span
           >
           <span v-else> Category : Poney </span>
@@ -50,19 +51,16 @@
             :icon="['fas', 'gears']"
           />
 
-          <span v-if="game.mechanic_name !== null">
+          <span v-if="isDefined(game.mechanic_name)">
             Mechanic : {{ game.mechanic_name }}</span
           >
           <span v-else> Mechanics : Dice </span>
         </v-row>
       </v-card-subtitle>
-      <v-card-subtitle
-        v-if="pageIsRentsAsRenterOrRentsAsOwner"
-        id="subtitle"
-      >
+      <v-card-subtitle v-if="!pageIsRentsAsRenterOrRentsAsOwner" id="subtitle">
         <v-row>
           <img class="icon" src="../assets/images/007.png" />
-          <span v-if="user.pseudo !== null"
+          <span v-if="isDefined(user?.pseudo)"
             >Asking pseudo : {{ user.pseudo }}</span
           >
           <span v-else> Players : 1 to 10 </span>
@@ -73,7 +71,7 @@
             class="icon primary--text"
             :icon="['fas', 'envelope']"
           />
-          <span v-if="user.email !== null || user.average_note !== 0.0"
+          <span v-if="isDefined(user.email) || user?.average_note !== 0.0"
             >email : {{ user.email }}</span
           >
           <span v-else> Note : 3/5 </span>
@@ -83,7 +81,9 @@
             class="icon primary--text"
             :icon="['fas', 'tree-city']"
           />
-          <span v-if="user.category_name !== null">City: {{ user.city }}</span>
+          <span v-if="isDefined(user.category_name)"
+            >City: {{ user.city }}</span
+          >
           <span v-else> Category : Poney </span>
         </v-row>
         <v-row>
@@ -94,7 +94,9 @@
           />
 
           <!-- date sale mais je sais pas comment parse en js :/ -->
-          <span v-if="dateResa !== null"> Reserving date : {{ dateResa }}</span>
+          <span v-if="isDefined(dateResa)">
+            Reserving date : {{ dateResa }}</span
+          >
           <span v-else> Mechanics : Dice </span>
         </v-row>
       </v-card-subtitle>
@@ -102,6 +104,8 @@
   </v-container>
 </template>
 <script>
+import { isValueDefined } from '~/utils/core'
+
 export default {
   name: 'CardGame',
   props: {
@@ -122,8 +126,16 @@ export default {
   },
   computed: {
     pageIsRentsAsRenterOrRentsAsOwner() {
-       return this.$nuxt.$route.path !== '/users/rentsAsOwner' && this.$nuxt.$route.path !== '/users/rentsAsRenter'
-    }
+      return (
+        this.$nuxt.$route.path !== '/users/rentsAsOwner' ||
+        this.$nuxt.$route.path !== '/users/rentsAsRenter'
+      )
+    },
+  },
+  methods: {
+    isDefined(value) {
+      return isValueDefined(value)
+    },
   },
 }
 </script>
