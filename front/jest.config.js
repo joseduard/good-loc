@@ -16,4 +16,5 @@ module.exports = {
     'plugins/**/*.{js,vue}',
     'store/**/*.{js,vue}',
   ],
+  testEnvironment : 'jsdom',
 }

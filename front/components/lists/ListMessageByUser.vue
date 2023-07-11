@@ -155,7 +155,4 @@ h2 {
   overflow-y: scroll;
   max-height:30em;
 }
-.element {
-  width:90%;
-}
 </style>
