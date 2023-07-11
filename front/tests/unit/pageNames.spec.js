@@ -32,7 +32,6 @@ import legals from '@/pages/legals.vue'
 it('name', () => {
   const pages = [listGame, listUser, ConfirmationModal, ModalForgottenPassword, ModalGameList, ModalSignIn, ModalSignUp, ModalUserAddGame, UnauthenticatedUserSidebar, UserSidebar, CardGame, filterBar, HomePres, userPage, message, rentsAsOwner, rentsAsRenter, game, gameList, err, Error500, index, legals]
   pages.map(page => {
-    console.log(page.name)
   expect(page.name).toBeTruthy()
   })
 })
