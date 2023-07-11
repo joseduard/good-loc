@@ -4,8 +4,8 @@
       id="img"
       src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
     ></v-img>
-    <h3 id="title">{{ gameMaster.name }}</h3>
-    <p>{{ gameMaster.presentation }}</p>
+    <h3 v-if="gameMaster?.name" id="title">{{ gameMaster.name }}</h3>
+    <p v-if="gameMaster?.presentation">{{ gameMaster.presentation }}</p>
   </v-container>
 </template>
 <script>

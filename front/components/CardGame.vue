@@ -1,13 +1,17 @@
 <template>
   <v-container class="container-gamecard">
     <v-card id="card">
-      <v-img :src="game.img" height="100px" cover></v-img>
-      <v-card-title id="title">
+      <v-img
+        :src="game && game.img ? game.img : ''"
+        height="100px"
+        cover
+      ></v-img>
+      <v-card-title v-if="game && game.name" id="title">
         {{ game.name }}
       </v-card-title>
       <v-card-subtitle v-if="pageIsRentsAsRenterOrRentsAsOwner" id="subtitle">
         <v-row>
-          <span v-if="isDefined(game?.pseudo)" class="pseudo"
+          <span v-if="game && isDefined(game.pseudo)" class="pseudo"
             >By : {{ game.pseudo }}
           </span>
         </v-row>
@@ -19,7 +23,9 @@
           />
 
           <span
-            v-if="isDefined(game?.min_players) && isDefined(game?.max_players)"
+            v-if="
+              game && isDefined(game.min_players) && isDefined(game.max_players)
+            "
             >Players : {{ game.min_players }} to {{ game.max_players }}</span
           >
           <span v-else> Players : 1 to 10 </span>
@@ -32,14 +38,17 @@
           />
 
           <span
-            v-if="isDefined(game?.average_note) || game?.average_note !== 0.0"
+            v-if="
+              game &&
+              (isDefined(game.average_note) || game.average_note !== 0.0)
+            "
             >Note : {{ game.average_note }} /5</span
           >
           <span v-else> Note : 3/5 </span>
         </v-row>
         <v-row>
           <img class="icon" src="../assets/images/icon1.png" />
-          <span v-if="isDefined(game?.category_name)"
+          <span v-if="game && isDefined(game.category_name)"
             >Category: {{ game.category_name }}</span
           >
           <span v-else> Category : Poney </span>
@@ -51,7 +60,7 @@
             :icon="['fas', 'gears']"
           />
 
-          <span v-if="isDefined(game.mechanic_name)">
+          <span v-if="game && isDefined(game.mechanic_name)">
             Mechanic : {{ game.mechanic_name }}</span
           >
           <span v-else> Mechanics : Dice </span>
@@ -60,7 +69,7 @@
       <v-card-subtitle v-if="!pageIsRentsAsRenterOrRentsAsOwner" id="subtitle">
         <v-row>
           <img class="icon" src="../assets/images/007.png" />
-          <span v-if="isDefined(user?.pseudo)"
+          <span v-if="game && isDefined(user.pseudo)"
             >Asking pseudo : {{ user.pseudo }}</span
           >
           <span v-else> Players : 1 to 10 </span>
@@ -71,7 +80,8 @@
             class="icon primary--text"
             :icon="['fas', 'envelope']"
           />
-          <span v-if="isDefined(user.email) || user?.average_note !== 0.0"
+          <span
+            v-if="(game && isDefined(user.email)) || user.average_note !== 0.0"
             >email : {{ user.email }}</span
           >
           <span v-else> Note : 3/5 </span>
@@ -81,9 +91,7 @@
             class="icon primary--text"
             :icon="['fas', 'tree-city']"
           />
-          <span v-if="isDefined(user.category_name)"
-            >City: {{ user.city }}</span
-          >
+          <span v-if="game && isDefined(user.city)">City: {{ user.city }}</span>
           <span v-else> Category : Poney </span>
         </v-row>
         <v-row>
@@ -94,7 +102,7 @@
           />
 
           <!-- date sale mais je sais pas comment parse en js :/ -->
-          <span v-if="isDefined(dateResa)">
+          <span v-if="game && isDefined(dateResa)">
             Reserving date : {{ dateResa }}</span
           >
           <span v-else> Mechanics : Dice </span>
@@ -104,7 +112,7 @@
   </v-container>
 </template>
 <script>
-import { isValueDefined } from '~/utils/core'
+import { isValueDefined } from '@/utils/core.js'
 
 export default {
   name: 'CardGame',

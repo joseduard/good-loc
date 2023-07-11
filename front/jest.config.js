@@ -1,9 +1,11 @@
 module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
+    '^~/(.*)$': '<rootDir>/$1',
     '^vue$': 'vue/dist/vue.common.js',
   },
   moduleFileExtensions: ['js', 'vue', 'json'],
+  preset: '@vue/cli-plugin-unit-jest/presets/typescript-and-babel',
   transform: {
     '^.+\\.js$': 'babel-jest',
     '.*\\.(vue)$': 'vue-jest',
@@ -16,5 +18,5 @@ module.exports = {
     'plugins/**/*.{js,vue}',
     'store/**/*.{js,vue}',
   ],
-  testEnvironment : 'jsdom',
+  testEnvironment: 'jsdom',
 }
