@@ -12,28 +12,7 @@
       fixed
       app
     > -->
-    <v-navigation-drawer
-      v-if="!isMobile"
-      app fixed mini-variant expand-on-hover left
-      >
-      <!-- Sidebar List -->
-      <v-list>
-        <v-list-item :to="item.to" router exact>
-          <!-- eslint-disable vue/first-attribute-linebreak -->
-          <v-list-item-action>
-            <font-awesome-icon :icon="['fas', 'home']" class="primary--text" />
-          </v-list-item-action>
-          <!-- eslint-enable vue/first-attribute-linebreak -->
-          <v-list-item-content>
-            <v-list-item-title class="text-uppercase tertiary--text">{{
-              item.title
-            }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <UnauthenticatedUserSidebar v-if="!$auth.loggedIn" />
-      <UserSidebar v-if="$auth.loggedIn" />
-    </v-navigation-drawer>
+   
     <v-menu v-if="isMobile" v-model="drawer" transition="scroll-y-transition">
       <!-- Sidebar List -->
       <v-list>
@@ -50,8 +29,8 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <UnauthenticatedUserSidebar v-if="!$auth.loggedIn" />
-      <UserSidebar v-if="$auth.loggedIn" />
+      <UnauthenticatedUserSidebar v-if="!ifSavedUserInStorage" />
+      <UserSidebar v-if="ifSavedUserInStorage" />
     </v-menu>
     
     <!-- Header -->
@@ -70,12 +49,12 @@
       </v-btn>
 
    -->
-      <v-btn v-if="!$auth.loggedIn" text color="tertiary ">
+      <v-btn v-if="!ifSavedUserInStorage" text color="tertiary ">
         <span @click="setShowSingUpModal">Login</span>
       </v-btn>
 
       <v-btn
-        v-if="$auth.loggedIn"
+        v-if="ifSavedUserInStorage"
         text
         color="tertiary"
         :to="'/users/'"
@@ -89,7 +68,7 @@
       </v-btn>
 
       <v-btn
-        v-if="$auth.loggedIn"
+        v-if="ifSavedUserInStorage"
         text
         color="tertiary"
         to="/"
@@ -100,7 +79,35 @@
       </v-btn>
       
     </v-app-bar>
-
+ <v-navigation-drawer
+      v-if="!isMobile"
+      app  
+      >
+      <!-- Sidebar List -->
+      <v-list>
+        <v-list-item :to="item.to" router exact >
+          <!-- eslint-disable vue/first-attribute-linebreak -->
+          <v-list-item-action>
+            <font-awesome-icon :icon="['fas', 'home']" class="primary--text" />
+          </v-list-item-action>
+          <!-- eslint-enable vue/first-attribute-linebreak -->
+          <v-list-item-content>
+            <v-list-item-title class="text-uppercase tertiary--text">{{
+              item.title
+            }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <UnauthenticatedUserSidebar v-if="!ifSavedUserInStorage" />
+      <UserSidebar v-if="ifSavedUserInStorage" />
+    </v-navigation-drawer>
+        <v-footer absolute app>
+      <v-spacer />
+      <span class="tertiary--text d-flex text-center align-center">
+        &copy; {{ title }} {{ new Date().getFullYear() }}</span
+      >
+      <v-spacer />
+    </v-footer>
     <!-- main content -->
     <v-main>
       
@@ -110,13 +117,7 @@
     </v-main>
     
     <!-- footer -->
-    <v-footer :absolute="!fixed" app>
-      <v-spacer />
-      <span class="tertiary--text d-flex text-center align-center">
-        &copy; {{ title }} {{ new Date().getFullYear() }}</span
-      >
-      <v-spacer />
-    </v-footer>
+
   </v-app>
 </template>
 
@@ -163,14 +164,16 @@ export default {
     isMobile() {
       return this.$vuetify.breakpoint.xs
     },
+    ifSavedUserInStorage() {
+      return this.$auth.loggedIn
+    },
   },
   mounted() {
-    if (this.$auth.loggedIn) {
+    if (this.ifSavedUserInStorage) {
+      const savedUser = this.$auth.$storage.getUniversal('user')
+      this.$auth.setUser(savedUser)
       this.fetchUnreadMessageCount()
     };
-  },
-  created() {
-    
   },
   methods: {
     ...mapActions({
