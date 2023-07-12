@@ -27,7 +27,8 @@
         placeholder="Pick an avatar"
         prepend-icon="mdi-camera"
         label="Your avatar"
-        @change="uploadAvatar"      >
+        @change="uploadAvatar"
+      >
       </v-file-input>
       <!-- <span class="text-avatar">Your avatar</span> -->
     </div>
@@ -247,7 +248,7 @@ export default {
       setShowAddGameModal: 'user/setShowAddGameModal',
     }),
     setImgError() {
-      this.user.img = require('@/assets/images/avatar.png')
+      this.src = require('@/assets/images/avatar.png')
     },
     async save() {
       // this.$awn.alert(this.$refs.form)
