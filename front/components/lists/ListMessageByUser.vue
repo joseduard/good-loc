@@ -2,8 +2,8 @@
   <v-row>
     <v-col sm="12">
       <h2>ALL MY MESSAGES BY UNICORN'S CONTACT</h2>
-      <v-list>
-        <v-list-item>
+      <v-list >
+        <v-list-item >
           <v-autocomplete
             v-model="pseudo"
             label="Pseudo"
@@ -116,10 +116,11 @@ h2 {
   margin-top: 20px;
 }
 #messageSent {
-  color: black;
+  color: $color-secondary !important;
   background-color: $color-tertiary;
   border-radius: 0% 20px 20px 0%;
   margin-bottom: 20px;
+  width: 95%;
   .deleteBtn2 {
     background-color: transparent !important;
     border: none !important;
@@ -150,7 +151,7 @@ h2 {
 }
 .rounded-image {
   border-radius: 50%;
-  border: 1px solid black;
+  border: 1px solid $color-secondary !important;
   box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
     rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
     rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px,
@@ -160,5 +161,10 @@ h2 {
 #scrollable {
   overflow-y: scroll;
   max-height: 30em;
+  background-color: $color-secondary !important
+}
+.theme--dark.v-list {
+    background: $color-secondary !important;
+    color: #FFFFFF;
 }
 </style>

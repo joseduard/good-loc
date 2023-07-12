@@ -14,6 +14,7 @@
         <v-list-item
           v-for="unreadmessage in unreadListMessage"
           :key="unreadmessage.id"
+          class= "oneMessage"
         >
           <v-list-item-avatar>
             <v-badge left overlap>
@@ -77,24 +78,30 @@
                 >
                   Message : {{ unreadmessage.message_content }}
                 </v-card-subtitle>
-                <v-btn
+                <v-card-subtitle
                   v-if="isMobile"
-                  class="deleteBtn"
-                  color="transparent"
-                  @click="deleteUnreadMessage(unreadmessage)"
+                  id="contentMess"
+                  class="text-center justify-center"
                 >
-                  <img
-                    src="../../../assets/images/deleteBtn.png"
-                    alt="Delete"
-                  />
-                </v-btn>
-                <v-btn
-                  v-if="isMobile"
-                  color="green"
-                  @click="markAsChecked(unreadmessage)"
-                >
-                  read?
-                </v-btn>
+                  <v-btn
+                    v-if="isMobile"
+                    class="deleteBtn"
+                    color="transparent"
+                    @click="deleteUnreadMessage(unreadmessage)"
+                  >
+                    <img
+                      src="../../../assets/images/deleteBtn.png"
+                      alt="Delete"
+                    />
+                  </v-btn>
+                  <v-btn
+                    v-if="isMobile"
+                    color="green"
+                    @click="markAsChecked(unreadmessage)"
+                  >
+                    read?
+                  </v-btn>
+                </v-card-subtitle>
               </v-card>
             </v-dialog>
             <v-list-item-subtitle>
@@ -376,6 +383,9 @@ h2 {
     border-radius: 15px;
   }
 }
+.oneMessage{
+  box-shadow: 0px 2px 4px rgba(140, 64, 1, 0.5);
+}
 .rowMessage {
   display: flex;
   flex-direction: row;
@@ -398,6 +408,8 @@ h2 {
 #scrollable {
   overflow-y: auto;
   max-height: 400px;
+  background-color: black !important;
+
 }
 .container_rent {
   width: 100%;
