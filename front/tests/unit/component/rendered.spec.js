@@ -34,11 +34,6 @@ describe('module', () => {
       ...setupTestingVueAndVuetify(),
     })
 
-    // Assert the rendered text of the component
-    // toContain ne prends qu'un seul argument si tu veux check plusieurs trucs, il faut faire plusieurs expect.
-    // Fichier de testes a finir il faut bien mocker et check que les bonne  valeur sont affiché
-    // console.log(wrapper.html()) <- ne pas hesiter a faire un console.log pour voir ce que contient le wrapper et le dom pour mieux comprendre
-
     const wrapperHTML = transformWrapperToDOM(wrapper)
     expect(textExistsInWrapper(wrapper, 'gameName')).toBe(true)
   })

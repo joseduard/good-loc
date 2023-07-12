@@ -8,10 +8,22 @@
         <v-card-title class="justify-center"> Login : </v-card-title>
         <div id="rowForm">
           <form @submit.prevent="userLogin">
-            <v-text-field v-model="email" required label="Email"></v-text-field>
             <v-text-field
-              v-model="password" :append-icon=" isModalVisible ? 'mdi-eye' : 'mdi-eye-off'"
-              :type=" isModalVisible ? 'text' : 'password'" required label="Password" @click:append=" isModalVisible = ! isModalVisible"></v-text-field>
+            v-model="email"
+            required
+            :rules="[rules.required, rules.emailRules]"
+            clearable
+            class="input-required"
+            label="Email"></v-text-field>
+            <v-text-field
+              v-model="password"
+              class="mb-3 input-required"
+              :append-icon=" isModalVisible ? 'mdi-eye' : 'mdi-eye-off'"
+              :type=" isModalVisible ? 'text' : 'password'"
+              :rules="[rules.required, rules.min, rules.specialChar]"
+              required
+              label="Password"
+              @click:append=" isModalVisible = ! isModalVisible"></v-text-field>
             <v-row>
               <v-col cols="12" md="6" lg="6">
                 <v-btn :x-small="isMobile" class="button_login" type="submit">
@@ -61,7 +73,19 @@ export default {
       password: '',
       isModalVisible: false,
       forgotten: false,
-      emailForgot: ''
+      emailForgot: '',
+      rules: {
+        required: (value) => !!value || 'Ce champ est requis',
+        emailRules: (v) =>
+          !v ||
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          'E-mail must be valid',
+        min: (v) => v.length >= 6 || 'Min 6 characters',
+        specialChar: (v) =>
+          !v ||
+          /[~`!#$%^&*+=\-[\]\\';,/{}|\\":<>?]/g.test(v) ||
+          'At least one special character is required',
+      },
     }
   },
   computed: {
@@ -139,7 +163,9 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '@/design/_colors';
-
+.input-required {
+  content: '*';
+}
 #cardModal {
   text-align: center;
 

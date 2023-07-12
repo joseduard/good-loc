@@ -38,20 +38,26 @@
                 type="text"
                 :rules="[rules.required, rules.noSpecialChar]"
                 required
+                clearable
+                class="input-required"
               ></v-text-field>
               <v-text-field
                 v-model="name"
                 label="Nom"
                 :rules="[rules.required, rules.noSpecialChar]"
                 required
+                clearable
+                class="input-required"
               ></v-text-field>
               <v-text-field
                 v-model="email"
-                :rules="[rules.emailRules]"
+                :rules="[rules.required, rules.emailRules]"
                 type="email"
                 label="Email"
                 required
-              ></v-text-field>
+                class="input-required"
+              >
+            </v-text-field>
               <v-text-field
                 v-model="password"
                 :rules="[rules.required, rules.min, rules.specialChar]"
@@ -59,10 +65,12 @@
                 :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="show1 ? 'text' : 'password'"
                 required
+                class="input-required"
                 @click:append="show1 = !show1"
               ></v-text-field>
               <v-text-field
                 v-model="pseudo"
+                class="input-required"
                 :rules="[rules.required, rules.min, rules.noSpecialChar]"
                 label="Pseudo"
               ></v-text-field>
@@ -161,6 +169,10 @@ export default {
 
 <style scoped lang="scss">
 @import '@/design/_colors';
+
+.input-required {
+  content: '*';
+}
 .login_container {
   width: 80%;
   background-color: rgba(22, 21, 21, 0.9);

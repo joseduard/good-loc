@@ -12,7 +12,7 @@
       fixed
       app
     > -->
-   
+
     <v-menu v-if="isMobile" v-model="drawer" transition="scroll-y-transition">
       <!-- Sidebar List -->
       <v-list>
@@ -32,10 +32,10 @@
       <UnauthenticatedUserSidebar v-if="!ifSavedUserInStorage" />
       <UserSidebar v-if="ifSavedUserInStorage" />
     </v-menu>
-    
+
     <!-- Header -->
     <v-app-bar id="header" :clipped-left="clipped" fixed app>
-      <v-app-bar-nav-icon color="primary" @click.stop="drawer = !drawer" v-if="isMobile" />
+      <v-app-bar-nav-icon v-if="isMobile" color="primary" @click.stop="drawer = !drawer" />
       <v-toolbar-title>
         <img class="logo" :src="logo" :alt="item.title"
       /></v-toolbar-title>
@@ -43,12 +43,6 @@
       <v-btn text color="tertiary" :to="{ name: 'game-list' }">
         <span>Games List</span>
       </v-btn>
-      <!--
-      <v-btn text color="tertiary" :to="{ name: 'game-master-list' }">
-        <span class="white--text">Liste de GM</span>
-      </v-btn>
-
-   -->
       <v-btn v-if="!ifSavedUserInStorage" text color="tertiary ">
         <span @click="setShowSingUpModal">Login</span>
       </v-btn>
@@ -75,13 +69,12 @@
         @click="logout()"
       >
         <span>Logout</span>
-        <!-- <span @click="setShowSingUpModal">Bouton Dev</span> -->
       </v-btn>
-      
+
     </v-app-bar>
- <v-navigation-drawer
+    <v-navigation-drawer
       v-if="!isMobile"
-      app  
+      app
       >
       <!-- Sidebar List -->
       <v-list>
@@ -110,14 +103,12 @@
     </v-footer>
     <!-- main content -->
     <v-main>
-      
+
       <v-container>
         <Nuxt />
       </v-container>
     </v-main>
-    
     <!-- footer -->
-
   </v-app>
 </template>
 
@@ -139,7 +130,6 @@ export default {
   },
   data() {
     return {
-      // to fix when the back-end is ready
       isUser: true,
       logo: require('~/assets/logo.png'),
       clipped: false,
@@ -188,7 +178,7 @@ export default {
         )
         this.unreadMessageCount = response.data.count
       } catch (error) {
-        console.error(
+        this.$debugLog(
           'Erreur lors de la récupération du nombre de messages non lus :',
           error
         )

@@ -133,12 +133,6 @@ export default {
     ListMessageByUser,
   },
   middleware: 'auth',
-  props: {
-    dialogModal: {
-      required: true,
-      type: Boolean,
-    },
-  },
   data() {
     return {
       rules: {
