@@ -57,7 +57,7 @@
                 required
                 class="input-required"
               >
-            </v-text-field>
+              </v-text-field>
               <v-text-field
                 v-model="password"
                 :rules="[rules.required, rules.min, rules.specialChar]"
@@ -144,7 +144,7 @@ export default {
       if (isValid) {
         await this.$axios
           .post('api/auth/register', {
-            name: this.name,
+            lastname: this.name,
             firstname: this.firstname,
             email: this.email,
             password: this.password,

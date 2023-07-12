@@ -13,7 +13,7 @@
           ></v-autocomplete>
         </v-list-item>
       </v-list>
-      <v-list id="scrollable" v-if="pseudo">
+      <v-list v-if="pseudo" id="scrollable">
         <div v-for="(message, index) in messages" :key="index" class="element">
           <div
             v-if="
@@ -23,7 +23,12 @@
           >
             <v-row>
               <v-col sm="12" md="12">
-                <v-list-item v-if="message.sender_id == $auth.$storage.getUniversal('user').id" id="messageSent">
+                <v-list-item
+                  v-if="
+                    message.sender_id == $auth.$storage.getUniversal('user').id
+                  "
+                  id="messageSent"
+                >
                   <v-col cols="2" sm="1" md="1">
                     <v-img
                       :src="message.sender.img"
@@ -32,11 +37,14 @@
                       :height="30"
                     ></v-img>
                   </v-col>
-                  <v-col cols="8" sm="10" md="10" id="sentMessage">
+                  <v-col id="sentMessage" cols="8" sm="10" md="10">
                     {{ message.message_content }}
                   </v-col>
                   <v-col cols="2" sm="1" md="1">
-                    <v-btn class="deleteBtn2" @click="$emit('deleteThis', message.id)">
+                    <v-btn
+                      class="deleteBtn2"
+                      @click="$emit('deleteThis', message.id)"
+                    >
                       <img
                         src="../../assets/images/DeleteBtn2.png"
                         :max-width="40"
@@ -49,7 +57,12 @@
               </v-col>
             </v-row>
 
-            <v-list-item v-if="message.sender_id !== $auth.$storage.getUniversal('user').id" id="response">
+            <v-list-item
+              v-if="
+                message.sender_id !== $auth.$storage.getUniversal('user').id
+              "
+              id="response"
+            >
               <v-col cols="10" sm="9" md="10">
                 {{ message.message_content }}
               </v-col>
@@ -87,6 +100,11 @@ export default {
       pseudo: null,
     }
   },
+  methods: {
+    setImgError(message) {
+      message.sender.img = '@/assets/images/avatar.png'
+    },
+  },
 }
 </script>
 
@@ -101,7 +119,7 @@ h2 {
   color: black;
   background-color: $color-tertiary;
   border-radius: 0% 20px 20px 0%;
-  margin-bottom : 20px;
+  margin-bottom: 20px;
   .deleteBtn2 {
     background-color: transparent !important;
     border: none !important;
@@ -113,22 +131,22 @@ h2 {
     border: none !important;
     box-shadow: none !important;
   }
-  .rounded-image{
+  .rounded-image {
     height: 40px !important;
     max-width: 40px !important;
   }
 }
-#sentMessage{
+#sentMessage {
   font-size: 11px !important;
 }
 #response {
   color: white;
   border: 1px solid $color-primary;
   margin-left: 5%;
-  margin-right : 2%;
+  margin-right: 2%;
   border-radius: 20px 0% 0% 20px;
   margin-bottom: 20px;
-  font-size:12px;
+  font-size: 12px;
 }
 .rounded-image {
   border-radius: 50%;
@@ -139,8 +157,8 @@ h2 {
     rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
     rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }
-#scrollable{
+#scrollable {
   overflow-y: scroll;
-  max-height:30em;
+  max-height: 30em;
 }
 </style>

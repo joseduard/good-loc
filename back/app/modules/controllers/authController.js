@@ -9,7 +9,7 @@ import { EmailService } from '../services/emailService.js';
 export class AuthController {
   static register = async (req, res) => {
     try {
-      const newUser = await AuthService.registerUser(req.body, req.models);
+      const newUser = await AuthService.registerUser(req.body);
       sendResponse(
         res,
         statusCodes.STATUS_OK,

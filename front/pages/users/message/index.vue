@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ isMobile }}
     <div>
       <ListMessageByUser
         :messages="getMessagesList"
@@ -19,7 +18,7 @@
           <v-list-item-avatar>
             <v-badge left overlap>
               <template #badge>
-                <v-avatar size="30">
+                <v-avatar size="30" class="avatar">
                   <img
                     :src="unreadmessage.sender.img"
                     alt="Sender Avatar"
@@ -31,9 +30,11 @@
           </v-list-item-avatar>
 
           <v-list-item-content class="rowMessage">
-            <v-list-item-title @click="detailsMessage = unreadmessage.id">{{
-              unreadmessage.sender.pseudo
-            }}</v-list-item-title>
+            <v-list-item-title
+              id="pseudo"
+              @click="detailsMessage = unreadmessage.id"
+              >{{ unreadmessage.sender.pseudo }}</v-list-item-title
+            >
 
             <v-list-item-subtitle
               v-if="!isMobile"
@@ -87,7 +88,11 @@
                     alt="Delete"
                   />
                 </v-btn>
-                <v-btn color="green" @click="markAsChecked(unreadmessage)">
+                <v-btn
+                  v-if="isMobile"
+                  color="green"
+                  @click="markAsChecked(unreadmessage)"
+                >
                   read?
                 </v-btn>
               </v-card>
@@ -100,6 +105,13 @@
                 @click="deleteUnreadMessage(unreadmessage)"
               >
                 <img src="../../../assets/images/deleteBtn.png" alt="Delete" />
+              </v-btn>
+              <v-btn
+                v-if="!isMobile"
+                color="green"
+                @click="markAsChecked(unreadmessage)"
+              >
+                read?
               </v-btn>
             </v-list-item-subtitle>
           </v-list-item-content>
@@ -344,7 +356,11 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/design/_colors.scss';
-
+.avatar {
+  position: absolute;
+  right: -4px;
+  top: -9px;
+}
 h2 {
   margin-top: 40px !important;
   background-color: white;
@@ -364,6 +380,11 @@ h2 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: nowrap;
+
+  #pseudo {
+    text-overflow: clip;
+  }
 }
 .deleteBtn {
   width: 30px;
@@ -375,7 +396,7 @@ h2 {
   }
 }
 #scrollable {
-  overflow-y: scroll;
+  overflow-y: auto;
   max-height: 400px;
 }
 .container_rent {
