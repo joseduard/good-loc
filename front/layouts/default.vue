@@ -57,7 +57,7 @@
         v-if="ifSavedUserInStorage"
         text
         color="tertiary"
-        :to="'/users/'"
+        :to="'/users/message'"
       >
         <v-badge>
           <template v-if="unreadMessageCount > 0" #badge>

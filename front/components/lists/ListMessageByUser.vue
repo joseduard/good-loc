@@ -140,7 +140,6 @@ h2 {
   border-radius: 20px 0% 0% 20px;
   margin-bottom: 20px;
   font-size:12px;
-  height : 60px;
 }
 .rounded-image {
   border-radius: 50%;
