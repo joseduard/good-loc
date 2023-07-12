@@ -3,7 +3,7 @@ const state = () => ({
     {
       faIconType: 'fas',
       faIcon: 'rectangle-list',
-      title: 'Liste des jeux',
+      title: 'Games List',
       class: 'primary--text',
       to: '/game-list',
     },
@@ -29,7 +29,7 @@ const state = () => ({
     {
       faIconType: 'fas',
       faIcon: 'user',
-      title: 'Mes informations',
+      title: 'My informations',
       to: '/users/id',
       class: 'primary--text',
     },
@@ -50,7 +50,7 @@ const state = () => ({
     {
       faIconType: 'fas',
       faIcon: 'message',
-      title: 'Mes messages',
+      title: 'My messages',
       class: 'primary--text',
       to: '/users/message',
     },

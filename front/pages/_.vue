@@ -1,19 +1,35 @@
 <template>
-  <v-container id="nuxt-error" class="error-container">
-    <h1 class="fw-400 tertiary--text">Page introuvable</h1>
-    <div class="text-center">
-      <img class="img-404" src="../assets/404.png" alt="" />
-    </div>
-    <p class="tertiary--text text-center">
-      <i>Oups</i>
-    </p>
-    <div class="text-center">
-      <v-btn text tile to="/" class="ne-link gold-underline text-right">
-        <h3 class="fw-400 tertiary--text text-right">Revenir à l'accueil</h3>
-      </v-btn>
-    </div>
+  <v-container id="nuxt-error" fluid>
+    <h1 class="display-1 fw-400">Oops une erreur s'est produite</h1>
+    <v-row>
+      <v-col cols="12" md="6" lg="6">
+        <img class="img-error" src="../assets/404.png" alt="" />
+      </v-col>
+      <v-col class="d-flex justify-center" cols="12" md="6" lg="6">
+        <p class="quote">
+          <span class="quote-text"
+            >"Même les licornes les plus pures se trompent des fois de
+            chemin"</span
+          >
+          <br />
+          <span class="quote-author"
+            >Licorne Kenobi - Licornus Maxima Book- verset 3</span
+          >
+        </p>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col class="d-flex justify-center" cols="12" md="12" lg="12">
+        <p class="hint">
+          <v-btn class="back" to="/">
+            <h3 class="fw-400 primary--text">revenir à l'accueil</h3>
+          </v-btn>
+        </p>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
+
 
 <script>
 export default {

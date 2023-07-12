@@ -35,21 +35,6 @@ body {
   background-color: $color-background-light;
 }
 
-// Scrollbar custom override
-// ::-webkit-scrollbar {
-//   width: 8px;
-//   height: 8px;
-// }
-
-// ::-webkit-scrollbar-thumb {
-//   border-radius: 10px;
-//   background-color: $color-primary;
-// }
-
-// Override background on Vuetify btn in text mode
-// .v-btn:before {
-//   opacity: 0 !important;
-// }
 .w-90 {
   width: 90%;
 }
@@ -118,6 +103,15 @@ body {
 #header {
   background-color: black;
   .logo {
-    width: 5.1em;
+    width: 80px;
+    height: 50px;
   }
+
+}
+
+.v-navigation-drawer__content {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: black;
 }

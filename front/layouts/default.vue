@@ -5,14 +5,6 @@
     <ModalForgottenPassword />
     <!-- Sidebar -->
 
-    <!-- <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    > -->
-
     <v-menu v-if="isMobile" v-model="drawer" transition="scroll-y-transition">
       <!-- Sidebar List -->
       <v-list>
@@ -137,7 +129,7 @@ export default {
       fixed: false,
       item: {
         icon: 'mdi-apps',
-        title: 'Accueil',
+        title: 'Home',
         to: '/',
         color: 'primary',
       },
@@ -195,4 +187,5 @@ export default {
     },
   },
 }
+
 </script>

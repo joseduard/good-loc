@@ -23,13 +23,8 @@
           >
             <v-row>
               <v-col sm="12" md="12">
-                <v-list-item
-                  v-if="
-                    message.sender_id == $auth.$storage.getUniversal('user').id
-                  "
-                  id="messageSent"
-                >
-                  <v-col sm="1" md="1">
+                <v-list-item v-if="message.sender_id == $auth.$storage.getUniversal('user').id" id="messageSent">
+                  <v-col cols="2" sm="1" md="1">
                     <v-img
                       :src="message.sender.img"
                       class="rounded-image"
@@ -37,33 +32,28 @@
                       :height="30"
                     ></v-img>
                   </v-col>
-                  <v-col sm="10" md="10">
+                  <v-col cols="8" sm="10" md="10" id="sentMessage">
                     {{ message.message_content }}
                   </v-col>
-                  <v-btn
-                    class="deleteBtn2"
-                    @click="$emit('deleteThis', message.id)"
-                  >
-                    <img
-                      src="../../assets/images/DeleteBtn2.png"
-                      :max-width="40"
-                      :height="40"
-                      alt="Delete"
-                    />
-                  </v-btn>
+                  <v-col cols="2" sm="1" md="1">
+                    <v-btn class="deleteBtn2" @click="$emit('deleteThis', message.id)">
+                      <img
+                        src="../../assets/images/DeleteBtn2.png"
+                        :max-width="40"
+                        :height="40"
+                        alt="Delete"
+                      />
+                    </v-btn>
+                  </v-col>
                 </v-list-item>
               </v-col>
             </v-row>
-            <v-list-item
-              v-if="
-                message.sender_id !== $auth.$storage.getUniversal('user').id
-              "
-              id="response"
-            >
-              <v-col sm="10" md="11">
+
+            <v-list-item v-if="message.sender_id !== $auth.$storage.getUniversal('user').id" id="response">
+              <v-col cols="10" sm="9" md="10">
                 {{ message.message_content }}
               </v-col>
-              <v-col sm="1" md="1">
+              <v-col cols="2" sm="1" md="1">
                 <v-img
                   :src="message.sender.img"
                   class="rounded-image"
@@ -97,9 +87,6 @@ export default {
       pseudo: null,
     }
   },
-  mounted() {
-  },
-  methods: {},
 }
 </script>
 
@@ -131,12 +118,14 @@ h2 {
     max-width: 40px !important;
   }
 }
-
+#sentMessage{
+  font-size: 11px !important;
+}
 #response {
   color: white;
   border: 1px solid $color-primary;
-  margin-left: 20%;
-  margin-right : -10%;
+  margin-left: 5%;
+  margin-right : 2%;
   border-radius: 20px 0% 0% 20px;
   margin-bottom: 20px;
   font-size:12px;
@@ -153,8 +142,5 @@ h2 {
 #scrollable{
   overflow-y: scroll;
   max-height:30em;
-}
-.element {
-  width:90%;
 }
 </style>
