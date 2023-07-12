@@ -3,85 +3,98 @@
     {{ isMobile }}
     <div>
       <ListMessageByUser
-        :messages="getMessagesList"
-        :pseudo-list="getPseudoList"
-        @pseudo="setPseudo"
-        @deleteThis="deleteMsg"
-      />
+        :messages="getMessagesList" :pseudo-list="getPseudoList" @pseudo="setPseudo"
+        @deleteThis="deleteMsg" />
     </div>
     <div v-if="unreadListMessage[0]" class="unread">
       <h2>UNREAD MESSAGES</h2>
-      <v-list id="scrollable">
-        <v-list-item
-          v-for="unreadmessage in unreadListMessage"
-          :key="unreadmessage.id"
-        >
-          <v-list-item-avatar>
-            <v-badge left overlap>
-              <template #badge>
-                <v-avatar size="30">
-                  <img :src="unreadmessage.sender.img" alt="Sender Avatar" />
-                </v-avatar>
-              </template>
-            </v-badge>
-          </v-list-item-avatar>
-
-          <v-list-item-content class="rowMessage">
-            <v-list-item-title @click="detailsMessage = unreadmessage.id">{{
-              unreadmessage.sender.pseudo
-            }}</v-list-item-title>
-
-            <v-list-item-subtitle v-if="!isMobile" @click="detailsMessage = unreadmessage.id"
-              >Object : {{ unreadmessage.object }}</v-list-item-subtitle
-            >
-            <v-list-item-subtitle v-if="!isMobile" @click="detailsMessage = unreadmessage.id"
-              >Send date :{{ unreadmessage.sent_date }}</v-list-item-subtitle
-            >
-            <v-list-item-subtitle id="contentMess"   @click="detailsMessage = unreadmessage.id"
-              >Mess : {{ unreadmessage.message_content }}</v-list-item-subtitle
-            >
-            <v-dialog v-model="detailsMessage" v-if="detailsMessage == unreadmessage.id" class="container_rent" >
-              <v-card >
-                <v-btn icon class="close-button" @click="closeModal">
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-                <v-card-title class="text-center justify-center">
-                  {{unreadmessage.sender.pseudo}}
-                </v-card-title>
-                <v-spacer></v-spacer>
-                <v-card-subtitle class="text-center justify-center">
-                  Object : {{ unreadmessage.object }}
-                </v-card-subtitle>
-                <v-card-subtitle class="text-center justify-center">
-                  Send date :{{ unreadmessage.sent_date }}
-                </v-card-subtitle>
-                <v-card-subtitle id="contentMess"  class="text-center justify-center">
-                  Message : {{ unreadmessage.message_content }}
-                </v-card-subtitle>
-                <v-btn  v-if="isMobile"
-                    class="deleteBtn"
-                    color="transparent"
-                    @click="deleteUnreadMessage(unreadmessage)"
-                  >
-                    <img src="../../../assets/images/deleteBtn.png" alt="Delete" />
-                </v-btn>
-              </v-card>
-            </v-dialog>
-            <v-list-item-subtitle>
-              <v-btn  v-if="!isMobile"
-                class="deleteBtn"
-                color="transparent"
-                @click="deleteUnreadMessage(unreadmessage)"
-              >
-                <img src="../../../assets/images/deleteBtn.png" alt="Delete" />
-              </v-btn>
-              <v-btn color="green" @click="markAsChecked(unreadmessage)" >
-                read?
-              </v-btn>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      <v-row class="d-flex align-center">
+        <v-col cols="12" md="12" lg="12">
+          <v-list id="scrollable">
+            <v-list-item v-for="unreadmessage in unreadListMessage" :key="unreadmessage.id">
+              <v-row class="d-flex align-center">
+                <v-col cols="12" md="1" lg="1">
+                  <v-list-item-avatar>
+                    <v-badge left overlap>
+                      <template #badge>
+                        <v-avatar size="30">
+                          <img :src="unreadmessage.sender.img" alt="Sender Avatar" />
+                        </v-avatar>
+                      </template>
+                    </v-badge>
+                  </v-list-item-avatar>
+                </v-col>
+                <v-col cols="12" md="11" lg="11">
+                  <v-list-item-content class="rowMessage">
+                    <v-row class="d-flex align-center">
+                      <v-col cols="12"  md="2" lg="2">
+                        <v-list-item-title @click="detailsMessage = unreadmessage.id">{{
+                          unreadmessage.sender.pseudo
+                        }}</v-list-item-title>
+                      </v-col>
+                      <v-col cols="12" md="2" lg="2">
+                        <v-list-item-subtitle @click="detailsMessage = unreadmessage.id">Object : {{
+                          unreadmessage.object }}</v-list-item-subtitle>
+                      </v-col>
+                      <v-col cols="12" md="3" lg="3">
+                        <v-list-item-subtitle @click="detailsMessage = unreadmessage.id">Send date :{{
+                          unreadmessage.sent_date }}</v-list-item-subtitle>
+                      </v-col>
+                      <v-col cols="12" md="2" lg="2">
+                        <v-list-item-subtitle id="contentMess" @click="detailsMessage = unreadmessage.id">Mess : {{
+                          unreadmessage.message_content }}</v-list-item-subtitle>
+                        <v-dialog
+                          v-if="detailsMessage == unreadmessage.id" v-model="detailsMessage"
+                          class="container_rent">
+                          <v-card>
+                            <v-btn icon class="close-button" @click="closeModal">
+                              <v-icon>mdi-close</v-icon>
+                            </v-btn>
+                            <v-card-title class="text-center justify-center">
+                              {{ unreadmessage.sender.pseudo }}
+                            </v-card-title>
+                            <v-spacer></v-spacer>
+                            <v-card-subtitle class="text-center justify-center">
+                              Object : {{ unreadmessage.object }}
+                            </v-card-subtitle>
+                            <v-card-subtitle class="text-center justify-center">
+                              Send date :{{ unreadmessage.sent_date }}
+                            </v-card-subtitle>
+                            <v-card-subtitle id="contentMess" class="text-center justify-center">
+                              Message : {{ unreadmessage.message_content }}
+                            </v-card-subtitle>
+                            <v-btn
+                              v-if="isMobile" class="deleteBtn" color="transparent"
+                              @click="deleteUnreadMessage(unreadmessage)">
+                              <img src="../../../assets/images/deleteBtn.png" alt="Delete" />
+                            </v-btn>
+                          </v-card>
+                        </v-dialog>
+                      </v-col>
+                      <v-col cols="12" md="3" lg="3">
+                        <v-list-item-subtitle>
+                          <v-row>
+                            <v-col cols="12" md="12" lg="12">
+                              <v-btn
+                            class="deleteBtn" color="transparent"
+                            @click="deleteUnreadMessage(unreadmessage)">
+                            <img src="../../../assets/images/deleteBtn.png" alt="Delete" />
+                          </v-btn>
+                          <v-btn color="green" @click="markAsChecked(unreadmessage)">
+                            read?
+                          </v-btn>
+                            </v-col>
+                          </v-row>
+                        </v-list-item-subtitle>
+                      </v-col>
+                    </v-row>
+                  </v-list-item-content>
+                </v-col>
+              </v-row>
+            </v-list-item>
+          </v-list>
+        </v-col>
+      </v-row>
     </div>
 
     <v-card elevation="0" class="br-5px white">
@@ -89,30 +102,14 @@
       <v-card-text class="card-msg secondary pt-4">
         <v-form ref="valid_form_message" v-model="validFormMessage">
           <v-autocomplete
-            v-model="newMessage.receiver_pseudo"
-            :items="pseudoList"
-            :rules="[rules.required]"
-            required
-            label="Pseudo"
-            clearable
-            class="input-required"
-          ></v-autocomplete>
+            v-model="newMessage.receiver_pseudo" :items="pseudoList" :rules="[rules.required]" required
+            label="Pseudo" clearable class="input-required"></v-autocomplete>
           <v-text-field
-            v-model="newMessage.object"
-            :rules="[rules.required]"
-            required
-            label="Objet du message"
-            clearable
-            class="input-required"
-          ></v-text-field>
+            v-model="newMessage.object" :rules="[rules.required]" required label="Objet du message" clearable
+            class="input-required"></v-text-field>
           <v-textarea
-            v-model="newMessage.message_content"
-            :rules="[rules.required]"
-            required
-            label="Message"
-            clearable
-            class="input-required"
-          ></v-textarea>
+            v-model="newMessage.message_content" :rules="[rules.required]" required label="Message" clearable
+            class="input-required"></v-textarea>
           <v-row>
             <v-col class="d-flex justify-center" cols="12" md="12" lg="12">
               <v-card-actions>
@@ -135,13 +132,13 @@ export default {
   components: {
     ListMessageByUser,
   },
+  middleware: 'auth',
   props: {
     dialogModal: {
       required: true,
       type: Boolean,
     },
   },
-  middleware: 'auth',
   data() {
     return {
       rules: {
@@ -163,7 +160,7 @@ export default {
       },
       unreadListMessage: [],
       pseudoList: [],
-      detailsMessage  : false,
+      detailsMessage: false,
     }
   },
   computed: {
@@ -196,7 +193,7 @@ export default {
     this.$axios
       .get(
         '/api/user/account/message/unread/' +
-          this.$auth.$storage.getUniversal('user').id
+        this.$auth.$storage.getUniversal('user').id
       )
       .then((response) => {
         this.unreadListMessage = response.data
@@ -273,7 +270,6 @@ export default {
     markAsChecked(unreadmessage) {
       const userId = this.currentUserId
       const messageId = unreadmessage.id
-
       this.$axios
         .put(`/api/user/account/message/new-status/${userId}/${messageId}`)
         .then(() => {
@@ -282,13 +278,11 @@ export default {
             this.unreadListMessage.indexOf(unreadmessage),
             1
           )
-          // splicethis.unreadListMessage[unreadmessage.id]=null;
         })
         .catch((error) => {
           this.$awn.alert(error)
         })
     },
-
     deleteUnreadMessage(unreadmessage) {
       const unreadId = unreadmessage.id
       const ownerId = this.currentUserId
@@ -323,6 +317,7 @@ h2 {
   margin-top: 40px !important;
   background-color: white;
   color: $color-primary;
+
   // .theme--dark.v-input input,
   // .theme--dark.v-input textarea {
   //   color: $color-quinary;
@@ -330,16 +325,19 @@ h2 {
   .theme--dark.v-label {
     color: $color-primary;
   }
+
   .card-msg {
     border-radius: 15px;
   }
 }
+
 .rowMessage {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: nowrap;
 }
+
 .deleteBtn {
   width: 30px;
   height: 30px;
@@ -349,10 +347,12 @@ h2 {
     height: 30px;
   }
 }
+
 #scrollable {
   overflow-y: scroll;
   max-height: 400px;
 }
+
 .container_rent {
   width: 100%;
   height: 100%;
