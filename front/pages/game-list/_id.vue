@@ -15,12 +15,12 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/succes_unicorn.png`)"
+            :src="require(`../../assets/images/unicorn_skating.png`)"
           />
           <span v-if="game.category_name !== null"
             >Category: {{ game.category_name }}</span
           >
-          <span v-else> Category : N/C </span>
+          <span v-else> Category : unknow </span>
         </v-row>
       </v-col>
       <v-col class="item" cols="12" md="6" lg="3">
@@ -28,12 +28,12 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/succes_unicorn.png`)"
+            :src="require(`../../assets/images/020.png`)"
           />
           <span v-if="game.mechanic_name !== null"
             >Mechanic : {{ game.mechanic_name }}</span
           >
-          <span v-else> Mechanic : N/C </span>
+          <span v-else> Mechanic : unknow </span>
         </v-row>
       </v-col>
       <v-col class="item" cols="12" md="6" lg="3">
@@ -41,12 +41,12 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/succes_unicorn.png`)"
+            :src="require(`../../assets/images/icon3.png`)"
           />
           <span v-if="game.playtime !== null"
             >PlayTime: : {{ game.playtime }} min
           </span>
-          <span v-else> PlayTime min : 30 min </span>
+          <span v-else> PlayTime min : unknow </span>
         </v-row>
       </v-col>
       <v-col class="item" cols="12" md="6" lg="3">
@@ -54,12 +54,12 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/succes_unicorn.png`)"
+            :src="require(`../../assets/images/icon2.png`)"
           />
           <span v-if="game.average_learning_complexity !== null"
             >Learning : {{ game.average_learning_complexity }}/5</span
           >
-          <span v-else> Learning : 3/5</span>
+          <span v-else> Learning : unknow</span>
         </v-row>
       </v-col>
       <v-col class="item" cols="12" md="6" lg="3">
@@ -67,13 +67,13 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/succes_unicorn.png`)"
+            :src="require(`../../assets/images/icon1.png`)"
           />
           <span v-if="game.average_strategy_complexity !== null"
             >Strategy complexity :
             {{ game.average_strategy_complexity }}/5</span
           >
-          <span v-else> Strategy complexity : 3.3/5 </span>
+          <span v-else> Strategy complexity : unknow </span>
         </v-row>
       </v-col>
       <v-col class="item" cols="12" md="6" lg="3">
@@ -81,12 +81,12 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/succes_unicorn.png`)"
+            :src="require(`../../assets/images/004.png`)"
           />
           <span v-if="game.average_note !== null">
             Average Note : {{ game.average_note }}
           </span>
-          <span v-else> Average Note : 4.1/5 </span>
+          <span v-else> Average Note : unknow </span>
         </v-row>
       </v-col>
       <v-col class="item" cols="12" md="6" lg="3">
@@ -94,7 +94,7 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/succes_unicorn.png`)"
+            :src="require(`../../assets/images/001.png`)"
           />
           <span v-if="game.min_players !== null"
             >Players min : {{ game.min_players }}
@@ -107,12 +107,12 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/succes_unicorn.png`)"
+            :src="require(`../../assets/images/unicorn_prout.png`)"
           />
           <span v-if="game.max_players !== null"
             >Players max : {{ game.max_players }}
           </span>
-          <span v-else> Players max : 6</span>
+          <span v-else> Players max : unknow</span>
         </v-row>
       </v-col>
       <v-col class="item" cols="12" md="6" lg="3">
@@ -120,12 +120,12 @@
           <img
             cover
             class="icon"
-            :src="require(`../../assets/images/succes_unicorn.png`)"
+            :src="require(`../../assets/images/unicorn_cry.png`)"
           />
           <span v-if="game.publisher_name !== null"
             >Publisher : {{ game.publisher_name }}</span
           >
-          <span v-else> Publisher : Seb La Frite </span>
+          <span v-else> Publisher : unkonw </span>
         </v-row>
       </v-col>
       <v-col class="item" cols="12" md="6" lg="3">
@@ -146,7 +146,6 @@
     <v-row class="game_description">
       <h1 class="gameTitle">{{ game.name }}</h1>
       <div class="gameDescription" v-html="game.description"></div>
-      <!-- Wtf ??? v-html ? really ? ...On recoit du html pour les descriptions !!  <span class="gameDescription" pre>{{ game.description }}</span>-->
     </v-row>
 
     <v-col id="rentings">

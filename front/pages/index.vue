@@ -2,12 +2,12 @@
   <v-container id="home">
     <div class="intro">
       <h1>Find Game & Game Master of your Dreams</h1>
-      <p>GOOD LOC is the solution to all your gaming desires.</p>
+      <p>GOOD LOC is the solution to all your gaming desires .</p>
       <p>
         Need to test a game? Rent it in just 2 clicks! If you like it, buy it!
         <span
           >Having a game night with friends and don't know how to entertain
-          them? Rent your GameMaster</span
+          them? Rent your GameMaster...but on only if your are an unicorn 🦄 lovers</span
         >
       </p>
     </div>
@@ -15,7 +15,7 @@
     <h2>GOT: Games of Time</h2>
     <ListGamesVue />
     <div class="allGames">
-      <v-btn class="button" to="/game-list">Voir tous les jeux a louer </v-btn>
+      <v-btn class="button" to="/game-list">See all Games </v-btn>
     </div>
   </v-container>
 </template>

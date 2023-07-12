@@ -65,7 +65,7 @@
           <v-list-item>
             <v-list-item-content class="pb-0 pt-0">
               <v-list-item-title class="text-uppercase"
-                >Ville</v-list-item-title
+                >City</v-list-item-title
               >
               <v-text-field
                 v-model="user.city"
@@ -105,7 +105,6 @@
                 placeholder="your gamer story"
                 clearable
                 required
-                :rules="[rules.required]"
                 :counter="200"
                 rows="3"
                 max-height="200"

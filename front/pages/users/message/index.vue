@@ -51,7 +51,7 @@
               v-if="!isMobile"
               id="contentMess"
               @click="detailsMessage = unreadmessage.id"
-              >Mess : {{ unreadmessage.message_content }}</v-list-item-subtitle
+              >Message : {{ unreadmessage.message_content }}</v-list-item-subtitle
             >
             <v-dialog
               v-if="detailsMessage == unreadmessage.id"
@@ -67,7 +67,7 @@
                 </v-card-title>
                 <v-spacer></v-spacer>
                 <v-card-subtitle class="text-center justify-center">
-                  Object : {{ unreadmessage.object }}
+                  Object  : {{ unreadmessage.object }}
                 </v-card-subtitle>
                 <v-card-subtitle class="text-center justify-center">
                   Send date :{{ unreadmessage.sent_date }}
@@ -118,7 +118,7 @@
                 color="green"
                 @click="markAsChecked(unreadmessage)"
               >
-                read?
+                read 🦄?
               </v-btn>
             </v-list-item-subtitle>
           </v-list-item-content>

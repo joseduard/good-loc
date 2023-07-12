@@ -45,7 +45,7 @@
       v-if="selectedFilter === 'Name'"
       v-model="filter"
       :items="name"
-      placeholder="write a pseudo"
+      placeholder="Write a game name: "
       outlined
       background-color="secondary"
       clearable

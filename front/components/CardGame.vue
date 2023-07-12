@@ -28,7 +28,7 @@
             "
             >Players : {{ game.min_players }} to {{ game.max_players }}</span
           >
-          <span v-else> Players : 1 to 10 </span>
+          <span v-else> Players : unknow </span>
         </v-row>
         <v-row>
           <!-- <img class="icon" src="../assets/images/004.png" /> -->
@@ -44,17 +44,16 @@
             "
             >Note : {{ game.average_note }} /5</span
           >
-          <span v-else> Note : 3/5 </span>
+          <span v-else> Note : unknow </span>
         </v-row>
         <v-row>
           <img class="icon" src="../assets/images/icon1.png" />
           <span v-if="game && isDefined(game.category_name)"
             >Category: {{ game.category_name }}</span
           >
-          <span v-else> Category : Poney </span>
+          <span v-else> Category : unknow</span>
         </v-row>
         <v-row>
-          <!-- <img class="icon" src="../assets/images/icon2.png" /> -->
           <font-awesome-icon
             class="icon primary--text"
             :icon="['fas', 'gears']"
@@ -63,7 +62,7 @@
           <span v-if="game && isDefined(game.mechanic_name)">
             Mechanic : {{ game.mechanic_name }}</span
           >
-          <span v-else> Mechanics : Dice </span>
+          <span v-else> Mechanics : unknow </span>
         </v-row>
       </v-card-subtitle>
       <v-card-subtitle v-if="!pageIsRentsAsRenterOrRentsAsOwner" id="subtitle">
@@ -72,7 +71,7 @@
           <span v-if="game && isDefined(user.pseudo)"
             >Asking pseudo : {{ user.pseudo }}</span
           >
-          <span v-else> Players : 1 to 10 </span>
+          <span v-else> Asking Pseudo : unknow </span>
         </v-row>
         <v-row>
           <!-- <img class="icon" src="../assets/images/004.png" /> -->
@@ -81,10 +80,10 @@
             :icon="['fas', 'envelope']"
           />
           <span
-            v-if="(game && isDefined(user.email)) || user.average_note !== 0.0"
+            v-if="(game && isDefined(user.email))"
             >email : {{ user.email }}</span
           >
-          <span v-else> Note : 3/5 </span>
+          <span v-else> Email : unknow </span>
         </v-row>
         <v-row>
           <font-awesome-icon
@@ -92,7 +91,7 @@
             :icon="['fas', 'tree-city']"
           />
           <span v-if="game && isDefined(user.city)">City: {{ user.city }}</span>
-          <span v-else> Category : Poney </span>
+          <span v-else> City : unknow </span>
         </v-row>
         <v-row>
           <!-- <img class="icon" src="../assets/images/icon2.png" /> -->
@@ -105,7 +104,7 @@
           <span v-if="game && isDefined(dateResa)">
             Reserving date : {{ dateResa }}</span
           >
-          <span v-else> Mechanics : Dice </span>
+          <span v-else> Reserving Date : unknow </span>
         </v-row>
       </v-card-subtitle>
     </v-card>
@@ -185,12 +184,6 @@ export default {
       .col {
         padding: 2px;
       }
-      // img {
-      //   margin-left: 20px;
-      //   margin-right: 5px;
-      //   width: 20px;
-      //   height: 20px;
-      // }
       .icon {
         margin-left: 20px;
         margin-right: 5px;

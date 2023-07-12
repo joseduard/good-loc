@@ -1,6 +1,6 @@
 <template>
   <v-container id="nuxt-error" fluid>
-    <h1 class="display-1 fw-400">Oops une erreur s'est produite</h1>
+    <h1 class="display-1 fw-400">Oops You did it Again </h1>
     <v-row>
       <v-col cols="12" md="6" lg="6">
         <img class="img-error" src="../assets/404.png" alt="" />
@@ -8,8 +8,8 @@
       <v-col class="d-flex justify-center" cols="12" md="6" lg="6">
         <p class="quote">
           <span class="quote-text"
-            >"Même les licornes les plus pures se trompent des fois de
-            chemin"</span
+            >"Even the purest unicorns sometimes take a wrong turn
+            path"</span
           >
           <br />
           <span class="quote-author"

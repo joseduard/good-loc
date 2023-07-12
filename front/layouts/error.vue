@@ -19,8 +19,8 @@ export default {
   },
   data() {
     return {
-      notFoundTitle: 'Oops, vous semblez perdu',
-      errorTitle: 'Oops, cela semble cassé',
+      notFoundTitle: 'Oops, are you lost?',
+      errorTitle: 'Oops, it is broken!',
     }
   },
   head() {

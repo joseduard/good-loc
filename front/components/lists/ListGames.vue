@@ -8,7 +8,7 @@
     <FilterBar @filters-change="handleFiltersChange" />
     <v-row>
       <div v-if="games.length === 0">
-        <p>Aucun jeu ne correspond à votre recherche</p>
+        <p>No games founded for this</p>
       </div>
       <v-col v-for="(gameAtm, index) in games" :key="index">
         <div

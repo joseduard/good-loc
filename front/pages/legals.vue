@@ -29,9 +29,9 @@
       accès à ce site en cas de violation de ces conditions d'utilisation.
     </p>
     <p>
-      Liens vers des sites tiers Ce site peut contenir des liens vers des sites
+      Liens vers des sites tiers : Ce site peut contenir des liens vers des sites
       web de tiers. Ces liens sont fournis uniquement pour votre commodité, et
-      nous n'avons aucun contrôle sur le contenu de ces sites tiers. Nous
+      nous n'avons aucun contrôle sur le contenu 🦄 de ces sites tiers. Nous
       n'assumons aucune responsabilité quant au contenu, à l'exactitude ou à la
       disponibilité de ces sites tiers, et l'inclusion de ces liens ne constitue
       pas une approbation de notre part.
@@ -66,7 +66,7 @@ export default {
 <style lang="scss" scoped>
 @import '@/design/_colors.scss';
 #legals {
-  color: $color-primary;
+  color: $color-secondary;
 }
 p {
   margin-top: 25px;

@@ -57,7 +57,7 @@
           </v-card>
         </v-col>
         <v-col sm="12" md="12">
-          <h2>Running Rent 🦄</h2>
+          <h2>Running Rents 🦄</h2>
           <v-card v-if="getRented.rents" class="gamesList br-5px white">
             <v-card-title class="orange--text"> </v-card-title>
             <v-card-subtitle align="center">
@@ -139,7 +139,7 @@ import CardGame from '@/components/CardGame'
 import ConfirmationModal from '@/components/modals/ConfirmationModal'
 
 export default {
-  name: 'rebtsAsOwner',
+  name: 'RentsAsOwner',
   components: {
     CardGame,
     ConfirmationModal,

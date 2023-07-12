@@ -1,6 +1,6 @@
 <template>
   <div id="all">
-    <h1>Liste des jeux</h1>
+    <h1>Games List</h1>
     <p>
       Occaecat ad labore est non reprehenderit proident duis veniam sint tempor
       proident sit consectetur. Dolore excepteur sint enim duis magna quis in
