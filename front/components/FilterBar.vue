@@ -56,6 +56,8 @@
 </template>
 
 <script>
+import { cleanArray } from '~/utils/array-utils'
+
 export default {
   name: 'FilterBar',
   data() {
@@ -92,7 +94,7 @@ export default {
     },
     fetchCities() {
       this.$axios.get('api/user/cities').then((res) => {
-        this.cities = res.data
+        this.cities = cleanArray(res.data)
       })
     },
     fetchMechanics() {

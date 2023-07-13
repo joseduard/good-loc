@@ -27,10 +27,6 @@ export class RentsController {
       const rent_id = req.params.id;
       const user_id = req.body.user_id;
       const status = req.body.status;
-      console.log('rent_id', rent_id);
-      console.log('user_id', user_id);
-      console.log('status', status);
-
       const updatedRent = await RentService.updateRentStatus(
         rent_id,
         user_id,

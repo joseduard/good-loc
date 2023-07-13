@@ -29,7 +29,7 @@ export class RentService {
     status,
     price,
   }) {
-    const rentalGame = await RentingGamesRepository.findOne(game_id, owner_id);
+    const rentalGame = await RentingGamesRepository.findGame(game_id, owner_id);
 
     if (!rentalGame) {
       throw new Error('Jeu et propriétaire non trouvés');
@@ -62,8 +62,6 @@ export class RentService {
 
   static async updateRentStatus(rent_id, user_id, status) {
     const rent = await RentRepository.findOneById(rent_id);
-    console.log(rent);
-    console.log(String(rent.user_id_owner) !== String(user_id));
     if (!rent || String(rent.user_id_owner) !== String(user_id)) {
       throw new Error('Invalid rent or user');
     }

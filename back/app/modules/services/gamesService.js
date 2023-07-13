@@ -7,7 +7,9 @@ export class GamesService {
   static async getAllGames() {
     return await GamesRepository.findAllGames();
   }
-
+  static async checkGameExist(gameId) {
+    return GamesRepository.findGameById(gameId);
+  }
   static async getGamesByName(gameName) {
     return await GamesRepository.findGamesByName(gameName);
   }
