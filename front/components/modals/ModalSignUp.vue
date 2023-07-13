@@ -139,30 +139,32 @@ export default {
       setShowSingInModal: 'authentications/setShowSignInModal',
     }),
     async sendRegister() {
-      const isValid = await this.$refs.formUser.validate()
+      const isValid = await this.$refs.formUser.validate();
 
       if (isValid) {
-        await this.$axios
-          .post('api/auth/register', {
+        try {
+          await this.$axios.post('api/auth/register', {
             lastname: this.name,
             firstname: this.firstname,
             email: this.email,
             password: this.password,
             pseudo: this.pseudo,
-          })
-          .then((response) => {
-            this.setShowSignUpModal(false)
-            this.setShowSingInModal(true)
-            this.$awn.success('Inscription réussi !', {
-              durations: {
-                success: 1000,
-              },
-            })
-          })
+          });
+
+          this.setShowSignUpModal(false);
+          this.setShowSingInModal(true);
+          this.$awn.success('Successs ! You are an GL Unicorn 🦄.', {
+            durations: {
+              success: 1000,
+            },
+          });
+        } catch (error) {
+          this.$awn.alert('LOOOSER 🫣! Try again, little unicorn🦄. ... Maybe change something in the form !');
+        }
       } else {
-        this.$awn.alert('Please respect rules')
+        this.$awn.alert('Respect the rules little unicorn 🦄.');
       }
-    },
+    }
   },
 }
 </script>
