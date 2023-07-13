@@ -14,10 +14,17 @@ export class RentingGamesController {
 
   static async getRentingGamesByUser(req, res) {
     try {
+      const { page, pageSize } = req.query;
+      const pageInt = page ? parseInt(page) : 1;
+      const pageSizeInt = pageSize ? parseInt(pageSize) : 10;
+      const limit = pageSize ? pageSizeInt : 10;
+
+      const offset = page ? (pageInt - 1) * limit : 0;
+
       const rentingGames = await RentingGamesService.getRentingGamesByUser({
         userId: req.userId,
-        limit: req.query.limit,
-        offset: req.query.offset,
+        limit: limit,
+        offset: offset,
       });
       res.status(200).json(rentingGames);
     } catch (error) {
