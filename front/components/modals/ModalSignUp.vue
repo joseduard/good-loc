@@ -6,7 +6,7 @@
       </v-btn>
       <v-container class="login_container">
         <v-card-title class="justify-center">
-          Already an Unicorn Gamer ?</v-card-title
+          Already an Unicorn 🦄 Gamer ?</v-card-title
         >
         <v-btn
           class="button_login"

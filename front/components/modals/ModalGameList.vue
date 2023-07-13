@@ -128,15 +128,17 @@
       </v-card-title>
       <v-card-subtitle>
         <p>
-          you just rented {{ game.name }} from {{ game.pseudo }} for
+          You just rented {{ game.name }} from {{ game.pseudo }} for
           {{ game.price_Day_Renting }}/j.
         </p>
-
         <p>
-          You must wait for the owner to accept your request. You can see it
+          An automatic message has been sent to the owner.
+        </p>
+        <p>
+          You must wait for the owner to accept your request and send you a message. 
+          You can see your requests
           <NuxtLink to="/users/rentsAsRenter/">there</NuxtLink>
         </p>
-
         <p>
           Or contact directly the owner ({{ game.pseudo }})
           <NuxtLink to="/users/message/">there</NuxtLink>

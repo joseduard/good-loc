@@ -7,8 +7,6 @@
         </v-btn>
         <v-card-title>Add game</v-card-title>
         <v-card-subtitle>
-          <!-- v-text field parceque je n'arrive pas faire marcher avec l'autocomplete-->
-
           <v-autocomplete
             v-model="search"
             label="Autocomplete"
@@ -20,7 +18,7 @@
           {{ game.name }}
           <v-text-field v-model="pricePerDay" label="price per day">
           </v-text-field>
-          <v-btn @click.prevent="addGameRent">Ajouter</v-btn>
+          <v-btn @click.prevent="addGameRent">Add</v-btn>
         </v-card-subtitle>
       </v-card>
     </v-dialog>

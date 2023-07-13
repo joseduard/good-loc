@@ -9,15 +9,15 @@ const options = {
     suffix: '" />',
   },
   labels: {
-    tip: 'Conseils',
+    tip: 'Recommandations',
     info: 'Informations',
-    success: 'Succès',
+    success: 'Success',
     warning: 'Attention',
-    alert: 'Erreur',
-    async: 'Chargement...',
-    confirm: 'Confirmer',
+    alert: 'Error',
+    async: 'Loading...',
+    confirm: 'Confirm',
     confirmOk: 'OK',
-    confirmCancel: 'Annuler',
+    confirmCancel: 'Cancel',
   },
 }
 

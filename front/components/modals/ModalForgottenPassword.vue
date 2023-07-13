@@ -6,12 +6,12 @@
       </v-btn>
       <v-card id="cardForgotPassword" class="mx-auto">
         <v-card-title class="justify-center">
-          Mot de passe oublié ? NOT a shame</v-card-title
+          Forgotten Password ? NOT a shame 🦄</v-card-title
         >
-        <p>blabla mot de passe</p>
+        <p>lorem ipsum correlatum esta la casa por la manana</p>
         <v-row id="rowPass">
           <v-text-field outlined model="email" label="Email"></v-text-field
-          ><v-btn id="btnSend">send</v-btn>
+          ><v-btn id="btnSend">Send</v-btn>
         </v-row>
       </v-card>
     </v-card>

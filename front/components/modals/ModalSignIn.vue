@@ -29,7 +29,7 @@
                 <v-btn :x-small="isMobile" class="button_login" type="submit">
                   <v-img class="unicorn_button" :src="require(`../.././assets/images/succes_unicorn.png`)" contain>
                   </v-img>
-                  GOOOOO !
+                  GOOOOO 🦄!
                 </v-btn>
               </v-col>
               <v-col cols="12" md="6" lg="6">
@@ -75,7 +75,7 @@ export default {
       forgotten: false,
       emailForgot: '',
       rules: {
-        required: (value) => !!value || 'Ce champ est requis',
+        required: (value) => !!value || 'This field is required',
         emailRules: (v) =>
           !v ||
           /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||

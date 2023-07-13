@@ -65,7 +65,6 @@ export default {
       getGamesList: 'games/getGamesList',
     }),
     shouldShowPagination() {
-      // Vérifier si la route actuelle est "game-list"
       return this.$route.name === 'game-list' && this.games.length !== 0
     },
   },

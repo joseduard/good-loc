@@ -182,7 +182,7 @@ export default {
     return {
       test: false,
       rules: {
-        required: (value) => !!value || 'Ce champ est requis',
+        required: (value) => !!value || 'this field is required',
         emailRules: (v) =>
           !v ||
           /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
@@ -194,7 +194,7 @@ export default {
           'No special characters',
       },
       checkFormatMail: false,
-      messageRequired: 'Champ obligatoire',
+      messageRequired: 'field required',
       user: {
         img: require('@/assets/images/avatar.png'),
       },
