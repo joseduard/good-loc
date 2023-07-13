@@ -26,7 +26,7 @@
                     >Players : {{ game.min_players }} to
                     {{ game.max_players }}</span
                   >
-                  <span v-else> Players : 1 to 10 </span>
+                  <span v-else> Players : unknow </span>
                 </v-row>
               </v-col>
               <v-col cols="12" md="6" lg="4">
@@ -39,7 +39,7 @@
                   <span v-if="game.category_name !== null"
                     >Category: {{ game.category_name }}</span
                   >
-                  <span v-else> Category : Poney </span>
+                  <span v-else> Category : Unknow </span>
                 </v-row>
               </v-col>
               <v-col cols="12" md="6" lg="4">
@@ -52,7 +52,7 @@
                   <span v-if="game.mechanic_name !== null">
                     Mechanic : {{ game.mechanic_name }}</span
                   >
-                  <span v-else> Mechanics : Dice </span>
+                  <span v-else> Mechanics : unknow  </span>
                 </v-row>
               </v-col>
             </v-row>
@@ -67,7 +67,7 @@
                   <span v-if="game.min_age !== null"
                     >Sweet Age : {{ game.age_min }} to 99</span
                   >
-                  <span v-else> Sweet Age : 6 to 99 </span>
+                  <span v-else> Sweet Age : unknow  </span>
                 </v-row>
               </v-col>
               <v-col cols="12" md="6" lg="4">
@@ -80,7 +80,7 @@
                   <span v-if="game.average_learning_complexity !== null"
                     >Complexity: {{ game.average_learning_complexity }} /5</span
                   >
-                  <span v-else> Complexity : 2/5 </span>
+                  <span v-else> Complexity : unknow </span>
                 </v-row>
               </v-col>
               <v-col cols="12" md="6" lg="4">
@@ -93,7 +93,7 @@
                   <span v-if="game.year_published !== null">
                     Birth'Year: {{ game.year_published }}</span
                   >
-                  <span v-else> Birth'Year: : 1789 </span>
+                  <span v-else> Birth'Year: : unknow  </span>
                 </v-row>
               </v-col>
             </v-row>
@@ -195,14 +195,13 @@ export default {
           this.$axios.post('api/user/account/message/create', {
             receiver_pseudo: pseudoOwner,
             sender_id: this.$auth.$storage.getUniversal('user').id,
-            object: 'Message de location',
+            object: 'Location Message',
             message_content:
-              'Bonjour, je suis ' +
+              'Hello, i am ' +
               pseudo +
-              " et j'aimerais louer votre jeu. Merci de me contacter.",
+              " and would like to rent your game. Please contact me !",
           })
           this.rented = true
-          // this.$router.push({ path: 'users/message' });
         })
         .catch(() => {
           this.$awn.alert('Oops, there is a problem with the rent creation !')
