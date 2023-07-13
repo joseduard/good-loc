@@ -204,8 +204,8 @@ export default {
           this.rented = true
           // this.$router.push({ path: 'users/message' });
         })
-        .catch((err) => {
-          this.$awn.alert(err.response.data)
+        .catch(() => {
+          this.$awn.alert('Oops, there is a problem with the rent creation !')
         })
     },
   },
