@@ -5,7 +5,7 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
       <v-card id="card">
-        <v-img :src="game.img" cover class="rent">
+        <v-img :src="game ? game.img : null" cover class="rent">
           <div class="button_price">{{ game.price_Day_Renting }} $</div>
           <div class="button_pseudo">{{ game.pseudo }}</div>
         </v-img>
@@ -52,7 +52,7 @@
                   <span v-if="game.mechanic_name !== null">
                     Mechanic : {{ game.mechanic_name }}</span
                   >
-                  <span v-else> Mechanics : unknow  </span>
+                  <span v-else> Mechanics : unknow </span>
                 </v-row>
               </v-col>
             </v-row>
@@ -67,7 +67,7 @@
                   <span v-if="game.min_age !== null"
                     >Sweet Age : {{ game.age_min }} to 99</span
                   >
-                  <span v-else> Sweet Age : unknow  </span>
+                  <span v-else> Sweet Age : unknow </span>
                 </v-row>
               </v-col>
               <v-col cols="12" md="6" lg="4">
@@ -93,7 +93,7 @@
                   <span v-if="game.year_published !== null">
                     Birth'Year: {{ game.year_published }}</span
                   >
-                  <span v-else> Birth'Year: : unknow  </span>
+                  <span v-else> Birth'Year: : unknow </span>
                 </v-row>
               </v-col>
             </v-row>
@@ -101,19 +101,19 @@
           <v-row class="rent_action_button">
             <v-col class="d-flex justify-center" cols="12" md="6" lg="6">
               <p v-if="showDesc">{{ game.description }}</p>
-            <v-btn :to="`/game-list/${game.id}`">
-              <v-img
-                class="unicorn_button"
-                :src="require(`../.././assets/images/unicorn_prout.png`)"
-                contain
-              >
-              </v-img
-              ><span>Description</span>
-            </v-btn>
+              <v-btn :to="`/game-list/${game.id}`">
+                <v-img
+                  class="unicorn_button"
+                  :src="require(`../.././assets/images/unicorn_prout.png`)"
+                  contain
+                >
+                </v-img
+                ><span>Description</span>
+              </v-btn>
             </v-col>
             <v-col class="d-flex justify-center" cols="12" md="6" lg="6">
-                <!--TODO: change to router-link -->
-                  <ConfirmationModal :name="'rent'" @confirmation="createRent"/>
+              <!--TODO: change to router-link -->
+              <ConfirmationModal :name="'rent'" @confirmation="createRent" />
             </v-col>
           </v-row>
         </div>
@@ -131,12 +131,10 @@
           You just rented {{ game.name }} from {{ game.pseudo }} for
           {{ game.price_Day_Renting }}/j.
         </p>
+        <p>An automatic message has been sent to the owner.</p>
         <p>
-          An automatic message has been sent to the owner.
-        </p>
-        <p>
-          You must wait for the owner to accept your request and send you a message. 
-          You can see your requests
+          You must wait for the owner to accept your request and send you a
+          message. You can see your requests
           <NuxtLink to="/users/rentsAsRenter/">there</NuxtLink>
         </p>
         <p>
@@ -189,6 +187,8 @@ export default {
         .then((response) => {
           const rentalResponse = response.data // Utilisation de response.data pour obtenir les données de la réponse
           this.$awn.success('Location created !')
+          this.$emit('refetch-games')
+
           const pseudo = rentalResponse.renter.pseudo
           const pseudoOwner = rentalResponse.owner.pseudo
 
@@ -199,7 +199,7 @@ export default {
             message_content:
               'Hello, i am ' +
               pseudo +
-              " and would like to rent your game. Please contact me !",
+              ' and would like to rent your game. Please contact me !',
           })
           this.rented = true
         })

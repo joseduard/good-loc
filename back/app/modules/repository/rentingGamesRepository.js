@@ -92,10 +92,9 @@ export class RentingGamesRepository {
   }) {
     const pageInt = page ? parseInt(page) : 1;
     const pageSizeInt = pageSize ? parseInt(pageSize) : 10;
-
     const limit = pageSize ? pageSizeInt : 10;
-
     const offset = page ? (pageInt - 1) * limit : 0;
+
     let categoryCondition = {};
     if (category) {
       const categoryRes = await this.categories.findOne({
@@ -112,6 +111,7 @@ export class RentingGamesRepository {
         mechanics_type_id: mechanicRes ? mechanicRes.id : {},
       };
     }
+
     const rentingGames = await this.rentingOrBuyingGames.findAndCountAll({
       include: [
         {
@@ -163,12 +163,39 @@ export class RentingGamesRepository {
       limit: limit,
       offset: offset,
     });
+    let rentGames = processGameObjects(rentingGames.rows);
+
+    rentGames = rentGames.filter((rentGame) => {
+      return !rentGame.Rents.some(
+        (rent) => rent.status === 'reserved' || rent.status === 'rented'
+      );
+    });
+
+    rentGames = await Promise.all(
+      rentGames.map(async (gameResponse) => {
+        const rent = await this.rents.findOne({
+          where: {
+            user_game_id: gameResponse.id,
+            status: { [Op.or]: ['reserved', 'rented'] },
+          },
+        });
+
+        if (rent) {
+          return null;
+        }
+
+        return gameResponse;
+      })
+    );
+
+    rentGames = rentGames.filter((gameResponse) => gameResponse !== null);
+
     return {
       totalItems: rentingGames.count,
       currentPage: pageInt,
       pageSize: pageSize,
       totalPages: Math.ceil(rentingGames.count / pageSizeInt),
-      games: processGameObjects(rentingGames.rows),
+      games: rentGames,
     };
   }
 

@@ -29,6 +29,16 @@ export class RentService {
     status,
     price,
   }) {
+    console.log({
+      game_id,
+      owner_id,
+      rental_game_id,
+      beginning_date,
+      renter_id,
+      status,
+      price,
+    });
+
     const rentalGame = await RentingGamesRepository.findGame(game_id, owner_id);
 
     if (!rentalGame) {

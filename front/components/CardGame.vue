@@ -79,8 +79,7 @@
             class="icon primary--text"
             :icon="['fas', 'envelope']"
           />
-          <span
-            v-if="(game && isDefined(user.email))"
+          <span v-if="game && isDefined(user.email)"
             >email : {{ user.email }}</span
           >
           <span v-else> Email : unknow </span>

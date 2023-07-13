@@ -4,6 +4,7 @@
       v-if="dialogModal"
       :dialog-modal="dialogModal"
       :game="game"
+      @refetch-games="updatePage(page)"
     />
     <FilterBar @filters-change="handleFiltersChange" />
     <v-row>
@@ -156,7 +157,7 @@ export default {
           })
         })
       } else {
-        let apiUrl = `/api/rentingGames?page=${page}&pageSize=8&userId=${this.userId}`
+        let apiUrl = `/api/rentingGames?page=${page}&pageSize=14&userId=${this.userId}`
         switch (selectedFilter) {
           case 'City':
             apiUrl += `&city=${filter}`
