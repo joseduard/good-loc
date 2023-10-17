@@ -43,8 +43,6 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/pure.js',
-    // '~/plugins/vue-awesome-notifications.js',
-    // { src: '~/plugins/axios.js', mode: 'client'},
     { src: '~/plugins/vue-awesome-notifications.js', mode: 'client' },
     { src: '~/plugins/v-tippy.js', mode: 'client' },
   ],

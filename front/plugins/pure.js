@@ -1,8 +1,5 @@
 /* eslint-disable */
 
-// Encryption module
-// const fernet = require('fernet')
-
 // all of theses $item are globally declare
 export default ({ app }, inject) => {
   inject('debugLog', (msg) => {
@@ -38,24 +35,7 @@ export default ({ app }, inject) => {
     // Return final object
     return objCrypted
   })
-  // inject('decryptWithFernet', (obj, fk) => {
-  //   // Generate Secret with key string
-  //   const secretKey = new fernet.Secret(fk)
-  //   // Create Token
-  //   const token = new fernet.Token({
-  //     secret: secretKey,
-  //     ttl: 0,
-  //   })
 
-  //   // decrypt data
-  //   const decodMessage = token.decode(obj)
-
-  //   // Convert to JSON string
-  //   const jsonObject = JSON.parse(decodMessage)
-
-  //   // Return final object
-  //   return jsonObject
-  // })
   inject('toBase64', (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader()

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { AuthService } from '../services/authService.js';
 import {
   statusCodes,

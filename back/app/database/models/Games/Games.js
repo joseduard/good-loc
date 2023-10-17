@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { DataTypes as dt } from 'sequelize';
 
 export default function (sequelize, DataTypes = dt) {

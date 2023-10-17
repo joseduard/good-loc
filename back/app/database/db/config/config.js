@@ -1,3 +1,4 @@
+// @ts-ignore
 require('dotenv').config();
 
 const environmentVariablesConfig = {
