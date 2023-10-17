@@ -45,10 +45,10 @@
         color="tertiary"
         :to="'/users/message'"
       >
-        <v-badge>
-          <template v-if="unreadMessageCount > 0" #badge>
+        <v-badge :content= unreadMessageCount >
+          <!-- <template v-if="unreadMessageCount > 0" #badge>
             {{ unreadMessageCount }}
-          </template>
+          </template> -->
           <font-awesome-icon :icon="['fas', 'user']" />
         </v-badge>
       </v-btn>
@@ -155,7 +155,8 @@ export default {
       const savedUser = this.$auth.$storage.getUniversal('user')
       this.$auth.setUser(savedUser)
       this.fetchUnreadMessageCount()
-    };
+    }
+
   },
   methods: {
     ...mapActions({

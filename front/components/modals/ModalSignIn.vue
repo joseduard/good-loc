@@ -7,7 +7,7 @@
       <v-card id="cardConnexion" class="mx-auto">
         <v-card-title class="justify-center"> Login : </v-card-title>
         <div id="rowForm">
-          <form @submit.prevent="userLogin">
+          <form ref="form"  @submit.prevent="userLogin">
             <v-text-field
             v-model="email"
             required
@@ -125,6 +125,9 @@ export default {
                 this.$router.push('/game-list')
               }
             })
+            this.$refs.form.reset()
+            this.$refs.form.resetvalidation()
+            this.clearData()
           },
           (error) => {
             this.$awn.alert(error.response.data.message)
@@ -146,6 +149,10 @@ export default {
       } catch (error) {
         this.$awn.alert(error.response.data.message)
       }
+    },
+    clearData(){
+      this.email = ''
+      this.password = ''
     },
     forgottenPass() {
       this.$axios

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import _Categories from './Categories/Categories.js';
 import _Games from './Games/Games.js';
 import _Mechanics_Type from './Mechanics_Type/Mechanics_Type.js';

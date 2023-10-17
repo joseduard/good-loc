@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize';
+// @ts-ignore
 import { config as loadEnv } from 'dotenv';
 loadEnv();
 

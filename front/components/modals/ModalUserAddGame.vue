@@ -14,7 +14,7 @@
             item-text="name"
             @change="getGamesByName"
           ></v-autocomplete>
-          <v-img :src="game.img" :width="300"></v-img>
+          <v-img  :src="game.img" :width="300"></v-img>
           {{ game.name }}
           <v-text-field v-model="pricePerDay" label="price per day">
           </v-text-field>
@@ -61,6 +61,12 @@ export default {
         this.games = response
       })
     },
+    clearDatas(){
+      this.search = ''
+      this.pricePerDay = ''
+      this.game = []
+
+    },
     getGamesByName() {
       this.$axios.$get('/api/gamesByName/' + this.search).then((response) => {
         this.game = response[0]
@@ -82,6 +88,7 @@ export default {
             this.$awn.success('game added')
             await this.$parent.getUserRentingGames()
             this.setShowAddGameModal(false)
+            this.clearDatas()
           },
           (error) => {
             this.$awn.alert(error.response.data.error)

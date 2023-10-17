@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { config } from './app/config/app.config.js';
 import { createProductionApp } from './app/app.js';
 

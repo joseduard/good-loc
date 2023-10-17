@@ -1,8 +1,9 @@
 const axios = require("axios");
 const fs = require("fs");
+//  écrire des fichiers sur le système de fichiers local.
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-
+//  Cette ligne définit une fonction delay qui renvoie une promesse qui se résout après un délai en millisecondes. Cela permet de créer des pauses dans l'exécution du script.
 const client_ids = [
   "Rb6qnFOFw1",
   "V4BmX5iNiT",
@@ -13,6 +14,7 @@ const client_ids = [
 ];
 
 const num_api_calls = Math.ceil(152973 / 100);
+// Cette ligne calcule le nombre d'appels nécessaires pour récupérer un total de 152973 jeux (divisés en lots de 100 jeux par appel).
 const url = "https://api.boardgameatlas.com/api/search";
 
 async function makeRequests() {
@@ -51,3 +53,4 @@ async function makeRequests() {
 }
 
 makeRequests();
+// En résumé, ce script effectue des appels à une API en utilisant différents identifiants de client, récupère les données des jeux de société par lots de 100, les formate en JSON, les écrit dans des fichiers et gère les délais d'attente en fonction des limites de fréquence de l'API.
